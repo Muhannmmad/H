@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>(Portfolio) Muhammad Hassan</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/logo.png" rel="icon">
+  <link href="assets/img/logo.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header dark-background d-flex flex-column">
+    <i class="header-toggle d-xl-none bi bi-list ms-3 align-self-start"></i>
+
+    <div class="profile-img">
+      <img src="assets/img/profile-img.jpeg" alt="" class="img-fluid rounded-circle">
+    </div>
+
+    <a href="index.html" class="logo d-flex align-items-center justify-content-center">
+      <h1 class="sitename">Muhammad Hassan</h1>
+    </a>
+<div class="social-links text-center">
+  <a href="https://www.facebook.com/mohammad.fetouh" class="facebook" target="_blank"><i class="bi bi-facebook"></i></a>
+  <a href="https://www.instagram.com/muhammad.fetouh/" class="instagram" target="_blank"><i class="bi bi-instagram"></i></a>
+  <a href="https://www.tiktok.com/@muhammnnad?_t=ZN-8wv1uQvUD4A&_r=1" class="tiktok" target="_blank"><i class="bi bi-tiktok"></i></a>
+  <a href="https://www.linkedin.com/in/muhammad-hassan-84a700348/" class="linkedin" target="_blank"><i class="bi bi-linkedin"></i></a>
+</div>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i> Startseite</a></li>
+        <li><a href="#about"><i class="bi bi-person navicon"></i> Über mich</a></li>
+        <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Lebenslauf</a></li>
+        <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i> Dienstleistungen</a></li>
+        <li class="#nach oben scrollen"><a href="#"><i class="bi bi-menu-button navicon"></i> <span>Nach oben scrollen</span> </i></a>
+        <li><a href="#contact"><i class="bi bi-envelope navicon"></i> Kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
+<!-- Language Switch Icon with Text -->
+        <div class="hero-lang-switcher">
+          <!-- English -->
+          <a href="/en/" class="lang-icon" title="Switch to English">
+            <img src="https://www.flagpedia.net/data/flags/h80/gb.png" alt="English">
+            <span class="lang-text">English</span>
+          </a>
+
+          <!-- German -->
+           <!-- Arabic -->
+            <a href="/ar/" class="lang-icon" title="التبديل إلى العربية">
+              <img src="https://www.flagpedia.net/data/flags/h80/eg.png" alt="Arabic">
+              <span class="lang-text">الـعـربيــة</span>
+            </a>
+          </a>
+
+        </div>
+  <main class="main">
+
+      <!-- Hero Section -->
+      <section id="hero" class="hero section dark-background">
+
+        <!-- Background Image -->
+        <img src="assets/img/home.jpeg" alt="" data-aos="fade-in" class="">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+              <h2>Muhammad Hassan</h2>
+              <p>Ich bin <span id="typed-1"></span></p>
+              <p class="mt-3">Spezialisiert auf <span id="typed-2"></span></p>
+            </div>
+
+
+      </section><!-- /Hero Section -->
+
+      <!-- Typed.js CDN -->
+      <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+      <!-- Typed.js Initialization -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // First typed instance (with cursor)
+          new Typed('#typed-1', {
+            strings: ["Designer", "Entwickler", "Programmierer", "Fotograf"],
+            typeSpeed: 100,
+            backSpeed: 50,
+            backDelay: 2000,
+            loop: true,
+            showCursor: true,
+            cursorChar: "|"
+          });
+
+          // Second typed instance (also with cursor)
+          new Typed('#typed-2', {
+            strings: ["Webdesign", "Softwareentwicklung", "App-Entwicklung", "Grafikdesign", "Logodesign"],
+            typeSpeed: 100,
+            backSpeed: 50,
+            backDelay: 2500,
+            loop: true,
+            showCursor: true,
+            cursorChar: "|"
+          });
+        });
+      </script>
+
+      <style>
+        /* Add this to the top of your CSS */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: none;
+  box-sizing: border-box;
+}
+.header-toggle {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+    
+          .hero-lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column; /* Stack vertically */
+            gap: 10px;
+          }
+
+          .lang-icon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            text-decoration: none;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+          }
+
+          .lang-icon:hover {
+            transform: scale(1.1);
+          }
+
+          .lang-icon img {
+            width: 20px;
+            height: 14px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+          }
+
+          .lang-icon:hover img {
+            transform: scale(1.2);
+            filter: brightness(1.3);
+          }
+
+          .lang-text {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+          }
+
+      </style>
+
+<!-- WhatsApp Floating Button with Heartbeat Animation -->
+<a href="https://wa.me/491772718272" class="whatsapp-wrapper" target="_blank" title="Chat with me on WhatsApp">
+  
+  <div class="whatsapp-icon heartbeat">
+    <i class="bi bi-whatsapp"></i>
+  </div>
+</a>
+<style>
+    .whatsapp-wrapper {
+      position: fixed;
+      bottom: 65px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      text-decoration: none;
+    }
+
+    .whatsapp-bubble {
+      background-color: #25d366;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+      transition: background-color 0.3s;
+      border: 2px solid white;
+    }
+
+    .whatsapp-icon {
+      background-color: #25d366;
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+      transition: background-color 0.3s;
+    }
+
+
+    .whatsapp-wrapper:hover .whatsapp-bubble,
+    .whatsapp-wrapper:hover .whatsapp-icon {
+      background-color: #1ebe5d;
+    }
+
+    /* Heartbeat Animation */
+    .heartbeat {
+      animation: heartbeat 3.5s infinite;
+    }
+
+    @keyframes heartbeat {
+      0% {
+        transform: scale(1);
+      }
+      14% {
+        transform: scale(1.3);
+      }
+      28% {
+        transform: scale(1);
+      }
+      42% {
+        transform: scale(1.3);
+      }
+      70% {
+        transform: scale(1);
+      }
+    }
+
+</style>
+
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Über mich</h2>
+        <p>Meine Stärken sind logisches Denken, Ausdauer beim Debugging und die Fähigkeit, mich schnell an neue Werkzeuge oder Herausforderungen anzupassen. Ich arbeite gerne in Umgebungen, die Lernen, Kreativität und Innovation fördern.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4 justify-content-center">
+          <div class="col-lg-4">
+            <img src="assets/img/profile-img.jpeg" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-8 content">
+            <h2>UI/UX/Logo Designer &amp; Web- und App-Entwickler</h2>
+            <p class="fst-italic py-3">
+              Ich bin ein flexibler und umgänglicher Programmierer, der gerne anderen hilft und sie unterstützt. Ich blühe in kollaborativen Umgebungen auf und strebe stets danach, positiv zum Team und den Projektzielen beizutragen.
+            </p>
+            <div class="row">
+  <div class="col-lg-6">
+    <ul>
+      <li><i class="bi bi-person"></i> <strong>Alter:</strong> <span>49</span></li>
+      <li><i class="bi bi-globe"></i> <strong>Website:</strong> <a href="https://muhammadhassan.eu" target="_blank">muhammadhassan.eu</a></li>
+      <li><i class="bi bi-telephone"></i> <strong>Telefon:</strong> <span>+491772718272</span></li>
+      <li><i class="bi bi-mortarboard"></i> <strong>Abschluss:</strong> <span>Master</span></li>
+      <li><i class="bi bi-geo-alt"></i> <strong>Land:</strong> <span>Deutschland</span></li>
+      <li><i class="bi bi-envelope"></i> <strong>E-Mail:</strong> <span>info@muhammadhassan.eu</span></li>
+    </ul>
+  </div>
+</div>
+
+              <div class="col-lg-6">
+                <ul>
+                  <!-- leer gelassen -->
+                </ul>
+              </div>
+            </div>
+            <p class="py-3"></p>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+   
+
+   <!-- Skills Section -->
+   <section id="skills" class="skills section light-background">
+
+     <div class="container section-title" data-aos="fade-up">
+       <h2>Fähigkeiten</h2>
+       <p>Bedürfnisse, die aus etwas resultieren, das er flieht, und tatsächlich in Übereinstimmung mit den Anforderungen handelt</p>
+     </div>
+
+     <div class="container" data-aos="fade-up" data-aos-delay="100">
+       <div class="row skills-content skills-animation">
+
+         <div class="col-lg-6">
+
+           <div class="progress">
+             <span class="skill"><span>Flutter</span> <i class="val">100%</i></span>
+             <div class="progress-bar-wrap">
+               <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+             </div>
+           </div>
+
+           <div class="progress">
+             <span class="skill"><span>Figma</span> <i class="val">90%</i></span>
+             <div class="progress-bar-wrap">
+               <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+             </div>
+           </div>
+
+           <div class="progress">
+             <span class="skill"><span>HTML</span> <i class="val">100%</i></span>
+             <div class="progress-bar-wrap">
+               <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+             </div>
+           </div>
+
+           <div class="progress">
+             <span class="skill"><span>CSS</span> <i class="val">90%</i></span>
+             <div class="progress-bar-wrap">
+               <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+             </div>
+           </div>
+
+         </div>
+
+         <div class="col-lg-6">
+
+           <div class="progress">
+             <span class="skill"><span>PHP</span> <i class="val">80%</i></span>
+             <div class="progress-bar-wrap">
+               <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+             </div>
+           </div>
+
+           <div class="progress">
+             <span class="skill"><span>WordPress/CMS</span> <i class="val">90%</i></span>
+             <div class="progress-bar-wrap">
+               <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+             </div>
+           </div>
+
+           <div class="progress">
+             <span class="skill"><span>JavaScript</span> <i class="val">75%</i></span>
+             <div class="progress-bar-wrap">
+               <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+             </div>
+           </div>
+
+           <div class="progress">
+             <span class="skill"><span>Photoshop</span> <i class="val">55%</i></span>
+             <div class="progress-bar-wrap">
+               <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+             </div>
+           </div>
+
+         </div>
+
+       </div>
+     </div>
+   </section>
+
+            <section id="resume" class="resume section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Lebenslauf</h2>
+
+    <!-- Bootstrap CSS & Icons (Include in your <head>) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Life Story Section -->
+    <section class="container my-5">
+      <div class="row align-items-start">
+        <!-- Image on the left -->
+        <div class="col-md-4 text-center mb-4">
+         <img src="assets/img/story.jpeg" 
+     class="img-fluid rounded-circle shadow border border-3 border-primary p-2 flip-image" 
+     alt="Muhammad Hassan" 
+     style="max-width: 250px;">
+
+          <div class="mt-2 fst-italic text-muted">Muhammad Hassan erzählt seine Lebensgeschichte</div>
+        </div>
+
+        <!-- Story text on the right -->
+        <div class="col-md-8">
+          <p>Hallo zusammen,</p>
+          <p>Mein Name ist <strong>Muhammad Hassan</strong>. Ich wurde am <strong>19. Oktober 1975</strong> in Ägypten 🇪🇬 geboren. Ursprünglich komme ich aus Ägypten, aber heute bin ich <strong>deutscher Staatsbürger</strong> 🇩🇪 und lebe in der wunderschönen Stadt <strong>Tübingen</strong>.</p>
+
+          <p>Obwohl ich in einem Land voller Kultur und Tradition aufgewachsen bin, bin ich heute ein stolzer deutscher Staatsbürger.</p>
+
+          <p><i class="bi bi-mortarboard-fill text-primary"></i> Ich habe einen <strong>Bachelor-</strong> und <strong>Masterabschluss</strong> in Englisch. Meine Karriere begann als Englischlehrer am Al-Azhar-Institut in Banha, Ägypten. Viele Jahre lang unterrichtete ich <strong>Englisch an der Oberstufe</strong> für Schüler im Alter von 16 bis 19 Jahren. Gleichzeitig arbeitete ich auch als <strong>Übersetzer</strong> im Oraby-Übersetzungsbüro, wo ich zwischen Arabisch und Englisch übersetzte.</p>
+
+          <p><i class="bi bi-person-workspace text-success"></i> In den letzten drei Jahren vor meinem Umzug nach Deutschland arbeitete ich als <strong>Professor</strong> an der Al-Azhar-Universität, Fakultät für Erziehungswissenschaften, Fachbereich Englisch. Dort unterrichtete ich <strong>fortgeschrittene Sprach- und Methodikkurse</strong> und engagierte mich in der akademischen Weiterbildung.</p>
+
+          <p><i class="bi bi-airplane-fill text-danger"></i> Im Jahr <strong>2016</strong> zog ich nach Deutschland. Ich arbeitete bei der <strong>Deutschen Post</strong> als Brief- und Paketsortierer sowie Zusteller und später bei der <strong>UDO GmbH</strong> im medizinischen Probentransport. Außerdem unterrichtete ich <strong>Arabisch</strong> in Teilzeit an der VHS Tübingen und arbeitete als <strong>Schulbetreuer</strong> an der Eispachschule in Tübingen.</p>
+          <p><i class="bi bi-mortarboard-fill text-primary"></i> Zwischen <strong>2017 und 2021</strong> habe ich <strong>Umformtechnik</strong> an der <strong> IHK </strong> studiert.</p>
+          <p><i class="bi bi-gear-wide-connected text-warning"></i> Zwischen <strong>2021 und 2024</strong> war ich als <strong>Maschinen- und Anlagenführer</strong> bei der Vöhringer GmbH tätig. Ich absolvierte erfolgreich eine <strong>Vollzeit-IT-Weiterbildung</strong> in App-Entwicklung bei der App Akademie GmbH. Dort sammelte ich praktische Erfahrungen mit <strong>Flutter/Dart</strong>, Programmiergrundlagen, <strong>UX/UI-Design</strong> sowie der Entwicklung und Veröffentlichung von mobilen Apps.</p>
+
+          <p><i class="bi bi-tools text-info"></i> <strong>Schlüsselkompetenzen:</strong> Unterricht, IT-Grundkenntnisse, praktische Arbeit und Organisation.</p>
+
+          <p><i class="bi bi-translate text-secondary"></i> <strong>Sprachen:</strong> Fließend in Englisch und Arabisch, mit guten Deutschkenntnissen.</p>
+
+          <p><i class="bi bi-award text-danger"></i> <strong>Fun Fact:</strong> Ich war <strong>professioneller Tischtennisspieler</strong> 🏓.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+ <style>
+  @keyframes flipPause {
+    0% {
+      transform: rotateY(0deg);
+    }
+    10% {
+      transform: rotateY(180deg);
+    }
+    90% {
+      transform: rotateY(180deg); /* hold the flip */
+    }
+    100% {
+      transform: rotateY(360deg); /* return to front */
+    }
+  }
+
+  .flip-image {
+    animation: flipPause 10s linear infinite;
+    transform-style: preserve-3d;
+    display: inline-block;
+  }
+  </style>
+
+
+          
+                  <!-- Services Section -->
+                  <section id="services" class="services section">
+
+                    <div class="container section-title" data-aos="fade-up">
+                      <h2>Dienstleistungen</h2>
+                      <p>Als vielseitiger Web- & App-Designer, Full-Stack-Entwickler und Logo-Designer biete ich eine breite Palette an kreativen und technischen Lösungen, die auf Ihr Unternehmen oder Ihr persönliches Projekt zugeschnitten sind. Ob Sie eine beeindruckende Website, eine leistungsstarke mobile App oder eine auffällige Markenidentität benötigen – ich bringe Ihre Vision mit klarem Design, nahtloser Funktionalität und benutzerorientierten Ergebnissen zum Leben. Entdecken Sie unten die Dienstleistungen, um die passende Lösung für Ihre nächste große Idee zu finden.</p>
+                    </div>
+
+                    <div class="container">
+                      <div class="row gy-4">
+
+                        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+                          <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
+                          <div>
+                            <h4 class="title">Individuelles Webdesign & Entwicklung</h4>
+                            <p class="description">Erstellen Sie responsive, SEO-freundliche Websites, die auf die Marke, Zielgruppe und Geschäftsziele Ihres Kunden abgestimmt sind. Bieten Sie Design-Entwürfe, UX-Optimierung und Frontend-Entwicklung mit HTML, CSS, JavaScript oder Frameworks wie React oder Vue an. Backend-Unterstützung mit Datenbanken (z. B. Firebase, Node.js oder PHP) kann ebenfalls angeboten werden.<br><br>
+                            Ideal für: Kleine Unternehmen, persönliche Marken, Portfolios und Start-ups.</p>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+                          <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
+                          <div>
+                            <h4 class="title">Mobile App Design & Entwicklung (iOS & Android)</h4>
+                            <p class="description">Entwicklung plattformübergreifender mobiler Apps mit Flutter oder React Native. Fokus auf intuitives UI/UX, Leistung und plattformspezifische Richtlinien. Enthält Benutzer-Authentifizierung, Echtzeitdatenbanken, Benachrichtigungen und Integrationen mit Drittanbietern (z. B. Google Maps, Stripe etc.).<br><br>
+                            Ideal für: Start-ups, servicebasierte Apps, soziale Apps, Veranstalter.</p>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                          <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
+                          <div>
+                            <h4 class="title">UI/UX-Design für Web & Mobile Apps</h4>
+                            <p class="description">Bieten Sie professionelles UI/UX-Design mit Tools wie Figma, Adobe XD oder Sketch an. Lieferung kompletter Screenflows, Wireframes, klickbarer Prototypen und Entwickler-Ressourcen. Fokus auf klares, benutzerzentriertes Design, das die Benutzerfreundlichkeit und Conversion-Raten verbessert.<br><br>
+                            Ideal für: Unternehmen, die bereits Entwickler haben, aber ein ansprechendes und funktionales Design benötigen.</p>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                          <div class="icon flex-shrink-0"><i class="bi bi-binoculars"></i></div>
+                          <div>
+                            <h4 class="title">Logo-Design & Markenidentität</h4>
+                            <p class="description">Entwerfen Sie einprägsame, vielseitige Logos und erstellen Sie Marken-Kits mit Farbpaletten, Typografie, Icons und Nutzungsrichtlinien. Helfen Sie Kunden dabei, sich abzuheben und konsistent auf allen digitalen und gedruckten Plattformen aufzutreten.<br><br>
+                            Ideal für: Neue Unternehmen, Rebranding-Projekte und Influencer.</p>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="500">
+                          <div class="icon flex-shrink-0"><i class="bi bi-brightness-high"></i></div>
+                          <div>
+                            <h4 class="title">Professionelles Lebenslauf-/CV-Design & -Schreiben</h4>
+                            <p class="description">
+                              Erstellen Sie moderne, ATS-freundliche Lebensläufe und CVs, die Ihre Fähigkeiten, Erfolge und Ihre berufliche Geschichte in einem klaren, professionellen Format hervorheben. Bieten Sie sowohl Design als auch Inhaltserstellung/-bearbeitung für verschiedene Branchen an, damit Kunden einen hervorragenden ersten Eindruck bei Personalverantwortlichen und Arbeitgebern hinterlassen.<br>
+                              <strong>Ideal für:</strong> Arbeitssuchende, Studierende, Berufswechsler oder Freelancer, die in den Markt einsteigen.
+                            </p>
+                          </div>
+                        </div><!-- End Service Item -->
+
+                        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="600">
+                          <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week"></i></div>
+                          <div>
+                            <h4 class="title">Präsentationsdesign & Visuelles Storytelling</h4>
+                            <p class="description">
+                              Gestaltung ansprechender, visuell überzeugender Präsentationen mit PowerPoint, Google Slides oder Canva. Fokus auf Layout, Klarheit, Animationen und markenkonforme Visuals, die Ihre Botschaft wirkungsvoll vermitteln. Ebenfalls verfügbar: Inhaltsstrukturierung und Storytelling-Strategie, um Ihnen ein sicheres Auftreten bei Präsentationen zu ermöglichen.<br>
+                              <strong>Ideal für:</strong> Geschäftspräsentationen, Webinare, akademische Vorträge, Workshops und Unternehmenspräsentationen.
+                            </p>
+                          </div>
+                        </div><!-- End Service Item -->
+
+
+     
+
+         
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+
+    
+    <!DOCTYPE html>
+    <html lang="de">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Kontaktbereich</title>
+
+      <!-- Bootstrap CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+      <!-- Bootstrap Icons -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+      <!-- AOS Animation CSS (optional) -->
+      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+      <style>
+        body {
+          background-color: #f8f9fa;
+          padding: 30px 0;
+        }
+        .info-wrap {
+          background: #fff;
+          padding: 30px;
+          border-radius: 8px;
+          box-shadow: 0 0 20px rgba(0,0,0,0.05);
+          height: 100%;
+        }
+        .php-email-form {
+          background: #fff;
+          padding: 30px;
+          border-radius: 8px;
+          box-shadow: 0 0 20px rgba(0,0,0,0.05);
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        #thank-you-message {
+          display: none;
+          margin-top: 1.5rem;
+        }
+      </style>
+    </head>
+    <body>
+
+      <section id="contact" class="contact section">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Kontakt</h2>
+        </div>
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <div class="row gy-4 align-items-stretch">
+
+            <!-- Kontaktinformationen -->
+            <div class="col-lg-5">
+              <div class="info-wrap">
+                <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
+                  <i class="bi bi-geo-alt flex-shrink-0 fs-3 me-3"></i>
+                  <div>
+                    <h3>Adresse</h3>
+                    <p>Paulinenstr. 44, 72072 Tübingen, Deutschland</p>
+                  </div>
+                </div>
+                <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                  <i class="bi bi-telephone flex-shrink-0 fs-3 me-3"></i>
+                  <div>
+                    <h3>Rufen Sie mich an oder schreiben Sie per WhatsApp</h3>
+                    <p>+49 177 2718272</p>
+                  </div>
+                </div>
+                <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                  <i class="bi bi-envelope flex-shrink-0 fs-3 me-3"></i>
+                  <div>
+                    <h3>Schreiben Sie mir eine E-Mail</h3>
+                    <p>info@muhammadhassan.eu</p>
+                  </div>
+                </div>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2663.431942901909!2d9.044742115721892!3d48.52113297925308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799f4dfd6b6b28b%3A0x2cd1f5c7ec4c0c53!2sPaulinenstra%C3%9Fe%2044%2C%2072072%20T%C3%BCbingen%2C%20Germany!5e0!3m2!1sen!2sde!4v1716277240573!5m2!1sen!2sde"
+                  frameborder="0"
+                  style="border:0; width: 100%; height: 270px;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+
+            <!-- Kontaktformular -->
+            <div class="col-lg-7">
+              <div class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                <form id="contact-form" action="https://formspree.io/f/xdkgvodv" method="POST" novalidate>
+                  <div class="row gy-4">
+
+                    <div class="col-md-6">
+                      <label for="name-field" class="form-label">Ihr Name</label>
+                      <input type="text" name="name" id="name-field" class="form-control" required />
+                      <div class="text-danger mt-1 small" id="error-name"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="telephone-field" class="form-label">Ihre Telefonnummer</label>
+                      <input type="text" name="telephone" id="telephone-field" class="form-control" required />
+                      <div class="text-danger mt-1 small" id="error-telephone"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="email-field" class="form-label">Ihre E-Mail-Adresse</label>
+                      <input type="email" class="form-control" name="email" id="email-field" required />
+                      <div class="text-danger mt-1 small" id="error-email"></div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="subject-field" class="form-label">Betreff</label>
+                      <input type="text" class="form-control" name="subject" id="subject-field" required />
+                      <div class="text-danger mt-1 small" id="error-subject"></div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="message-field" class="form-label">Nachricht</label>
+                      <textarea class="form-control" name="message" rows="6" id="message-field" required></textarea>
+                      <div class="text-danger mt-1 small" id="error-message"></div>
+                    </div>
+
+                    <input type="hidden" name="_captcha" value="false" />
+
+                    <div class="col-12 text-center">
+                      <button type="submit" class="btn btn-primary px-5">Nachricht senden</button>
+                    </div>
+
+                  </div>
+                </form>
+
+                <div id="thank-you-message" class="text-center mt-4">
+                  <h4 class="text-success">Vielen Dank! Ihre Nachricht wurde gesendet.</h4>
+                  <a href="#" class="text-primary" onclick="resetForm(event)">← Weitere Nachricht senden</a>
+                </div>
+              </div>
+            </div>
+
+            </div>
+            </div>
+            </section>
+
+            <!-- Bootstrap JS Bundle -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+            <!-- AOS Animation JS -->
+            <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            <script>
+              AOS.init();
+
+              const form = document.getElementById('contact-form');
+              const thankYou = document.getElementById('thank-you-message');
+
+              thankYou.style.display = 'none'; // Verstecken beim Laden
+
+              form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                // Fehlertexte leeren
+                document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+
+                let valid = true;
+
+                // Felder abrufen
+                const name = document.getElementById('name-field');
+                const telephone = document.getElementById('telephone-field');
+                const email = document.getElementById('email-field');
+                const subject = document.getElementById('subject-field');
+                const message = document.getElementById('message-field');
+
+                // Name
+                if (name.value.trim() === '') {
+                  document.getElementById('error-name').textContent = 'Bitte geben Sie Ihren Namen ein.';
+                  valid = false;
+                }
+
+                // Telefonnummer prüfen (nicht leer + gültiges Format)
+                const phonePattern = /^[+]?[0-9\s-]{6,20}$/;
+                if (telephone.value.trim() === '') {
+                  document.getElementById('error-telephone').textContent = 'Bitte geben Sie Ihre Telefonnummer ein.';
+                  valid = false;
+                } else if (!phonePattern.test(telephone.value.trim())) {
+                  document.getElementById('error-telephone').textContent = 'Bitte geben Sie eine gültige Telefonnummer ein.';
+                  valid = false;
+                }
+
+                // E-Mail prüfen
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email.value.trim() === '') {
+                  document.getElementById('error-email').textContent = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
+                  valid = false;
+                } else if (!emailPattern.test(email.value.trim())) {
+                  document.getElementById('error-email').textContent = 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
+                  valid = false;
+                }
+
+                // Betreff
+                if (subject.value.trim() === '') {
+                  document.getElementById('error-subject').textContent = 'Bitte geben Sie einen Betreff ein.';
+                  valid = false;
+                }
+
+                // Nachricht
+                if (message.value.trim() === '') {
+                  document.getElementById('error-message').textContent = 'Bitte geben Sie eine Nachricht ein.';
+                  valid = false;
+                }
+
+                if (!valid) return; // Stoppt das Senden bei Fehlern
+
+                // Wenn alles korrekt ist, Formular senden
+                const data = new FormData(form);
+
+                const response = await fetch(form.action, {
+                  method: form.method,
+                  body: data,
+                  headers: { Accept: 'application/json' },
+                });
+
+                if (response.ok) {
+                  form.reset();
+                  form.style.display = 'none';
+                  thankYou.style.display = 'block';
+                } else {
+                  alert('Hoppla! Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.');
+                }
+              });
+
+              function resetForm(event) {
+                event.preventDefault();
+                thankYou.style.display = 'none';
+                form.style.display = 'block';
+              }
+            </script>
+
+            <!-- Bottom Row – German (Centered) -->
+            <div class="row border-top pt-4">
+              <div class="col-12 text-center">
+                <p class="small mb-0">
+                  <a href="impressum.html">Impressum</a> |
+                  <a href="datenschutz.html">Datenschutz</a><br><br>
+                  &copy; 2025 Muhammad Hassan. Alle Rechte vorbehalten.
+                </p>
+              </div>
+            </div>
+
+            <!-- Scroll Top -->
+            <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+              <i class="bi bi-arrow-up-short"></i>
+            </a>
+
+      <!-- Preloader -->
+      <div id="preloader"></div>
+
+      <!-- Vendor JS Files -->
+      <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="assets/vendor/php-email-form/validate.js"></script>
+      <script src="assets/vendor/aos/aos.js"></script>
+      <script src="assets/vendor/typed.js/typed.umd.js"></script>
+      <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+      <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+      <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+      <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+      <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+      <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+      <!-- Main JS File -->
+      <script src="assets/js/main.js"></script>
+
+    </body>
+    </html>
