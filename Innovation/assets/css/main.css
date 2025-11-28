@@ -71,6 +71,55 @@ input, select, textarea {
 	-ms-appearance: none;
 	appearance: none;
 }
+/* Default: centered icons */
+.social-scroll {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em;
+    padding: 0;
+    margin: 0 auto;
+    list-style: none;
+    overflow: visible; /* default: not scrollable */
+}
+
+/* Small screens: enable horizontal scroll */
+@media (max-width: 480px) {
+    .social-scroll {
+        justify-content: flex-start; /* required for scrolling */
+        overflow-x: auto;
+        white-space: nowrap;
+        scroll-snap-type: x mandatory;
+        padding-left: 10px;
+        padding-right: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .social-scroll li {
+        scroll-snap-align: center;
+        min-width: 80px;
+        text-align: center;
+    }
+
+    /* Hide scrollbar but keep scroll functionality */
+    .social-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Show swipe hint */
+    .scroll-hint {
+        display: block;
+        text-align: center;
+        color: white;
+        font-size: 0.9em;
+        opacity: 0.6;
+        margin-top: 10px;
+    }
+}
+
+/* Hint hidden on bigger screens */
+.scroll-hint {
+    display: none;
+}
 
 /* Basic */
 
