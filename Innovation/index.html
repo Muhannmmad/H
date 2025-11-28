@@ -12,6 +12,18 @@
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
+<script>
+function goBack() {
+    // Check if there is a previous page in browser history
+    if (document.referrer && document.referrer !== window.location.href) {
+        window.history.back();
+    } else {
+        // Fallback if user entered directly
+        window.location.href = "https://muhammadhassan.eu";
+    }
+}
+</script>
+
 <body class="is-preload">
     <div id="wrapper">
         <div id="bg"></div>
@@ -59,15 +71,27 @@
 
                         <!-- Website -->
                         <li style="text-align: center;">
-    <a href="../portfolio/" class="icon solid fa-globe"></a>
-    <div>Portfolio</div>
-</li>
+                            <a href="../portfolio/" class="icon solid fa-globe"></a>
+                            <div>Portfolio</div>
+                        </li>
 
 
                     </ul>
                 </nav>
             </header>
 
+            <!-- Back Button -->
+            <a id="back-button" onclick="goBack()" class="icon solid fa-arrow-left"
+               style="
+                    position: fixed;
+                    top: 50px;
+                    left: 50px;
+                    font-size: 1.8em;
+                    color: white;
+                    cursor: pointer;
+                    z-index: 9999;
+               ">
+            </a>
 
 
             <!-- Footer -->
@@ -88,4 +112,3 @@
     </script>
 </body>
 </html>
-
