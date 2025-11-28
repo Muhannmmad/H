@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Index - Portfolio Muhammad Hassan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon / Logo -->
+  <link rel="icon" href="https://moportfolio.github.io/M/assets/img/apple-touch-icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://moportfolio.github.io/M/assets/img/apple-touch-icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Index - Portfolio Muhammad Hassan">
+  <meta property="og:description" content="Welcome to my multilingual portfolio. Choose your language.">
+  <meta property="og:image" content="https://moportfolio.github.io/M/assets/img/profile-img.jpeg">
+  <meta property="og:url" content="https://moportfolio.github.io/M/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Index - Portfolio Muhammad Hassan">
+  <meta name="twitter:description" content="Welcome to my multilingual portfolio. Choose your language.">
+  <meta name="twitter:image" content="https://moportfolio.github.io/M/assets/img/profile-img.jpeg">
+
+  <!-- Optional: Silence fb:app_id warning (not required) -->
+  <meta property="fb:app_id" content="1234567890">
+
+  <style>
+    body { display: none; }
+  </style>
+
+  <script>
+    (function () {
+      const lang = navigator.language || navigator.userLanguage;
+      let target = 'en/';
+      if (lang.startsWith('de')) target = 'de/';
+      else if (lang.startsWith('ar')) target = 'ar/';
+      
+      // Wait 200ms for bots to read meta, then redirect
+      setTimeout(() => {
+        window.location.href = target;
+      }, 200);
+    })();
+  </script>
+</head>
+<body></body>
+</html>
