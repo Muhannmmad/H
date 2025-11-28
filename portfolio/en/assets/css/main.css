@@ -585,17 +585,7 @@ section,
 .hero .container {
   position: relative;
   z-index: 3;
-  margin-top: 1000px; /* Adjust the value as needed */
 }
-.hero {
-  position: relative;
-  height: 100vh; /* full screen height */
-  display: flex;
-  align-items: flex-start; /* Start from top */
-  justify-content: center; /* Center horizontally */
-}
-
-
 
 .hero h2 {
   margin: 0;
