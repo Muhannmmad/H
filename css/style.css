@@ -132,7 +132,7 @@ html {
 /* --- FIX FLOATING LANGUAGE BUTTON ON MOBILE --- */
 .lang-floating-btn {
   position: fixed;
-  top: 80px;     /* moved below navbar */
+  top: 15px;     /* moved below navbar */
   right: 15px;
   z-index: 9999;
 }
