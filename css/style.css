@@ -139,8 +139,8 @@ html {
 
 @media (max-width: 575px) {
   .lang-floating-btn {
-    top: 15px;   /* mobile height */
-    right: 15px;
+    top: 5px;   /* mobile height */
+    right: 10px;
     transform: scale(0.95);
   }
 }
