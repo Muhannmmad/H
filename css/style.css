@@ -209,6 +209,11 @@ html {
 .service-item:hover .bg-icon i {
     transform: scale(1.25) rotate(5deg);
 }
+html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100%;
+}
 
 /*** REMOVE ONLY THE DARK-MODE OVERRIDES THAT BROKE YOUR ICONS ***/
 @media (prefers-color-scheme: dark) {
