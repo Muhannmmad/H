@@ -1048,6 +1048,18 @@ input, select, textarea {
 			} }
 
 /* Mobile (Portrait) */
+/* Force social icons to center inside their circles on all screens */
+.social-scroll li a.icon {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    width: 60px;       /* adjust circle size if needed */
+    height: 60px;      /* adjust circle size if needed */
+    line-height: 1 !important;
+    font-size: 1.5em;  /* icon size */
+}
 
 	@media screen and (max-width: 480px) {
 
