@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <!--
-    Aerial by HTML5 UP
-    html5up.net | @ajlkn
-    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	Aerial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <title>Muhammad Hassan</title>
@@ -22,105 +22,74 @@
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     </head>
 
-<script>
-function goBack() {
-    // Check if there is a previous page in browser history
-    if (document.referrer && document.referrer !== window.location.href) {
-        window.history.back();
-    } else {
-        // Fallback if user entered directly
-        window.location.href = "https://muhammadhassan.eu";
-    }
-}
-</script>
+	<body class="is-preload">
+		<div id="wrapper">
+			<div id="bg"></div>
+			<div id="overlay"></div>
+			<div id="main">
 
-<body class="is-preload">
-    <div id="wrapper">
-        <div id="bg"></div>
-        <div id="overlay"></div>
-        <div id="main">
+				<!-- Header -->
+					<header id="header">
+                        <h1>Innovation</h1>
+                        <h1>Muhammad Hassan</h1>
+                        <p>Web Designer &bull; Web Developer &bull; Front End Developer &bull; Apps Designer &bull; Apps Developer &bull; Photographer</p>
+                        <nav>
+                            <ul class="social-scroll">
+                                <!-- Facebook -->
+                                <li>
+                                    <a href="https://www.facebook.com/mohammad.fetouh" target="_blank" class="icon brands fa-facebook-f"></a>
+                                    <div>Facebook</div>
+                                </li>
 
-            <!-- Header -->
-            <header id="header">
-                <h1>Innovation</h1>
-                <h1>Muhammad Hassan</h1>
-                <p>Web Designer &bull; Web Developer &bull; Front End Developer &bull; Apps Designer &bull; Apps Developer &bull; Photographer</p>
+                                <!-- Instagram -->
+                                <li>
+                                    <a href="https://www.instagram.com/muhammad.fetouh/" target="_blank" class="icon brands fa-instagram"></a>
+                                    <div>Instagram</div>
+                                </li>
 
-                <nav>
-                    <ul class="social-scroll">
-                        <!-- Facebook -->
-                        <li>
-                            <a href="https://www.facebook.com/mohammad.fetouh" target="_blank" class="icon brands fa-facebook-f"></a>
-                            <div>Facebook</div>
-                        </li>
+                                <!-- TikTok -->
+                                <li>
+                                    <a href="https://www.tiktok.com/@muhammnnad?_t=ZN-8wv1uQvUD4A&_r=1" target="_blank" class="icon brands fa-tiktok"></a>
+                                    <div>TikTok</div>
+                                </li>
 
-                        <!-- Instagram -->
-                        <li>
-                            <a href="https://www.instagram.com/muhammad.fetouh/" target="_blank" class="icon brands fa-instagram"></a>
-                            <div>Instagram</div>
-                        </li>
+                                <!-- LinkedIn -->
+                                <li>
+                                    <a href="https://www.linkedin.com/in/muhammad-hassan-84a700348/" target="_blank" class="icon brands fa-linkedin"></a>
+                                    <div>LinkedIn</div>
+                                </li>
 
-                        <!-- TikTok -->
-                        <li>
-                            <a href="https://www.tiktok.com/@muhammnnad?_t=ZN-8wv1uQvUD4A&_r=1" target="_blank" class="icon brands fa-tiktok"></a>
-                            <div>TikTok</div>
-                        </li>
+                                <!-- Email -->
+                                <li>
+                                    <a href="mailto:info@muhammadhassan.eu" class="icon solid fa-envelope"></a>
+                                    <div>Email</div>
+                                </li>
 
-                        <!-- LinkedIn -->
-                        <li>
-                            <a href="https://www.linkedin.com/in/muhammad-hassan-84a700348/" target="_blank" class="icon brands fa-linkedin"></a>
-                            <div>LinkedIn</div>
-                        </li>
+                                <!-- Portfolio -->
+                                <li>
+                                    <a href="../portfolio/" class="icon solid fa-globe"></a>
+                                    <div>Portfolio</div>
+                                </li>
+                            </ul>
 
-                        <!-- Email -->
-                        <li>
-                            <a href="mailto:info@muhammadhassan.eu" class="icon solid fa-envelope"></a>
-                            <div>Email</div>
-                        </li>
+                            <!-- Scroll hint -->
+                            <div class="scroll-hint">Swipe →</div>
+                        </nav>
+					</header>
 
-                        <!-- Portfolio -->
-                        <li>
-                            <a href="../portfolio/" class="icon solid fa-globe"></a>
-                            <div>Portfolio</div>
-                        </li>
-                    </ul>
+				<!-- Footer -->
+                <footer id="footer">
+                    <a href="impressum.html">Legal Notice</a> |
+                    <a href="datenschutz.html">Privacy Policy</a> |
+                    &copy; 2025 Muhammad Hassan. All rights reserved.
+                </footer>
 
-                    <!-- Scroll hint -->
-                    <div class="scroll-hint">Swipe →</div>
-                </nav>
-
-            </header>
-
-            <!-- Back Button -->
-            <a id="back-button" onclick="goBack()" class="icon solid fa-arrow-left"
-               style="
-                    position: fixed;
-                    top: 50px;
-                    left: 50px;
-                    font-size: 1.8em;
-                    color: white;
-                    cursor: pointer;
-                    z-index: 9999;
-               ">
-            </a>
-
-
-            <!-- Footer -->
-            <footer id="footer">
-                <a href="impressum.html">Legal Notice</a> |
-                <a href="datenschutz.html">Privacy Policy</a> |
-                &copy; 2025 Muhammad Hassan. All rights reserved.
-            </footer>
-
-
-        </div>
-    </div>
-
-    <script>
-        // Page preload animation
-        window.onload = function() { document.body.classList.remove('is-preload'); }
-        window.ontouchmove = function() { return false; }
-        window.onorientationchange = function() { document.body.scrollTop = 0; }
-    </script>
-</body>
+			</div>
+		</div>
+		<script>
+			window.onload = function() { document.body.classList.remove('is-preload'); }
+			window.ontouchmove = function() { return false; }
+			window.onorientationchange = function() { document.body.scrollTop = 0; }
+		</script>
+	</body>
 </html>
