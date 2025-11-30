@@ -226,17 +226,16 @@ header nav {
     margin-top: 20px; /* space between text and icons */
 }
 
-/* Ensure the list does not affect text flow */
 .social-scroll {
     display: flex;
-    gap: 15px; /* space between icons */
-    justify-content: center;
+    flex-wrap: wrap;          /* allows icons to go to next row on small screens */
+    gap: 15px;                /* spacing between icons */
+    justify-content: center;  /* center horizontally */
     align-items: center;
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 
 
 
