@@ -308,6 +308,13 @@ html, body {
     letter-spacing: 30px;
     margin-right: -30px;
 }
+.professional-text {
+    font-family: 'Roboto', Arial, sans-serif;  /* change to your desired font */
+    font-weight: bold;                          /* optional: normal/bold/etc */
+    font-size: 1.3rem;                         /* adjust size */
+    line-height: 1.4;                          /* adjust line spacing */
+                      /* change text color if needed */
+}
 
 /*** Skills ***/
 #skill .progress {
