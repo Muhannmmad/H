@@ -226,6 +226,12 @@ header nav {
     margin-top: 20px; /* space between text and icons */
 }
 
+html, body {
+    height: 100%;
+    overflow-y: auto;   /* allow full page scroll up and down */
+    overflow-x: hidden;
+}
+
 .social-scroll {
     display: flex;
     flex-wrap: wrap;
@@ -237,11 +243,11 @@ header nav {
     margin: 0;
 }
 
-/* Mobile: allow normal page scroll, no internal scroll box */
+/* Mobile: allow full page scrolling, no scroll container */
 @media (max-width: 600px) {
     .social-scroll {
-        overflow: visible;     /* let the 3rd row flow naturally */
-        max-height: none;      /* remove limits */
+        overflow: visible !important;
+        max-height: none !important;
     }
 }
 
