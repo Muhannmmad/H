@@ -228,19 +228,31 @@ header nav {
 
 .social-scroll {
     display: flex;
-    flex-wrap: nowrap;       /* prevent wrapping */
-    overflow-x: auto;        /* allow horizontal scroll */
+    flex-wrap: wrap;          /* allow 2–3 rows */
     gap: 15px;
     justify-content: center;
     align-items: center;
     list-style: none;
     padding: 0;
     margin: 0;
-    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
 }
 
-.social-scroll li {
-    flex: 0 0 auto;          /* prevent squishing */
+/* Mobile: allow multi-rows + vertical scroll WITHOUT showing scrollbar */
+@media (max-width: 600px) {
+    .social-scroll {
+        max-height: 200px;      /* enough for up to 3 rows */
+        overflow-y: auto;       /* allow vertical scrolling */
+        overflow-x: hidden;
+        padding-bottom: 10px;
+        
+        /* Hide scrollbar (Chrome, Edge, Safari) */
+        -ms-overflow-style: none;     /* IE / Edge */
+        scrollbar-width: none;        /* Firefox */
+    }
+
+    .social-scroll::-webkit-scrollbar {
+        display: none;               /* Chrome / Safari / Opera */
+    }
 }
 
 
