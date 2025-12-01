@@ -286,6 +286,10 @@ html, body {
         padding: 10px 0;
     }
 }
+.navbar-brand h1 {
+    font-size: 20px; /* adjust to your preferred size */
+    line-height: 1;
+}
 
 /*** Header ***/
 #home {
