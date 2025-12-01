@@ -228,7 +228,7 @@ header nav {
 
 .social-scroll {
     display: flex;
-    flex-wrap: wrap;          /* allow 2–3 rows */
+    flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
     align-items: center;
@@ -237,21 +237,11 @@ header nav {
     margin: 0;
 }
 
-/* Mobile: allow multi-rows + vertical scroll WITHOUT showing scrollbar */
+/* Mobile: allow normal page scroll, no internal scroll box */
 @media (max-width: 600px) {
     .social-scroll {
-        max-height: 200px;      /* enough for up to 3 rows */
-        overflow-y: auto;       /* allow vertical scrolling */
-        overflow-x: hidden;
-        padding-bottom: 10px;
-        
-        /* Hide scrollbar (Chrome, Edge, Safari) */
-        -ms-overflow-style: none;     /* IE / Edge */
-        scrollbar-width: none;        /* Firefox */
-    }
-
-    .social-scroll::-webkit-scrollbar {
-        display: none;               /* Chrome / Safari / Opera */
+        overflow: visible;     /* let the 3rd row flow naturally */
+        max-height: none;      /* remove limits */
     }
 }
 
