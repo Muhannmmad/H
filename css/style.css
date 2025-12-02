@@ -148,19 +148,34 @@ html {
     height: auto;
 }
 
-/* Tablet & Mobile – make bigger */
-@media (max-width: 900px) {
+/* MOBILE FIX – stack and center */
+@media (max-width: 768px) {
+
+    .wrapper-box {
+        display: flex;
+        flex-direction: column;    /* stack text + logo */
+        align-items: center;       /* center them */
+        text-align: center;
+    }
+
+    .professional-text {
+        max-width: 100% !important;  /* full width text */
+        text-align: center;          /* center text */
+    }
+
+    .card-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;     /* center logo */
+        margin-top: 20px;
+    }
+
     .logo-img {
-        width: 300px !important;
+        width: 300px !important;     /* bigger logo on mobile */
+        height: auto;
     }
 }
 
-/* Small phones */
-@media (max-width: 480px) {
-    .logo-img {
-        width: 350px !important;
-    }
-}
 
 
 /* --- FIX FLOATING LANGUAGE BUTTON ON MOBILE --- */
