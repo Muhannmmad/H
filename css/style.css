@@ -120,6 +120,31 @@ html {
         padding: 15px;
     }
 }
+.wrapper-box {
+    
+   
+    border-radius: 12px;        /* Rounded corners */
+    max-width: 900px;           /* How wide the whole block can be */
+    margin: 0 auto;             /* Centers the entire box */
+    
+}
+
+.card-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-img {
+    width: 200px;               /* Scale logo size here */
+    height: auto;
+}
+
+.professional-text {
+    text-align: left;
+    max-width: 400px;           /* Keeps long text from stretching too far */
+}
+
 /* --- FIX FLOATING LANGUAGE BUTTON ON MOBILE --- */
 .lang-floating-btn {
   position: fixed;
