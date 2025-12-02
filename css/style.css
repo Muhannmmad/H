@@ -151,9 +151,9 @@ html {
 }
 
 /* MOBILE – only scale the logo */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .logo-img {
-        width: 250px !important;   /* make the card big again */
+        width: 500px !important;   /* make the card big again */
     }
 }
 
