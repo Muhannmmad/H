@@ -104,10 +104,19 @@
 
 			</div>
 		</div>
-		<script>
-			window.onload = function() { document.body.classList.remove('is-preload'); }
-			window.ontouchmove = function() { return false; }
-			window.onorientationchange = function() { document.body.scrollTop = 0; }
-		</script>
+		
+        <script>
+          window.onload = function() {
+            document.body.classList.remove('is-preload');
+          }
+          // Remove this line entirely:
+          // window.ontouchmove = function() { return false; }
+
+          // Optional: reset scroll on orientation change
+          window.onorientationchange = function() {
+            window.scrollTo(0, 0);
+          }
+        </script>
+
 	</body>
 </html>
