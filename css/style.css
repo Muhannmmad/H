@@ -164,14 +164,14 @@ html {
     }
 
     .card-wrapper {
-        width: 100%;
+        width: 50%;
         display: flex;
         justify-content: center;     /* center logo */
         margin-top: 20px;
     }
 
     .logo-img {
-        width: 300px !important;     /* bigger logo on mobile */
+        width: 200px !important;     /* bigger logo on mobile */
         height: auto;
     }
 }
