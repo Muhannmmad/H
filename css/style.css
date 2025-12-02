@@ -135,33 +135,33 @@ html {
     justify-content: center;
 }
 
-.logo-img {
-    width: 200px;               /* Scale logo size here */
-    height: auto;
-}
+
 
 .professional-text {
     text-align: left;
     max-width: 400px;           /* Keeps long text from stretching too far */
 }
 /* Desktop stays unchanged */
+/* Desktop default */
 .logo-img {
-    width: 150px;
+    width: 200px;
     height: auto;
 }
 
-/* MOBILE – only scale the logo */
+/* Tablet & Mobile – make bigger */
 @media (max-width: 900px) {
     .logo-img {
-        width: 500px !important;   /* make the card big again */
+        width: 300px !important;
     }
 }
 
+/* Small phones */
 @media (max-width: 480px) {
     .logo-img {
-        width: 300px !important;   /* very small phones */
+        width: 350px !important;
     }
 }
+
 
 /* --- FIX FLOATING LANGUAGE BUTTON ON MOBILE --- */
 .lang-floating-btn {
