@@ -124,7 +124,7 @@ html {
     
    
     border-radius: 12px;        /* Rounded corners */
-    max-width: 900px;           /* How wide the whole block can be */
+    max-width: 700px;           /* How wide the whole block can be */
     margin: 0 auto;             /* Centers the entire box */
     
 }
@@ -143,6 +143,24 @@ html {
 .professional-text {
     text-align: left;
     max-width: 400px;           /* Keeps long text from stretching too far */
+}
+/* Desktop stays unchanged */
+.logo-img {
+    width: 150px;
+    height: auto;
+}
+
+/* MOBILE – only scale the logo */
+@media (max-width: 768px) {
+    .logo-img {
+        width: 250px !important;   /* make the card big again */
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-img {
+        width: 300px !important;   /* very small phones */
+    }
 }
 
 /* --- FIX FLOATING LANGUAGE BUTTON ON MOBILE --- */
