@@ -14,15 +14,6 @@
     z-index: 99;
 }
 
-.my-6 {
-    margin-top: 6rem;
-    margin-bottom: 6rem;
-}
-
-.py-6 {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-}
 
 .lang-floating-btn {
   position: fixed;
@@ -132,8 +123,8 @@ html {
 /* --- FIX FLOATING LANGUAGE BUTTON ON MOBILE --- */
 .lang-floating-btn {
   position: fixed;
-  top: 10px;     /* moved below navbar */
-  right: 10px;
+  top: 15px;     /* moved below navbar */
+  right: 15px;
   z-index: 9999;
 }
 
@@ -144,7 +135,8 @@ html {
     transform: scale(0.95);
   }
 }
-
+#lang-switch { border-radius: 999px; padding: 6px 10px; font-weight:600; }
+@media (max-width:991px){ #lang-switch{margin-left:12px;} }
 /*** Spinner ***/
 #spinner {
     opacity: 0;
@@ -311,13 +303,6 @@ html, body {
 #about .years h5 {
     letter-spacing: 30px;
     margin-right: -30px;
-}
-.professional-text {
-    font-family: 'Roboto', Arial, sans-serif;  /* change to your desired font */
-    font-weight: bold;                          /* optional: normal/bold/etc */
-    font-size: 1.3rem;                         /* adjust size */
-    line-height: 1.4;                          /* adjust line spacing */
-                      /* change text color if needed */
 }
 
 /*** Skills ***/
