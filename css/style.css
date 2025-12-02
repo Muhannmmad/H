@@ -160,7 +160,7 @@ html {
 
     .professional-text {
         max-width: 100% !important;  /* full width text */
-        text-align: center;          /* center text */
+        text-align: left;          /* center text */
     }
 
     .card-wrapper {
