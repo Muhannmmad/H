@@ -1124,3 +1124,14 @@ html, body {
 		#header nav {
 			padding: 0 1em;
 		} }
+@media screen and (max-width: 736px) {
+  html, body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+
+  #wrapper {
+    overflow-y: visible !important;
+    height: auto !important;
+  }
+}
