@@ -461,3 +461,9 @@ html, body {
 .team-item:hover .team-text div {
     margin-left: 30px;
 }
+/* FIX: Prevent header text from going under the mobile navbar */
+@media (max-width: 768px) {
+    #home {
+        padding-top: 60px !important;   /* adjust until perfect */
+    }
+}
