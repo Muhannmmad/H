@@ -163,3 +163,28 @@
      });
 
  })(jQuery);
+/* ----------------------------------------------------
+   FIX NAVBAR ACTIVE LINK GETTING STUCK ON "CONTACT"
+---------------------------------------------------- */
+
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+
+window.addEventListener("scroll", () => {
+    let scrollPos = window.scrollY + 200; // offset for navbar + padding
+
+    sections.forEach(sec => {
+        const top = sec.offsetTop;
+        const height = sec.offsetHeight;
+        const id = sec.getAttribute("id");
+
+        if (scrollPos >= top && scrollPos < top + height) {
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").includes(id)) {
+                    link.classList.add("active");
+                }
+            });
+        }
+    });
+});
