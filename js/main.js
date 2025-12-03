@@ -14,37 +14,75 @@
      // WOW.js
      new WOW().init();
 
-     // Navbar scroll
-     $(window).scroll(function () {
-         if ($(this).scrollTop() > 300) {
-             $('.navbar').fadeIn('slow').css('display', 'flex');
-         } else {
-             $('.navbar').fadeOut('slow').css('display', 'none');
-         }
-     });
+     /* --------------------------------------------------
+        NAVBAR: Smooth Scroll + Active Link Highlighting
+     -------------------------------------------------- */
 
-     // Smooth scrolling
-     $(".navbar-nav a").on('click', function (event) {
-         if (this.hash !== "") {
-             event.preventDefault();
-             $('html, body').animate({
-                 scrollTop: $(this.hash).offset().top - 45
-             }, 1500, 'easeInOutExpo');
-         }
-     });
+     $(function () {
 
-     // Back to top
-     $(window).scroll(function () {
-         if ($(this).scrollTop() > 300) {
-             $('.back-to-top').fadeIn('slow');
-         } else {
-             $('.back-to-top').fadeOut('slow');
-         }
-     });
+         const $window = $(window);
+         const $navbar = $('.navbar');
+         const $links = $('.navbar-nav .nav-link');
+         const $sections = $links.map(function () {
+             const s = $($(this).attr('href'));
+             return s.length ? s : null;
+         });
 
-     $('.back-to-top').click(function () {
-         $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
-         return false;
+         /* --------------------------------------
+            A) NAVBAR SHOW / HIDE (same as yours)
+         -------------------------------------- */
+         $window.on('scroll', function () {
+             if ($window.scrollTop() > 300) {
+                 $navbar.fadeIn('slow').css('display', 'flex');
+             } else {
+                 $navbar.fadeOut('slow').css('display', 'none');
+             }
+         });
+
+         /* --------------------------------------
+            B) SMOOTH SCROLL (simple & reliable)
+         -------------------------------------- */
+         $links.on('click', function (e) {
+             const target = $(this).attr('href');
+             if (!target.startsWith('#')) return;
+
+             e.preventDefault();
+             const $target = $(target);
+             if (!$target.length) return;
+
+             // offset: navbar height or fallback
+             const offset = ($navbar.is(':visible') ? $navbar.outerHeight() : 70) + 10;
+
+             $('html, body').stop().animate({
+                 scrollTop: $target.offset().top - offset
+             }, 700, 'easeInOutExpo');
+         });
+
+         /* --------------------------------------
+            C) ACTIVE LINK ON SCROLL (bulletproof)
+         -------------------------------------- */
+         function updateActive() {
+             const scrollPos = $window.scrollTop() + 120; // sensor offset
+             let current = null;
+
+             $sections.each(function () {
+                 if ($(this).offset().top <= scrollPos) {
+                     current = this;
+                 }
+             });
+
+             if (!current) return;
+
+             const id = current.attr('id');
+
+             $links.removeClass('active');
+             $links.filter('[href="#' + id + '"]').addClass('active');
+         }
+
+         updateActive();          // run once
+         $window.on('scroll', updateActive);
+         $window.on('resize', updateActive);
+
      });
 
      // ---------------------------
@@ -163,28 +201,3 @@
      });
 
  })(jQuery);
-/* ----------------------------------------------------
-   FIX NAVBAR ACTIVE LINK GETTING STUCK ON "CONTACT"
----------------------------------------------------- */
-
-const sections = document.querySelectorAll("section[id]");
-const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
-
-window.addEventListener("scroll", () => {
-    let scrollPos = window.scrollY + 200; // offset for navbar + padding
-
-    sections.forEach(sec => {
-        const top = sec.offsetTop;
-        const height = sec.offsetHeight;
-        const id = sec.getAttribute("id");
-
-        if (scrollPos >= top && scrollPos < top + height) {
-            navLinks.forEach(link => {
-                link.classList.remove("active");
-                if (link.getAttribute("href").includes(id)) {
-                    link.classList.add("active");
-                }
-            });
-        }
-    });
-});
