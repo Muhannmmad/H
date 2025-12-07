@@ -516,3 +516,14 @@ html, body {
     background-size: cover;
     background-position: center;
 }
+/* --- ENHANCED ACTIVE NAVBAR EFFECT --- */
+.navbar .navbar-nav .nav-link.active {
+    color: var(--primary) !important;
+    transform: scale(1.15);
+    font-weight: 700;
+}
+
+/* Smooth animation */
+.navbar .navbar-nav .nav-link {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
