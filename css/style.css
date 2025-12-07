@@ -146,6 +146,9 @@ html {
 .logo-img {
     width: 200px;
     height: auto;
+        margin-bottom: 15px !important;
+    }
+
 }
 
 /* MOBILE FIX – stack and center */
@@ -466,4 +469,50 @@ html, body {
     #home {
         padding-top: 50px !important;   /* adjust until perfect */
     }
+}
+.social-container {
+    display: flex;
+    gap: 12px;
+}
+
+.flip-card {
+    width: 60px;
+    height: 60px;
+    perspective: 800px;
+}
+
+.flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease, scale 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-inner {
+    transform: rotateY(180deg) scale(1.15);
+}
+
+.flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: white;
+}
+
+.flip-front {
+    background: #6244C5;
+}
+
+.flip-back {
+    transform: rotateY(180deg);
+    background-size: cover;
+    background-position: center;
 }
