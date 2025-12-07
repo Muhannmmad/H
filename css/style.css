@@ -49,6 +49,7 @@ html {
 
 .lang-floating-btn .lang-inactive {
     opacity: 0.4;
+    color:grey !important;
 }
 /* --- MOBILE NAVBAR FIX --- */
 @media (max-width: 991px) {
@@ -526,4 +527,18 @@ html, body {
 /* Smooth animation */
 .navbar .navbar-nav .nav-link {
     transition: color 0.3s ease, transform 0.3s ease;
+}
+.lang-inactive {
+  background: red !important;
+}
+@media (max-width: 768px) {
+  .navbar .navbar-nav {
+    text-align: left;
+  }
+
+  .navbar .nav-link {
+    width: auto;                 /* don't stretch */
+    display: inline-block;       /* needed for transform */
+    transform-origin: left center; /* VERY IMPORTANT */
+  }
 }
