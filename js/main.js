@@ -87,6 +87,7 @@
 
      // ---------------------------
      // ---------------------------
+     // ---------------------------
      // LANGUAGE + TYPED
      // ---------------------------
 
@@ -97,92 +98,109 @@
      const enBtn = document.getElementById("lang-en");
 
      function startTyped(lang) {
-       if (typed) typed.destroy();
+         if (typed) typed.destroy();
 
-       const selector = lang === "de" ? ".typed-de" : ".typed-en";
-       const element = document.querySelector(selector);
+         const selector = lang === "de" ? ".typed-de" : ".typed-en";
+         const element = document.querySelector(selector);
 
-       // --- SAFETY CHECKS ---
-       if (!element) {
-         console.warn("Typed.js element missing:", selector);
-         return;
-       }
+         // --- SAFETY CHECKS ---
+         if (!element) {
+             console.warn("Typed.js element missing:", selector);
+             return;
+         }
 
-       const output = document.querySelector(".typed-text-output");
-       if (!output) {
-         console.warn("Typed output element missing!");
-         return;
-       }
-       // ----------------------
+         const output = document.querySelector(".typed-text-output");
+         if (!output) {
+             console.warn("Typed output element missing!");
+             return;
+         }
+         // ----------------------
 
-       const words = element.textContent.trim().split(", ");
+         const words = element.textContent.trim().split(", ");
 
-       typed = new Typed(".typed-text-output", {
-         strings: words,
-         typeSpeed: 100,
-         backSpeed: 20,
-         loop: true
-       });
+         typed = new Typed(".typed-text-output", {
+             strings: words,
+             typeSpeed: 100,
+             backSpeed: 20,
+             loop: true
+         });
      }
 
      function updateTextElements(lang) {
-       document.querySelectorAll('[data-lang]').forEach(el => {
-         el.style.display = (el.getAttribute('data-lang') === lang) ? '' : 'none';
-       });
+         document.querySelectorAll('[data-lang]').forEach(el => {
+             el.style.display = (el.getAttribute('data-lang') === lang) ? '' : 'none';
+         });
      }
 
-     // NEW: update segmented buttons state
+     // Update segmented switcher UI
      function updateSwitcher(lang) {
+         if (lang === "de") {
+             deBtn.classList.add("active");
+             deBtn.classList.remove("inactive");
+             deBtn.disabled = true;
 
-       if (lang === "de") {
-         deBtn.classList.add("active");
-         deBtn.classList.remove("inactive");
-         deBtn.disabled = true;
+             enBtn.classList.remove("active");
+             enBtn.classList.add("inactive");
+             enBtn.disabled = false;
+         } else {
+             enBtn.classList.add("active");
+             enBtn.classList.remove("inactive");
+             enBtn.disabled = true;
 
-         enBtn.classList.remove("active");
-         enBtn.classList.add("inactive");
-         enBtn.disabled = false;
-       }
-       else {
-         enBtn.classList.add("active");
-         enBtn.classList.remove("inactive");
-         enBtn.disabled = true;
-
-         deBtn.classList.remove("active");
-         deBtn.classList.add("inactive");
-         deBtn.disabled = false;
-       }
+             deBtn.classList.remove("active");
+             deBtn.classList.add("inactive");
+             deBtn.disabled = false;
+         }
      }
+
+     // -----------------------------------
+     // SKILL BAR WAYPOINT RE-INITIALIZATION
+     // -----------------------------------
+
+     function initSkillWaypoint() {
+         $('.skill').waypoint(function () {
+             $('.progress .progress-bar').each(function () {
+                 $(this).css("width", $(this).attr("aria-valuenow") + '%');
+             });
+         }, { offset: '80%' });
+     }
+
+     // Run once on page load
+     initSkillWaypoint();
+
+     // -----------------------------------
+     // LANGUAGE SWITCHING
+     // -----------------------------------
 
      function setLanguage(lang) {
-       currentLang = lang;
-       document.documentElement.lang = lang;
+         currentLang = lang;
+         document.documentElement.lang = lang;
 
-       updateTextElements(lang);
-       updateSwitcher(lang);
-       startTyped(lang);
+         updateTextElements(lang);
+         updateSwitcher(lang);
+         startTyped(lang);
 
-       // OPTIONAL: save language
-       // localStorage.setItem("siteLang", lang);
+         // Reset all bars to zero before the next scroll
+         document.querySelectorAll('.progress-bar').forEach(bar => {
+             bar.style.width = '0%';
+         });
+
+         // Reinitialize waypoint AFTER language visibility changes
+         setTimeout(() => {
+             initSkillWaypoint();
+         }, 200);
      }
 
      // Initialize page on load
-     // const savedLang = localStorage.getItem("siteLang");
-     // if (savedLang) currentLang = savedLang;
-
      setLanguage(currentLang);
 
-     // NEW: individual button clicks
+     // Button click events
      deBtn.addEventListener("click", () => {
-       if (currentLang !== "de") {
-         setLanguage("de");
-       }
+         if (currentLang !== "de") setLanguage("de");
      });
 
      enBtn.addEventListener("click", () => {
-       if (currentLang !== "en") {
-         setLanguage("en");
-       }
+         if (currentLang !== "en") setLanguage("en");
      });
 
  })(jQuery);
