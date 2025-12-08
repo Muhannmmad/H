@@ -101,12 +101,19 @@
         </div>
     </nav>
     <!-- Navbar End -->
-    <!-- Floating Language Switch (top right) -->
-    <button id="lang-switch" class="lang-floating-btn" aria-label="Switch language">
-      <span id="lang-de">🇩🇪 <strong>DE</strong></span>
-      <span id="lang-sep"> &nbsp;|&nbsp; </span>
-      <span id="lang-en">🇬🇧 <strong>EN</strong></span>
-    </button>
+    <div class="lang-floating-btn" aria-label="Switch language">
+
+      <!-- German side -->
+      <button id="lang-de" class="lang-side active" disabled>
+        🇩🇪 <strong>DE</strong>
+      </button>
+
+      <!-- English side -->
+      <button id="lang-en" class="lang-side inactive">
+        🇬🇧 <strong>EN</strong>
+      </button>
+
+    </div>
 
     <!-- Header Start -->
     <div class="container-fluid bg-light my-6 mt-0" id="home">
