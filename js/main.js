@@ -86,118 +86,103 @@
      });
 
      // ---------------------------
+     // ---------------------------
      // LANGUAGE + TYPED
      // ---------------------------
+
      let typed = null;
      let currentLang = "de"; // default = German
 
+     const deBtn = document.getElementById("lang-de");
+     const enBtn = document.getElementById("lang-en");
+
      function startTyped(lang) {
-         if (typed) typed.destroy();
+       if (typed) typed.destroy();
 
-         const selector = lang === "de" ? ".typed-de" : ".typed-en";
-         const element = document.querySelector(selector);
+       const selector = lang === "de" ? ".typed-de" : ".typed-en";
+       const element = document.querySelector(selector);
 
-         // --- SAFETY CHECKS ---
-         if (!element) {
-             console.warn("Typed.js element missing:", selector);
-             return;
-         }
+       // --- SAFETY CHECKS ---
+       if (!element) {
+         console.warn("Typed.js element missing:", selector);
+         return;
+       }
 
-         const output = document.querySelector(".typed-text-output");
-         if (!output) {
-             console.warn("Typed output element missing!");
-             return;
-         }
-         // ----------------------
+       const output = document.querySelector(".typed-text-output");
+       if (!output) {
+         console.warn("Typed output element missing!");
+         return;
+       }
+       // ----------------------
 
-         const words = element.textContent.trim().split(", ");
+       const words = element.textContent.trim().split(", ");
 
-         typed = new Typed(".typed-text-output", {
-             strings: words,
-             typeSpeed: 100,
-             backSpeed: 20,
-             loop: true
-         });
+       typed = new Typed(".typed-text-output", {
+         strings: words,
+         typeSpeed: 100,
+         backSpeed: 20,
+         loop: true
+       });
      }
 
      function updateTextElements(lang) {
-         document.querySelectorAll('[data-lang]').forEach(el => {
-             el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
-         });
+       document.querySelectorAll('[data-lang]').forEach(el => {
+         el.style.display = (el.getAttribute('data-lang') === lang) ? '' : 'none';
+       });
      }
 
+     // NEW: update segmented buttons state
      function updateSwitcher(lang) {
-         const switcher = document.getElementById("lang-switch");
-         if (lang === "de") {
-             switcher.innerHTML = '🇩🇪 <strong>DE</strong> | 🇬🇧 EN';
-         } else {
-             switcher.innerHTML = '🇩🇪 DE | 🇬🇧 <strong>EN</strong>';
-         }
-     }
 
+       if (lang === "de") {
+         deBtn.classList.add("active");
+         deBtn.classList.remove("inactive");
+         deBtn.disabled = true;
+
+         enBtn.classList.remove("active");
+         enBtn.classList.add("inactive");
+         enBtn.disabled = false;
+       }
+       else {
+         enBtn.classList.add("active");
+         enBtn.classList.remove("inactive");
+         enBtn.disabled = true;
+
+         deBtn.classList.remove("active");
+         deBtn.classList.add("inactive");
+         deBtn.disabled = false;
+       }
+     }
 
      function setLanguage(lang) {
-         currentLang = lang;
-         document.documentElement.lang = lang;
-         updateTextElements(lang);
-         updateSwitcher(lang);
-         startTyped(lang);
+       currentLang = lang;
+       document.documentElement.lang = lang;
+
+       updateTextElements(lang);
+       updateSwitcher(lang);
+       startTyped(lang);
+
+       // OPTIONAL: save language
+       // localStorage.setItem("siteLang", lang);
      }
 
      // Initialize page on load
+     // const savedLang = localStorage.getItem("siteLang");
+     // if (savedLang) currentLang = savedLang;
+
      setLanguage(currentLang);
 
-     // Language switch click
-     document.getElementById("lang-switch").addEventListener("click", () => {
-         setLanguage(currentLang === "de" ? "en" : "de");
+     // NEW: individual button clicks
+     deBtn.addEventListener("click", () => {
+       if (currentLang !== "de") {
+         setLanguage("de");
+       }
      });
 
-     // Modal Video
-     var $videoSrc;
-     $('.btn-play').click(function () {
-         $videoSrc = $(this).data("src");
-     });
-
-     $('#videoModal').on('shown.bs.modal', function () {
-         $("#video").attr('src', $videoSrc + "?autoplay=1&modestbranding=1&showinfo=0");
-     });
-
-     $('#videoModal').on('hide.bs.modal', function () {
-         $("#video").attr('src', $videoSrc);
-     });
-
-     // Counter
-     $('[data-toggle="counter-up"]').counterUp({
-         delay: 10,
-         time: 2000
-     });
-
-     // Skills animation
-     $('.skill').waypoint(function () {
-         $('.progress .progress-bar').each(function () {
-             $(this).css("width", $(this).attr("aria-valuenow") + '%');
-         });
-     }, { offset: '80%' });
-
-     // Portfolio filtering
-     var portfolioIsotope = $('.portfolio-container').isotope({
-         itemSelector: '.portfolio-item',
-         layoutMode: 'fitRows'
-     });
-
-     $('#portfolio-flters li').on('click', function () {
-         $("#portfolio-flters li").removeClass('active');
-         $(this).addClass('active');
-         portfolioIsotope.isotope({ filter: $(this).data('filter') });
-     });
-
-     // Testimonials carousel
-     $(".testimonial-carousel").owlCarousel({
-         autoplay: true,
-         smartSpeed: 1000,
-         items: 1,
-         dots: true,
-         loop: true
+     enBtn.addEventListener("click", () => {
+       if (currentLang !== "en") {
+         setLanguage("en");
+       }
      });
 
  })(jQuery);
