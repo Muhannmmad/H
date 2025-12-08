@@ -544,3 +544,9 @@ html, body {
   }
 }
 
+@media (max-width: 991px) {
+  .lang-floating-btn {
+    top: 3.3% !important;
+    transform: translateY(-50%) !important;
+  }
+}
