@@ -20,45 +20,46 @@
   top: 15px;
   right: 15px;
   z-index: 9999;
-  background: var(--bs-body-bg);
-  color: var(--bs-primary);
+  display: flex;
+  overflow: hidden;
+  border-radius: 20px;
   border: 1px solid var(--bs-primary);
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-.typed-cursor:nth-of-type(2) {
-    display: none !important;
+  background: var(--bs-body-bg);
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-.lang-floating-btn {
+.lang-side {
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  transition: all 0.2s ease;
+  color: var(--bs-primary);
 }
 
-.lang-floating-btn .lang-active {
-    font-weight: 700;
-    opacity: 1;
+.lang-side.active {
+  background: var(--bs-primary);
+  color: white;
+  font-weight: 700;
+  cursor: default;
 }
 
-.lang-floating-btn .lang-inactive {
-    opacity: 0.4;
-    color:grey !important;
+.lang-side.inactive {
+  opacity: 0.6;
 }
-/* --- MOBILE NAVBAR FIX --- */
-@media (max-width: 991px) {
 
-  /* Reduce padding so navbar is fully visible */
-  .navbar {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-  }
+.lang-side:not(.active):hover {
+  background: rgba(0,0,0,0.05);
+  opacity: 1;
+}
+
+.lang-side:disabled {
+  pointer-events: none;
+}
+
 
   /* Remove extra padding in collapse menu */
   .navbar .collapse {
@@ -542,3 +543,4 @@ html, body {
     transform-origin: left center; /* VERY IMPORTANT */
   }
 }
+
