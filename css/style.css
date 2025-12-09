@@ -22,14 +22,14 @@
   z-index: 9999;
   display: flex;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 100px;
   border: 1px solid var(--bs-primary);
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   background: var(--bs-body-bg);
 }
 
 .lang-side {
-  padding: 8px 14px;
+  padding: 2px 12px; /* SAME SIZE as your original */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -38,15 +38,49 @@
   gap: 5px;
   transition: all 0.2s ease;
   color: var(--bs-primary);
+  position: relative;
+  overflow: hidden;
 }
 
-.lang-side.active {
-  background: var(--bs-primary);
-  color: white;
+/* Hide flag only when active */
+.lang-side.active span.flag {
+  display: none;
+}
+
+/* EN/DE bubble when active */
+.lang-side.active strong {
+  background: white;
+  color: #00cc55;           /* bright green */
+  padding: 5px 8px;
+  border-radius: 50px;
   font-weight: 700;
-  cursor: default;
+  z-index: 2;
+  position: relative;
+  text-shadow: 0 0 6px rgba(0,255,120,0.8);
 }
 
+/* active full-flag background */
+.lang-side.active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.95;
+  z-index: -1;
+  transition: all 0.2s ease;
+}
+
+/* Flag backgrounds */
+#lang-de.active::before {
+  background-image: url("https://flagcdn.com/w320/de.png");
+}
+
+#lang-en.active::before {
+  background-image: url("https://flagcdn.com/w320/gb.png");
+}
+
+/* keep inactive exactly same */
 .lang-side.inactive {
   opacity: 0.6;
 }
