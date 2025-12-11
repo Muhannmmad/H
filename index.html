@@ -298,7 +298,7 @@
             </div>
         </div>
     </div>
-
+       
     <!-- CV Section Start -->
     <section id="cv" class="container-xxl py-5">
         <div class="container">
@@ -1016,15 +1016,509 @@
 
     <!-- Updated Map -->
     <div class="container-xxl pt-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="container-xxl pt-5 px-0">
-            <div class="bg-dark">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2663.431942901909!2d9.044742115721892!3d48.52113297925308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799f4dfd6b6b28b%3A0x2cd1f5c7ec4c0c53!2sPaulinenstra%C3%9Fe%2044%2C%2072072%20T%C3%BCbingen%2C%20Germany!5e0!3m2!1sen!2sde!4v1716277240573!5m2!1sen!2sde"
-                  frameborder="0" style="width: 100%; height: 450px; border:0;" allowfullscreen aria-hidden="false"
-                  tabindex="0"></iframe>
+      <div class="container-xxl px-0">
+
+        <div class="d-flex" style="gap: 6px; align-items: stretch;">
+
+          <!-- MAP fills remaining space -->
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2663.431942901909!2d9.044742115721892!3d48.52113297925308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799f4dfd6b6b28b%3A0x2cd1f5c7ec4c0c53!2sPaulinenstra%C3%9Fe%2044%2C%2072072%20T%C3%BCbingen%2C%20Germany!5e0!3m2!1sen!2sde!4v1716277240573!5m2!1sen!2sde"
+            class="map-box"
+          ></iframe>
+
+          <!-- GAME CARD fixed size -->
+          <div id="flagGame">
+            <h3 data-lang="de">Flaggen Quiz</h3>
+            <h3 data-lang="en">Flag Quiz</h3>
+
+            <div id="scoreBox">
+              <!-- show only the first part -->
+              <span class="score-part">
+                ✔ <span data-lang="de">Richtig</span>: <span id="correctScore">0</span> &nbsp; | &nbsp;
+                ✘ <span data-lang="de">Falsch</span>: <span id="wrongScore">3</span>
+              </span>
+
+              <!-- hide the second part but keep it in HTML so JS works -->
+              <span class="score-hidden">
+                ✔ : <span id="correctScoreEn">0</span> &nbsp; | &nbsp;
+                ✘: <span id="wrongScoreEn">3</span>
+              </span>
             </div>
+
+
+            <div id="flagContainer">
+              <img id="flagImg" src="" alt="Flag">
+            </div>
+
+            <div id="options"></div>
+
+            <p id="result"></p>
+          </div>
+
         </div>
+
+      </div>
     </div>
+
+    <style>
+    /* Flex row */
+    .d-flex {
+      display: flex;
+      gap: 6px;
+      align-items: stretch; /* ensures map and game card have same height */
+    }
+
+    /* MAP fills remaining space */
+    .map-box {
+      flex: 1;              /* fill remaining width */
+      height: 420px;        /* same height as game card */
+      border: 0;
+      border-radius: 10px;
+      display: block;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    /* GAME CARD fixed size */
+    #flagGame {
+      width: 300px;          /* fixed width */
+      height: 420px;         /* fixed height */
+      padding: 15px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* top-align content */
+      align-items: stretch;        /* stretch content width-wise */
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* FIXED FLAG BOX */
+    #flagContainer {
+      width: 100%; /* stretch to full card width */
+      height: 130px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f8f8f8;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      overflow: hidden;
+    }
+
+    /* FLAG ALWAYS SCALES PERFECTLY */
+    #flagContainer img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* GRID FOR BUTTONS */
+    #options {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      flex-grow: 1; /* stretch buttons to fill remaining space */
+    }
+
+    /* FIXED SIZE 3D BUTTONS */
+    #options button {
+      width: 100%;
+      height: 50px;
+      padding: 5px;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1.1;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+
+      background: linear-gradient(#fafafa, #e5e5e5);
+      box-shadow: 0 4px 0 #bdbdbd;
+      transition: all 0.15s ease;
+
+      white-space: normal;
+      word-wrap: break-word;
+    }
+
+    /* HOVER — POP OUT */
+    #options button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 0 #b0b0b0;
+    }
+
+    /* CLICK — PRESS DOWN */
+    #options button:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #9e9e9e;
+    }
+
+    /* CORRECT ANSWER */
+    #options button.correct {
+      background: #4caf50 !important;
+      color: white;
+      box-shadow: 0 4px 0 #2e7d32 !important;
+    }
+
+    /* WRONG ANSWER */
+    #options button.wrong {
+      background: #e53935 !important;
+      color: white;
+      box-shadow: 0 4px 0 #b71c1c !important;
+    }
+
+    /* SCORE + RESULT */
+    #scoreBox {
+      font-size: 16px;       /* slightly bigger */
+      font-weight: bold;
+      color: #0a2e6e;        /* dark blue */
+      margin-bottom: 10px;
+    }
+
+    #scoreBox .score-hidden {
+      display: none;          /* hide extra text */
+    }
+
+
+    #result {
+      height: 22px;
+      margin-top: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+    </style>
+    <script>
+        const flags = [
+          { nameEn: "Afghanistan", nameDe: "Afghanistan", code: "af" },
+          { nameEn: "Albania", nameDe: "Albanien", code: "al" },
+          { nameEn: "Algeria", nameDe: "Algerien", code: "dz" },
+          { nameEn: "Andorra", nameDe: "Andorra", code: "ad" },
+          { nameEn: "Angola", nameDe: "Angola", code: "ao" },
+          { nameEn: "Antigua and Barbuda", nameDe: "Antigua und Barbuda", code: "ag" },
+          { nameEn: "Argentina", nameDe: "Argentinien", code: "ar" },
+          { nameEn: "Armenia", nameDe: "Armenien", code: "am" },
+          { nameEn: "Australia", nameDe: "Australien", code: "au" },
+          { nameEn: "Austria", nameDe: "Österreich", code: "at" },
+          { nameEn: "Azerbaijan", nameDe: "Aserbaidschan", code: "az" },
+          { nameEn: "Bahamas", nameDe: "Bahamas", code: "bs" },
+          { nameEn: "Bahrain", nameDe: "Bahrain", code: "bh" },
+          { nameEn: "Bangladesh", nameDe: "Bangladesch", code: "bd" },
+          { nameEn: "Barbados", nameDe: "Barbados", code: "bb" },
+          { nameEn: "Belarus", nameDe: "Belarus", code: "by" },
+          { nameEn: "Belgium", nameDe: "Belgien", code: "be" },
+          { nameEn: "Belize", nameDe: "Belize", code: "bz" },
+          { nameEn: "Benin", nameDe: "Benin", code: "bj" },
+                       { nameEn: "Bhutan", nameDe: "Bhutan", code: "bt" },
+                       { nameEn: "Bolivia", nameDe: "Bolivien", code: "bo" },
+                       { nameEn: "Bosnia and Herzegovina", nameDe: "Bosnien und Herzegowina", code: "ba" },
+                       { nameEn: "Botswana", nameDe: "Botswana", code: "bw" },
+                       { nameEn: "Brazil", nameDe: "Brasilien", code: "br" },
+                       { nameEn: "Brunei Darussalam", nameDe: "Brunei Darussalam", code: "bn" },
+                       { nameEn: "Bulgaria", nameDe: "Bulgarien", code: "bg" },
+                       { nameEn: "Burkina Faso", nameDe: "Burkina Faso", code: "bf" },
+                       { nameEn: "Burundi", nameDe: "Burundi", code: "bi" },
+                       { nameEn: "Côte d'Ivoire", nameDe: "Côte d’Ivoire", code: "ci" },
+                       { nameEn: "Cabo Verde", nameDe: "Cabo Verde", code: "cv" },
+                       { nameEn: "Cambodia", nameDe: "Kambodscha", code: "kh" },
+                       { nameEn: "Cameroon", nameDe: "Kamerun", code: "cm" },
+                       { nameEn: "Canada", nameDe: "Kanada", code: "ca" },
+                       { nameEn: "Central African Republic", nameDe: "Zentralafrikanische Republik", code: "cf" },
+                       { nameEn: "Chad", nameDe: "Tschad", code: "td" },
+                       { nameEn: "Chile", nameDe: "Chile", code: "cl" },
+                       { nameEn: "China", nameDe: "China", code: "cn" },
+                       { nameEn: "Colombia", nameDe: "Kolumbien", code: "co" },
+                       { nameEn: "Comoros", nameDe: "Komoren", code: "km" },
+                       { nameEn: "Congo (Brazzaville)", nameDe: "Kongo (Republik)", code: "cg" },
+                       { nameEn: "Congo (Kinshasa)", nameDe: "Kongo (Demokratische Republik)", code: "cd" },
+                       { nameEn: "Costa Rica", nameDe: "Costa Rica", code: "cr" },
+                       { nameEn: "Croatia", nameDe: "Kroatien", code: "hr" },
+                       { nameEn: "Cuba", nameDe: "Kuba", code: "cu" },
+                       { nameEn: "Cyprus", nameDe: "Zypern", code: "cy" },
+                       { nameEn: "Czechia", nameDe: "Tschechien", code: "cz" },
+                       { nameEn: "Denmark", nameDe: "Dänemark", code: "dk" },
+                       { nameEn: "Djibouti", nameDe: "Dschibuti", code: "dj" },
+                       { nameEn: "Dominica", nameDe: "Dominica", code: "dm" },
+                       { nameEn: "Dominican Republic", nameDe: "Dominikanische Republik", code: "do" },
+                       { nameEn: "Ecuador", nameDe: "Ecuador", code: "ec" },
+                       { nameEn: "Egypt", nameDe: "Ägypten", code: "eg" },
+                       { nameEn: "El Salvador", nameDe: "El Salvador", code: "sv" },
+                       { nameEn: "Equatorial Guinea", nameDe: "Äquatorialguinea", code: "gq" },
+                       { nameEn: "Eritrea", nameDe: "Eritrea", code: "er" },
+                       { nameEn: "Estonia", nameDe: "Estland", code: "ee" },
+                       { nameEn: "Eswatini", nameDe: "Eswatini", code: "sz" },
+                       { nameEn: "Ethiopia", nameDe: "Äthiopien", code: "et" },
+                       { nameEn: "Fiji", nameDe: "Fidschi", code: "fj" },
+                       { nameEn: "Finland", nameDe: "Finnland", code: "fi" },
+                       { nameEn: "France", nameDe: "Frankreich", code: "fr" },
+                       { nameEn: "Gabon", nameDe: "Gabun", code: "ga" },
+                       { nameEn: "Gambia", nameDe: "Gambia", code: "gm" },
+                       { nameEn: "Georgia", nameDe: "Georgien", code: "ge" },
+                       { nameEn: "Germany", nameDe: "Deutschland", code: "de" },
+                       { nameEn: "Ghana", nameDe: "Ghana", code: "gh" },
+                       { nameEn: "Greece", nameDe: "Griechenland", code: "gr" },
+                       { nameEn: "Grenada", nameDe: "Grenada", code: "gd" },
+                       { nameEn: "Guatemala", nameDe: "Guatemala", code: "gt" },
+                       { nameEn: "Guinea", nameDe: "Guinea", code: "gn" },
+                       { nameEn: "Guinea-Bissau", nameDe: "Guinea-Bissau", code: "gw" },
+                       { nameEn: "Guyana", nameDe: "Guyana", code: "gy" },
+                       { nameEn: "Haiti", nameDe: "Haiti", code: "ht" },
+                       { nameEn: "Honduras", nameDe: "Honduras", code: "hn" },
+                       { nameEn: "Hungary", nameDe: "Ungarn", code: "hu" },
+                       { nameEn: "Iceland", nameDe: "Island", code: "is" },
+                       { nameEn: "India", nameDe: "Indien", code: "in" },
+                       { nameEn: "Indonesia", nameDe: "Indonesien", code: "id" },
+                       { nameEn: "Iran", nameDe: "Iran", code: "ir" },
+                       { nameEn: "Iraq", nameDe: "Irak", code: "iq" },
+                       { nameEn: "Ireland", nameDe: "Irland", code: "ie" },
+                       { nameEn: "Italy", nameDe: "Italien", code: "it" },
+                       { nameEn: "Jamaica", nameDe: "Jamaika", code: "jm" },
+                       { nameEn: "Japan", nameDe: "Japan", code: "jp" },
+                       { nameEn: "Jordan", nameDe: "Jordanien", code: "jo" },
+                       { nameEn: "Kazakhstan", nameDe: "Kasachstan", code: "kz" },
+                       { nameEn: "Kenya", nameDe: "Kenia", code: "ke" },
+                       { nameEn: "Kiribati", nameDe: "Kiribati", code: "ki" },
+                       { nameEn: "Kuwait", nameDe: "Kuwait", code: "kw" },
+                       { nameEn: "Kyrgyzstan", nameDe: "Kirgistan", code: "kg" },
+                       { nameEn: "Laos", nameDe: "Laos", code: "la" },
+                       { nameEn: "Latvia", nameDe: "Lettland", code: "lv" },
+                       { nameEn: "Lebanon", nameDe: "Libanon", code: "lb" },
+                       { nameEn: "Lesotho", nameDe: "Lesotho", code: "ls" },
+                       { nameEn: "Liberia", nameDe: "Liberia", code: "lr" },
+                       { nameEn: "Libya", nameDe: "Libyen", code: "ly" },
+                       { nameEn: "Liechtenstein", nameDe: "Liechtenstein", code: "li" },
+                       { nameEn: "Lithuania", nameDe: "Litauen", code: "lt" },
+                       { nameEn: "Luxembourg", nameDe: "Luxemburg", code: "lu" },
+                       { nameEn: "Madagascar", nameDe: "Madagaskar", code: "mg" },
+                       { nameEn: "Malawi", nameDe: "Malawi", code: "mw" },
+                       { nameEn: "Malaysia", nameDe: "Malaysia", code: "my" },
+                       { nameEn: "Maldives", nameDe: "Malediven", code: "mv" },
+                       { nameEn: "Mali", nameDe: "Mali", code: "ml" },
+                       { nameEn: "Malta", nameDe: "Malta", code: "mt" },
+                       { nameEn: "Marshall Islands", nameDe: "Marshallinseln", code: "mh" },
+                       { nameEn: "Mauritania", nameDe: "Mauretanien", code: "mr" },
+                       { nameEn: "Mauritius", nameDe: "Mauritius", code: "mu" },
+                       { nameEn: "Mexico", nameDe: "Mexiko", code: "mx" },
+                       { nameEn: "Micronesia", nameDe: "Mikronesien", code: "fm" },
+                       { nameEn: "Moldova", nameDe: "Moldau", code: "md" },
+                       { nameEn: "Monaco", nameDe: "Monaco", code: "mc" },
+                       { nameEn: "Mongolia", nameDe: "Mongolei", code: "mn" },
+                       { nameEn: "Montenegro", nameDe: "Montenegro", code: "me" },
+                       { nameEn: "Morocco", nameDe: "Marokko", code: "ma" },
+                       { nameEn: "Mozambique", nameDe: "Mosambik", code: "mz" },
+                       { nameEn: "Myanmar", nameDe: "Myanmar", code: "mm" },
+                       { nameEn: "Namibia", nameDe: "Namibia", code: "na" },
+                       { nameEn: "Nauru", nameDe: "Nauru", code: "nr" },
+                       { nameEn: "Nepal", nameDe: "Nepal", code: "np" },
+                       { nameEn: "Netherlands", nameDe: "Niederlande", code: "nl" },
+                       { nameEn: "New Caledonia", nameDe: "Neukaledonien", code: "nc" },
+                       { nameEn: "New Zealand", nameDe: "Neuseeland", code: "nz" },
+                       { nameEn: "Nicaragua", nameDe: "Nicaragua", code: "ni" },
+                       { nameEn: "Niger", nameDe: "Niger", code: "ne" },
+                       { nameEn: "Nigeria", nameDe: "Nigeria", code: "ng" },
+                       { nameEn: "Niue", nameDe: "Niue", code: "nu" },
+                       { nameEn: "Norfolk Island", nameDe: "Norfolkinsel", code: "nf" },
+                       { nameEn: "North Macedonia", nameDe: "Nordmazedonien", code: "mk" },
+                       { nameEn: "Northern Mariana Islands", nameDe: "Nördliche Marianen", code: "mp" },
+                       { nameEn: "Norway", nameDe: "Norwegen", code: "no" },
+                       { nameEn: "Oman", nameDe: "Oman", code: "om" },
+                       { nameEn: "Pakistan", nameDe: "Pakistan", code: "pk" },
+                       { nameEn: "Palau", nameDe: "Palau", code: "pw" },
+                       { nameEn: "Palestine, State of", nameDe: "Palästina", code: "ps" },
+                       { nameEn: "Panama", nameDe: "Panama", code: "pa" },
+                       { nameEn: "Papua New Guinea", nameDe: "Papua-Neuguinea", code: "pg" },
+                       { nameEn: "Paraguay", nameDe: "Paraguay", code: "py" },
+                       { nameEn: "Peru", nameDe: "Peru", code: "pe" },
+                       { nameEn: "Philippines", nameDe: "Philippinen", code: "ph" },
+                       { nameEn: "Pitcairn", nameDe: "Pitcairninseln", code: "pn" },
+                       { nameEn: "Poland", nameDe: "Polen", code: "pl" },
+                       { nameEn: "Portugal", nameDe: "Portugal", code: "pt" },
+                       { nameEn: "Puerto Rico", nameDe: "Puerto Rico", code: "pr" },
+                       { nameEn: "Qatar", nameDe: "Katar", code: "qa" },
+                       { nameEn: "Réunion", nameDe: "Réunion", code: "re" },
+                       { nameEn: "Romania", nameDe: "Rumänien", code: "ro" },
+                       { nameEn: "Russia", nameDe: "Russland", code: "ru" },
+                       { nameEn: "Rwanda", nameDe: "Ruanda", code: "rw" },
+                       { nameEn: "Saint Barthélemy", nameDe: "Saint-Barthélemy", code: "bl" },
+                       { nameEn: "Saint Helena, Ascension and Tristan da Cunha", nameDe: "St. Helena, Ascension und Tristan da Cunha", code: "sh" },
+                       { nameEn: "Saint Kitts and Nevis", nameDe: "St. Kitts und Nevis", code: "kn" },
+                       { nameEn: "Saint Lucia", nameDe: "St. Lucia", code: "lc" },
+                       { nameEn: "Saint Martin (French part)", nameDe: "Saint-Martin (französischer Teil)", code: "mf" },
+                       { nameEn: "Saint Pierre and Miquelon", nameDe: "Saint-Pierre und Miquelon", code: "pm" },
+                       { nameEn: "Saint Vincent and the Grenadines", nameDe: "St. Vincent und die Grenadinen", code: "vc" },
+                       { nameEn: "Samoa", nameDe: "Samoa", code: "ws" },
+                       { nameEn: "San Marino", nameDe: "San Marino", code: "sm" },
+                       { nameEn: "Sao Tome and Principe", nameDe: "São Tomé und Príncipe", code: "st" },
+                       { nameEn: "Saudi Arabia", nameDe: "Saudi-Arabien", code: "sa" },
+                       { nameEn: "Senegal", nameDe: "Senegal", code: "sn" },
+                       { nameEn: "Serbia", nameDe: "Serbien", code: "rs" },
+                       { nameEn: "Seychelles", nameDe: "Seychellen", code: "sc" },
+                       { nameEn: "Sierra Leone", nameDe: "Sierra Leone", code: "sl" },
+                       { nameEn: "Singapore", nameDe: "Singapur", code: "sg" },
+                       { nameEn: "Sint Maarten (Dutch part)", nameDe: "Sint Maarten (niederländischer Teil)", code: "sx" },
+                       { nameEn: "Slovakia", nameDe: "Slowakei", code: "sk" },
+                       { nameEn: "Slovenia", nameDe: "Slowenien", code: "si" },
+                       { nameEn: "Solomon Islands", nameDe: "Salomonen", code: "sb" },
+                       { nameEn: "Somalia", nameDe: "Somalia", code: "so" },
+                       { nameEn: "South Africa", nameDe: "Südafrika", code: "za" },
+                       { nameEn: "South Georgia and the South Sandwich Islands", nameDe: "Südgeorgien und die Südlichen Sandwichinseln", code: "gs" },
+                       { nameEn: "South Sudan", nameDe: "Südsudan", code: "ss" },
+                       { nameEn: "Spain", nameDe: "Spanien", code: "es" },
+                       { nameEn: "Sri Lanka", nameDe: "Sri Lanka", code: "lk" },
+                       { nameEn: "Sudan", nameDe: "Sudan", code: "sd" },
+                       { nameEn: "Suriname", nameDe: "Suriname", code: "sr" },
+                       { nameEn: "Svalbard and Jan Mayen", nameDe: "Svalbard und Jan Mayen", code: "sj" },
+                       { nameEn: "Sweden", nameDe: "Schweden", code: "se" },
+                       { nameEn: "Switzerland", nameDe: "Schweiz", code: "ch" },
+                       { nameEn: "Syrian Arab Republic", nameDe: "Syrien", code: "sy" },
+                       { nameEn: "Taiwan, Province of China", nameDe: "Taiwan", code: "tw" },
+                       { nameEn: "Tajikistan", nameDe: "Tadschikistan", code: "tj" },
+                       { nameEn: "Tanzania, United Republic of", nameDe: "Tansania", code: "tz" },
+                       { nameEn: "Thailand", nameDe: "Thailand", code: "th" },
+                       { nameEn: "Timor-Leste", nameDe: "Osttimor", code: "tl" },
+                       { nameEn: "Togo", nameDe: "Togo", code: "tg" },
+                       { nameEn: "Tokelau", nameDe: "Tokelau", code: "tk" },
+                       { nameEn: "Tonga", nameDe: "Tonga", code: "to" },
+                       { nameEn: "Trinidad and Tobago", nameDe: "Trinidad und Tobago", code: "tt" },
+                       { nameEn: "Tunisia", nameDe: "Tunesien", code: "tn" },
+                       { nameEn: "Turkey", nameDe: "Türkei", code: "tr" },
+                       { nameEn: "Turkmenistan", nameDe: "Turkmenistan", code: "tm" },
+                       { nameEn: "Tuvalu", nameDe: "Tuvalu", code: "tv" },
+                       { nameEn: "Uganda", nameDe: "Uganda", code: "ug" },
+                       { nameEn: "Ukraine", nameDe: "Ukraine", code: "ua" },
+                       { nameEn: "United Arab Emirates", nameDe: "Vereinigte Arabische Emirate", code: "ae" },
+                       { nameEn: "United Kingdom of Great Britain and Northern Ireland", nameDe: "Vereinigtes Königreich", code: "gb" },
+                       { nameEn: "United States of America", nameDe: "Vereinigte Staaten von Amerika", code: "us" },
+                       { nameEn: "Uruguay", nameDe: "Uruguay", code: "uy" },
+                       { nameEn: "Uzbekistan", nameDe: "Usbekistan", code: "uz" },
+                       { nameEn: "Vanuatu", nameDe: "Vanuatu", code: "vu" },
+                       { nameEn: "Venezuela (Bolivarian Republic of)", nameDe: "Venezuela", code: "ve" },
+                       { nameEn: "Vietnam", nameDe: "Vietnam", code: "vn" },
+                       { nameEn: "Western Sahara", nameDe: "Westsahara", code: "eh" },
+                       { nameEn: "Yemen", nameDe: "Jemen", code: "ye" },
+                       { nameEn: "Zambia", nameDe: "Sambia", code: "zm" },
+                       { nameEn: "Zimbabwe", nameDe: "Simbabwe", code: "zw" }
+
+        ];
+
+        // Shuffle helper
+        function shuffle(array){ return array.sort(()=>Math.random()-0.5); }
+
+        // Game state
+        let remaining = [];
+        let correctCountry = null;
+        let correctCount = 0;
+        let wrongCount = 0;
+
+        // Messages
+        const messages = {
+          correct: {en:"✔ Correct!", de:"✔ Richtig!"},
+          wrong: {en:"✘ Wrong!", de:"✘ Falsch!"}
+        };
+
+        // Detect current visible language based on spans
+        function getLang(){
+          const deSpan = document.querySelector('span[data-lang="de"]');
+          if(deSpan && getComputedStyle(deSpan).display !== "none") return "de";
+          return "en";
+        }
+
+        // Update scores
+        function updateScores(){
+          document.getElementById("correctScore").textContent = correctCount;
+          document.getElementById("wrongScore").textContent = wrongCount;
+          document.getElementById("correctScoreEn").textContent = correctCount;
+          document.getElementById("wrongScoreEn").textContent = wrongCount;
+        }
+
+        // Generate buttons for current flag
+        function generateButtons() {
+          if(!correctCountry) return;
+          const lang = getLang();
+          const optionsDiv = document.getElementById("options");
+          optionsDiv.innerHTML = "";
+
+          let choices = [correctCountry];
+          const others = shuffle(flags.filter(f => f.code !== correctCountry.code)).slice(0,3);
+          choices = shuffle(choices.concat(others));
+
+          choices.forEach(choice=>{
+            const btn = document.createElement("button");
+            btn.textContent = lang==="de" ? choice.nameDe : choice.nameEn;
+
+            btn.onclick = ()=>{
+              const result = document.getElementById("result");
+              Array.from(optionsDiv.children).forEach(b=>b.disabled=true);
+              const correctName = lang==="de" ? correctCountry.nameDe : correctCountry.nameEn;
+
+              if(btn.textContent === correctName){
+                btn.classList.add("correct");
+                result.style.color="green";
+                result.textContent = messages.correct[lang];
+                correctCount++;
+              } else {
+                btn.classList.add("wrong");
+                result.style.color="red";
+                result.textContent = messages.wrong[lang];
+                wrongCount++;
+                Array.from(optionsDiv.children).forEach(b=>{
+                  if(b.textContent === correctName) b.classList.add("correct");
+                });
+              }
+
+              updateScores();
+
+              setTimeout(()=>{
+                result.textContent = "";
+                newFlag();
+              },1000);
+            };
+
+            optionsDiv.appendChild(btn);
+          });
+        }
+
+        // Generate new flag
+        function newFlag(){
+          if(remaining.length === 0){
+            alert(getLang()==="de"?"Spiel beendet! Seite neu laden zum Weiterspielen.":"Game finished! Reload the page to play again.");
+            return;
+          }
+          correctCountry = remaining.pop();
+          document.getElementById("flagImg").src = `https://flagcdn.com/w320/${correctCountry.code}.png`;
+          generateButtons();
+        }
+
+        // Reset game
+        function resetGame(){
+          remaining = shuffle([...flags]);
+          correctCountry = null;
+          correctCount = 0;
+          wrongCount = 0;
+          updateScores();
+          newFlag();
+        }
+
+        // Initialize
+        resetGame();
+
+        // Listen to language changes (mutation observer to detect visible spans)
+        const observer = new MutationObserver(()=>{
+          generateButtons(); // regenerate buttons in new language immediately
+        });
+        document.querySelectorAll('[data-lang]').forEach(el=>{
+          observer.observe(el, {attributes:true, attributeFilter:['style','class']});
+        });
+        </script>
+
 
     <!-- Validation + Language Script -->
     <script>
