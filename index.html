@@ -1018,16 +1018,18 @@
     <div class="container-xxl pt-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
       <div class="container-xxl px-0">
 
-        <div class="d-flex" style="gap: 6px; align-items: stretch;">
+        <!-- Responsive: stacked on mobile, side by side on large screens -->
+        <div class="d-flex flex-column flex-lg-row gap-2">
 
-          <!-- MAP fills remaining space -->
+          <!-- MAP -->
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2663.431942901909!2d9.044742115721892!3d48.52113297925308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799f4dfd6b6b28b%3A0x2cd1f5c7ec4c0c53!2sPaulinenstra%C3%9Fe%2044%2C%2072072%20T%C3%BCbingen%2C%20Germany!5e0!3m2!1sen!2sde!4v1716277240573!5m2!1sen!2sde"
-            class="map-box"
+            class="map-box flex-fill"
+            style="min-height: 300px; width: 100%;"
           ></iframe>
 
-          <!-- GAME CARD fixed size -->
-          <div id="flagGame">
+          <!-- FLAG GAME -->
+          <div id="flagGame" class="p-3" style="max-width: 350px; width: 100%;">
             <h3 data-lang="de">Flaggen Quiz</h3>
             <h3 data-lang="en">Flag Quiz</h3>
 
