@@ -821,17 +821,43 @@ html, body {
         transform: scale(0.63);
     }
 }
+/* Desktop (same as always) */
 #flagGameCard {
-    width: min(400px, 100vw - 20px);   /* never wider than screen */
-    height: auto;                      /* auto height */
-    aspect-ratio: 4 / 5;               /* keeps same proportion */
-    margin: 0 auto;                    /* always center */
-    padding: 10px;
+    width:400px;
+    height:500px;
     background:#fff;
     border-radius:12px;
     box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    padding:10px;
     display:flex;
     flex-direction:column;
-    overflow:hidden;
     box-sizing:border-box;
+    overflow:hidden;
+    margin: 0 auto;
+}
+
+/* --- FULL WIDTH FIX ON ALL MOBILES --- */
+@media (max-width: 600px) {
+
+    /* Break out of ANY parent container */
+    #flagGameCard {
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        min-width: 100vw !important;
+
+        height: 500px;   /* keep your height */
+        border-radius: 0;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    /* Remove horizontal scrolling */
+    html, body {
+        overflow-x: hidden !important;
+    }
 }
