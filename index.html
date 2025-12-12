@@ -1015,189 +1015,107 @@
     <!-- Contact End -->
 
     <!-- Updated Map -->
-    <div class="container-xxl pt-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-      <div class="container-xxl px-0">
+    <div class="container-xxl pt-5 px-0">
+      <div class="d-flex flex-column flex-lg-row gap-2">
 
-        <!-- Responsive: stacked on mobile, side by side on large screens -->
-        <div class="d-flex flex-column flex-lg-row gap-2">
+        <!-- MAP -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2663.431942901909!2d9.044742115721892!3d48.52113297925308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799f4dfd6b6b28b%3A0x2cd1f5c7ec4c0c53!2sPaulinenstra%C3%9Fe%2044%2C%2072072%20T%C3%BCbingen%2C%20Germany!5e0!3m2!1sen!2sde!4v1716277240573!5m2!1sen!2sde"
+          class="map-box"
+        ></iframe>
 
-          <!-- MAP -->
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2663.431942901909!2d9.044742115721892!3d48.52113297925308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799f4dfd6b6b28b%3A0x2cd1f5c7ec4c0c53!2sPaulinenstra%C3%9Fe%2044%2C%2072072%20T%C3%BCbingen%2C%20Germany!5e0!3m2!1sen!2sde!4v1716277240573!5m2!1sen!2sde"
-            class="map-box flex-fill"
-            style="min-height: 300px; width: 100%;"
-          ></iframe>
+        <!-- GAME CARD -->
+        <div id="flagGameCard">
+
+          <!-- SWITCHER -->
+          <div class="switcher">
+            <button id="btnFlags" class="switch-active">
+              <span data-lang="de">Flaggen</span> <span data-lang="en">Flags</span>
+            </button>
+            <button id="btnCapitals">
+              <span data-lang="de">Hauptstadt</span> <span data-lang="en">Capitals</span>
+            </button>
+          </div>
 
           <!-- FLAG GAME -->
-          <div id="flagGame" class="p-3" style="max-width: 350px; width: 100%;">
-            <h3 data-lang="de">Flaggen Quiz</h3>
-            <h3 data-lang="en">Flag Quiz</h3>
+          <div id="flagGameContent">
+            <div id="flagGame" class="p-3">
+              <h3 data-lang="de">Flaggen Quiz</h3>
+              <h3 data-lang="en">Flag Quiz</h3>
 
-            <div id="scoreBox">
-              <!-- show only the first part -->
-              <span class="score-part">
-                ✔ <span data-lang="de">Richtig</span>: <span id="correctScore">0</span> &nbsp; | &nbsp;
-                ✘ <span data-lang="de">Falsch</span>: <span id="wrongScore">3</span>
-              </span>
+              <div id="scoreBox">
+                <span class="score-part" data-lang="de">
+                  ✔ Richtig: <span id="correctScore">0</span> &nbsp; | &nbsp; ✘ Falsch: <span id="wrongScore">0</span>
+                </span>
+                <span class="score-hidden" data-lang="en">
+                  ✔ Correct: <span id="correctScoreEn">0</span> &nbsp; | &nbsp; ✘ Wrong: <span id="wrongScoreEn">0</span>
+                </span>
+              </div>
 
-              <!-- hide the second part but keep it in HTML so JS works -->
-              <span class="score-hidden">
-                ✔ : <span id="correctScoreEn">0</span> &nbsp; | &nbsp;
-                ✘: <span id="wrongScoreEn">3</span>
-              </span>
+
+              <div id="flagContainer">
+                <img id="flagImg" src="" alt="Flag">
+              </div>
+
+              <div id="options"></div>
+              <p id="result"></p>
             </div>
+          </div>
 
+          <!-- CAPITAL GAME -->
+          <div id="capitalGameContent" style="display:none;">
+            <div id="capitalGame" class="p-3">
+              <h3 data-lang="de">Hauptstadt Quiz</h3>
+              <h3 data-lang="en">Capital Quiz</h3>
 
-            <div id="flagContainer">
-              <img id="flagImg" src="" alt="Flag">
+              <div id="scoreBoxCap">
+                <span class="score-part" data-lang="de">
+                  ✔ Richtig: <span id="correctScoreCap">0</span> &nbsp; | &nbsp; ✘ Falsch: <span id="wrongScoreCap">0</span>
+                </span>
+                <span class="score-hidden" data-lang="en">
+                  ✔ Correct: <span id="correctScoreEnCap">0</span> &nbsp; | &nbsp; ✘ Wrong: <span id="wrongScoreEnCap">0</span>
+                </span>
+              </div>
+
+              <div id="countryName"></div>
+
+              <div id="flagContainerCap">
+                <img id="flagImgCap" src="">
+              </div>
+
+              <div id="optionsCap"></div>
+              <p id="resultCap"></p>
             </div>
-
-            <div id="options"></div>
-
-            <p id="result"></p>
           </div>
 
         </div>
-
       </div>
     </div>
 
-    <style>
-    /* Flex row */
-    .d-flex {
-      display: flex;
-      gap: 6px;
-      align-items: stretch; /* ensures map and game card have same height */
-    }
-
-    /* MAP fills remaining space */
-    .map-box {
-      flex: 1;              /* fill remaining width */
-      height: 420px;        /* same height as game card */
-      border: 0;
-      border-radius: 10px;
-      display: block;
-      min-width: 0;
-      box-sizing: border-box;
-    }
-
-    /* GAME CARD fixed size */
-    #flagGame {
-      width: 300px;          /* fixed width */
-      height: 420px;         /* fixed height */
-      padding: 15px;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start; /* top-align content */
-      align-items: stretch;        /* stretch content width-wise */
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-
-    /* FIXED FLAG BOX */
-    #flagContainer {
-      width: 100%; /* stretch to full card width */
-      height: 130px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f8f8f8;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      overflow: hidden;
-    }
-
-    /* FLAG ALWAYS SCALES PERFECTLY */
-    #flagContainer img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    /* GRID FOR BUTTONS */
-    #options {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      flex-grow: 1; /* stretch buttons to fill remaining space */
-    }
-
-    /* FIXED SIZE 3D BUTTONS */
-    #options button {
-      width: 100%;
-      height: 50px;
-      padding: 5px;
-      font-size: 13px;
-      font-weight: bold;
-      line-height: 1.1;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-
-      background: linear-gradient(#fafafa, #e5e5e5);
-      box-shadow: 0 4px 0 #bdbdbd;
-      transition: all 0.15s ease;
-
-      white-space: normal;
-      word-wrap: break-word;
-    }
-
-    /* HOVER — POP OUT */
-    #options button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 0 #b0b0b0;
-    }
-
-    /* CLICK — PRESS DOWN */
-    #options button:active {
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 #9e9e9e;
-    }
-
-    /* CORRECT ANSWER */
-    #options button.correct {
-      background: #4caf50 !important;
-      color: white;
-      box-shadow: 0 4px 0 #2e7d32 !important;
-    }
-
-    /* WRONG ANSWER */
-    #options button.wrong {
-      background: #e53935 !important;
-      color: white;
-      box-shadow: 0 4px 0 #b71c1c !important;
-    }
-
-    /* SCORE + RESULT */
-    #scoreBox {
-      font-size: 16px;       /* slightly bigger */
-      font-weight: bold;
-      color: #0a2e6e;        /* dark blue */
-      margin-bottom: 10px;
-    }
-
-    #scoreBox .score-hidden {
-      display: none;          /* hide extra text */
-    }
 
 
-    #result {
-      height: 22px;
-      margin-top: 12px;
-      font-weight: bold;
-      text-align: center;
-    }
-    </style>
+    <script>
+    // SWITCHER LOGIC
+    const btnFlags = document.getElementById("btnFlags");
+    const btnCapitals = document.getElementById("btnCapitals");
+    const flagContent = document.getElementById("flagGameContent");
+    const capitalContent = document.getElementById("capitalGameContent");
+
+    btnFlags.addEventListener("click", () => {
+      flagContent.style.display = "block";
+      capitalContent.style.display = "none";
+      btnFlags.classList.add("switch-active");
+      btnCapitals.classList.remove("switch-active");
+    });
+
+    btnCapitals.addEventListener("click", () => {
+      flagContent.style.display = "none";
+      capitalContent.style.display = "block";
+      btnCapitals.classList.add("switch-active");
+      btnFlags.classList.remove("switch-active");
+    });
+    </script>
+
     <script>
         const flags = [
           { nameEn: "Afghanistan", nameDe: "Afghanistan", code: "af" },
@@ -1617,6 +1535,346 @@
         }
       });
     </script>
+    <script>
+    /* Country + capitals */
+        const countries = [
+        { nameEn:"Afghanistan",nameDe:"Afghanistan",capitalEn:"Kabul",capitalDe:"Kabul",code:"af"},
+        { nameEn:"Albania",nameDe:"Albanien",capitalEn:"Tirana",capitalDe:"Tirana",code:"al"},
+        { nameEn:"Algeria",nameDe:"Algerien",capitalEn:"Algiers",capitalDe:"Algier",code:"dz"},
+        { nameEn:"Andorra",nameDe:"Andorra",capitalEn:"Andorra la Vella",capitalDe:"Andorra la Vella",code:"ad"},
+        { nameEn:"Angola",nameDe:"Angola",capitalEn:"Luanda",capitalDe:"Luanda",code:"ao"},
+        { nameEn:"Antigua and Barbuda",nameDe:"Antigua und Barbuda",capitalEn:"Saint John's",capitalDe:"Saint John’s",code:"ag"},
+        { nameEn:"Argentina",nameDe:"Argentinien",capitalEn:"Buenos Aires",capitalDe:"Buenos Aires",code:"ar"},
+        { nameEn:"Armenia",nameDe:"Armenien",capitalEn:"Yerevan",capitalDe:"Eriwan",code:"am"},
+        { nameEn:"Australia",nameDe:"Australien",capitalEn:"Canberra",capitalDe:"Canberra",code:"au"},
+        { nameEn:"Austria",nameDe:"Österreich",capitalEn:"Vienna",capitalDe:"Wien",code:"at"},
+        { nameEn:"Azerbaijan",nameDe:"Aserbaidschan",capitalEn:"Baku",capitalDe:"Baku",code:"az"},
+
+        { nameEn:"Bahamas",nameDe:"Bahamas",capitalEn:"Nassau",capitalDe:"Nassau",code:"bs"},
+        { nameEn:"Bahrain",nameDe:"Bahrain",capitalEn:"Manama",capitalDe:"Manama",code:"bh"},
+        { nameEn:"Bangladesh",nameDe:"Bangladesch",capitalEn:"Dhaka",capitalDe:"Dhaka",code:"bd"},
+        { nameEn:"Barbados",nameDe:"Barbados",capitalEn:"Bridgetown",capitalDe:"Bridgetown",code:"bb"},
+        { nameEn:"Belarus",nameDe:"Belarus",capitalEn:"Minsk",capitalDe:"Minsk",code:"by"},
+        { nameEn:"Belgium",nameDe:"Belgien",capitalEn:"Brussels",capitalDe:"Brüssel",code:"be"},
+        { nameEn:"Belize",nameDe:"Belize",capitalEn:"Belmopan",capitalDe:"Belmopan",code:"bz"},
+        { nameEn:"Benin",nameDe:"Benin",capitalEn:"Porto-Novo",capitalDe:"Porto-Novo",code:"bj"},
+        { nameEn:"Bhutan",nameDe:"Bhutan",capitalEn:"Thimphu",capitalDe:"Thimphu",code:"bt"},
+        { nameEn:"Bolivia",nameDe:"Bolivien",capitalEn:"Sucre",capitalDe:"Sucre",code:"bo"},
+        { nameEn:"Bosnia and Herzegovina",nameDe:"Bosnien und Herzegowina",capitalEn:"Sarajevo",capitalDe:"Sarajevo",code:"ba"},
+        { nameEn:"Botswana",nameDe:"Botswana",capitalEn:"Gaborone",capitalDe:"Gaborone",code:"bw"},
+        { nameEn:"Brazil",nameDe:"Brasilien",capitalEn:"Brasília",capitalDe:"Brasília",code:"br"},
+        { nameEn:"Brunei",nameDe:"Brunei",capitalEn:"Bandar Seri Begawan",capitalDe:"Bandar Seri Begawan",code:"bn"},
+        { nameEn:"Bulgaria",nameDe:"Bulgarien",capitalEn:"Sofia",capitalDe:"Sofia",code:"bg"},
+        { nameEn:"Burkina Faso",nameDe:"Burkina Faso",capitalEn:"Ouagadougou",capitalDe:"Ouagadougou",code:"bf"},
+        { nameEn:"Burundi",nameDe:"Burundi",capitalEn:"Gitega",capitalDe:"Gitega",code:"bi"},
+
+        { nameEn:"Cabo Verde",nameDe:"Kap Verde",capitalEn:"Praia",capitalDe:"Praia",code:"cv"},
+        { nameEn:"Cambodia",nameDe:"Kambodscha",capitalEn:"Phnom Penh",capitalDe:"Phnom Penh",code:"kh"},
+        { nameEn:"Cameroon",nameDe:"Kamerun",capitalEn:"Yaoundé",capitalDe:"Yaoundé",code:"cm"},
+        { nameEn:"Canada",nameDe:"Kanada",capitalEn:"Ottawa",capitalDe:"Ottawa",code:"ca"},
+        { nameEn:"Central African Republic",nameDe:"Zentralafrikanische Republik",capitalEn:"Bangui",capitalDe:"Bangui",code:"cf"},
+        { nameEn:"Chad",nameDe:"Tschad",capitalEn:"N'Djamena",capitalDe:"N’Djamena",code:"td"},
+        { nameEn:"Chile",nameDe:"Chile",capitalEn:"Santiago",capitalDe:"Santiago",code:"cl"},
+        { nameEn:"China",nameDe:"China",capitalEn:"Beijing",capitalDe:"Peking",code:"cn"},
+        { nameEn:"Colombia",nameDe:"Kolumbien",capitalEn:"Bogotá",capitalDe:"Bogotá",code:"co"},
+        { nameEn:"Comoros",nameDe:"Komoren",capitalEn:"Moroni",capitalDe:"Moroni",code:"km"},
+        { nameEn:"Congo (Republic)",nameDe:"Republik Kongo",capitalEn:"Brazzaville",capitalDe:"Brazzaville",code:"cg"},
+        { nameEn:"Congo (DRC)",nameDe:"Demokratische Republik Kongo",capitalEn:"Kinshasa",capitalDe:"Kinshasa",code:"cd"},
+        { nameEn:"Costa Rica",nameDe:"Costa Rica",capitalEn:"San José",capitalDe:"San José",code:"cr"},
+        { nameEn:"Croatia",nameDe:"Kroatien",capitalEn:"Zagreb",capitalDe:"Zagreb",code:"hr"},
+        { nameEn:"Cuba",nameDe:"Kuba",capitalEn:"Havana",capitalDe:"Havanna",code:"cu"},
+        { nameEn:"Cyprus",nameDe:"Zypern",capitalEn:"Nicosia",capitalDe:"Nikosia",code:"cy"},
+        { nameEn:"Czechia",nameDe:"Tschechien",capitalEn:"Prague",capitalDe:"Prag",code:"cz"},
+
+        { nameEn:"Denmark",nameDe:"Dänemark",capitalEn:"Copenhagen",capitalDe:"Kopenhagen",code:"dk"},
+        { nameEn:"Djibouti",nameDe:"Dschibuti",capitalEn:"Djibouti",capitalDe:"Dschibuti",code:"dj"},
+        { nameEn:"Dominica",nameDe:"Dominica",capitalEn:"Roseau",capitalDe:"Roseau",code:"dm"},
+        { nameEn:"Dominican Republic",nameDe:"Dominikanische Republik",capitalEn:"Santo Domingo",capitalDe:"Santo Domingo",code:"do"},
+
+        { nameEn:"Ecuador",nameDe:"Ecuador",capitalEn:"Quito",capitalDe:"Quito",code:"ec"},
+        { nameEn:"Egypt",nameDe:"Ägypten",capitalEn:"Cairo",capitalDe:"Kairo",code:"eg"},
+        { nameEn:"El Salvador",nameDe:"El Salvador",capitalEn:"San Salvador",capitalDe:"San Salvador",code:"sv"},
+        { nameEn:"Equatorial Guinea",nameDe:"Äquatorialguinea",capitalEn:"Malabo",capitalDe:"Malabo",code:"gq"},
+        { nameEn:"Eritrea",nameDe:"Eritrea",capitalEn:"Asmara",capitalDe:"Asmara",code:"er"},
+        { nameEn:"Estonia",nameDe:"Estland",capitalEn:"Tallinn",capitalDe:"Tallinn",code:"ee"},
+        { nameEn:"Eswatini",nameDe:"Eswatini",capitalEn:"Mbabane",capitalDe:"Mbabane",code:"sz"},
+        { nameEn:"Ethiopia",nameDe:"Äthiopien",capitalEn:"Addis Ababa",capitalDe:"Addis Abeba",code:"et"},
+
+        { nameEn:"Fiji",nameDe:"Fidschi",capitalEn:"Suva",capitalDe:"Suva",code:"fj"},
+        { nameEn:"Finland",nameDe:"Finnland",capitalEn:"Helsinki",capitalDe:"Helsinki",code:"fi"},
+        { nameEn:"France",nameDe:"Frankreich",capitalEn:"Paris",capitalDe:"Paris",code:"fr"},
+
+        { nameEn:"Gabon",nameDe:"Gabun",capitalEn:"Libreville",capitalDe:"Libreville",code:"ga"},
+        { nameEn:"Gambia",nameDe:"Gambia",capitalEn:"Banjul",capitalDe:"Banjul",code:"gm"},
+        { nameEn:"Georgia",nameDe:"Georgien",capitalEn:"Tbilisi",capitalDe:"Tiflis",code:"ge"},
+        { nameEn:"Germany",nameDe:"Deutschland",capitalEn:"Berlin",capitalDe:"Berlin",code:"de"},
+        { nameEn:"Ghana",nameDe:"Ghana",capitalEn:"Accra",capitalDe:"Accra",code:"gh"},
+        { nameEn:"Greece",nameDe:"Griechenland",capitalEn:"Athens",capitalDe:"Athen",code:"gr"},
+        { nameEn:"Grenada",nameDe:"Grenada",capitalEn:"St. George's",capitalDe:"Saint George’s",code:"gd"},
+        { nameEn:"Guatemala",nameDe:"Guatemala",capitalEn:"Guatemala City",capitalDe:"Guatemala-Stadt",code:"gt"},
+        { nameEn:"Guinea",nameDe:"Guinea",capitalEn:"Conakry",capitalDe:"Conakry",code:"gn"},
+        { nameEn:"Guinea-Bissau",nameDe:"Guinea-Bissau",capitalEn:"Bissau",capitalDe:"Bissau",code:"gw"},
+        { nameEn:"Guyana",nameDe:"Guyana",capitalEn:"Georgetown",capitalDe:"Georgetown",code:"gy"},
+
+        { nameEn:"Haiti",nameDe:"Haiti",capitalEn:"Port-au-Prince",capitalDe:"Port-au-Prince",code:"ht"},
+        { nameEn:"Honduras",nameDe:"Honduras",capitalEn:"Tegucigalpa",capitalDe:"Tegucigalpa",code:"hn"},
+        { nameEn:"Hungary",nameDe:"Ungarn",capitalEn:"Budapest",capitalDe:"Budapest",code:"hu"},
+
+        { nameEn:"Iceland",nameDe:"Island",capitalEn:"Reykjavik",capitalDe:"Reykjavík",code:"is"},
+        { nameEn:"India",nameDe:"Indien",capitalEn:"New Delhi",capitalDe:"Neu-Delhi",code:"in"},
+        { nameEn:"Indonesia",nameDe:"Indonesien",capitalEn:"Jakarta",capitalDe:"Jakarta",code:"id"},
+        { nameEn:"Iran",nameDe:"Iran",capitalEn:"Tehran",capitalDe:"Teheran",code:"ir"},
+        { nameEn:"Iraq",nameDe:"Irak",capitalEn:"Baghdad",capitalDe:"Bagdad",code:"iq"},
+        { nameEn:"Ireland",nameDe:"Irland",capitalEn:"Dublin",capitalDe:"Dublin",code:"ie"},
+        { nameEn:"Israel",nameDe:"Israel",capitalEn:"Jerusalem",capitalDe:"Jerusalem",code:"il"},
+        { nameEn:"Italy",nameDe:"Italien",capitalEn:"Rome",capitalDe:"Rom",code:"it"},
+
+        { nameEn:"Jamaica",nameDe:"Jamaika",capitalEn:"Kingston",capitalDe:"Kingston",code:"jm"},
+        { nameEn:"Japan",nameDe:"Japan",capitalEn:"Tokyo",capitalDe:"Tokio",code:"jp"},
+        { nameEn:"Jordan",nameDe:"Jordanien",capitalEn:"Amman",capitalDe:"Amman",code:"jo"},
+
+        { nameEn:"Kazakhstan",nameDe:"Kasachstan",capitalEn:"Astana",capitalDe:"Astana",code:"kz"},
+        { nameEn:"Kenya",nameDe:"Kenia",capitalEn:"Nairobi",capitalDe:"Nairobi",code:"ke"},
+        { nameEn:"Kiribati",nameDe:"Kiribati",capitalEn:"Tarawa",capitalDe:"Tarawa",code:"ki"},
+        { nameEn:"Kuwait",nameDe:"Kuwait",capitalEn:"Kuwait City",capitalDe:"Kuwait-Stadt",code:"kw"},
+        { nameEn:"Kyrgyzstan",nameDe:"Kirgisistan",capitalEn:"Bishkek",capitalDe:"Bischkek",code:"kg"},
+
+        { nameEn:"Laos",nameDe:"Laos",capitalEn:"Vientiane",capitalDe:"Vientiane",code:"la"},
+        { nameEn:"Latvia",nameDe:"Lettland",capitalEn:"Riga",capitalDe:"Riga",code:"lv"},
+        { nameEn:"Lebanon",nameDe:"Libanon",capitalEn:"Beirut",capitalDe:"Beirut",code:"lb"},
+        { nameEn:"Lesotho",nameDe:"Lesotho",capitalEn:"Maseru",capitalDe:"Maseru",code:"ls"},
+        { nameEn:"Liberia",nameDe:"Liberia",capitalEn:"Monrovia",capitalDe:"Monrovia",code:"lr"},
+        { nameEn:"Libya",nameDe:"Libyen",capitalEn:"Tripoli",capitalDe:"Tripolis",code:"ly"},
+        { nameEn:"Liechtenstein",nameDe:"Liechtenstein",capitalEn:"Vaduz",capitalDe:"Vaduz",code:"li"},
+        { nameEn:"Lithuania",nameDe:"Litauen",capitalEn:"Vilnius",capitalDe:"Vilnius",code:"lt"},
+        { nameEn:"Luxembourg",nameDe:"Luxemburg",capitalEn:"Luxembourg",capitalDe:"Luxemburg",code:"lu"},
+
+        { nameEn:"Madagascar",nameDe:"Madagaskar",capitalEn:"Antananarivo",capitalDe:"Antananarivo",code:"mg"},
+        { nameEn:"Malawi",nameDe:"Malawi",capitalEn:"Lilongwe",capitalDe:"Lilongwe",code:"mw"},
+        { nameEn:"Malaysia",nameDe:"Malaysia",capitalEn:"Kuala Lumpur",capitalDe:"Kuala Lumpur",code:"my"},
+        { nameEn:"Maldives",nameDe:"Malediven",capitalEn:"Malé",capitalDe:"Malé",code:"mv"},
+        { nameEn:"Mali",nameDe:"Mali",capitalEn:"Bamako",capitalDe:"Bamako",code:"ml"},
+        { nameEn:"Malta",nameDe:"Malta",capitalEn:"Valletta",capitalDe:"Valletta",code:"mt"},
+        { nameEn:"Marshall Islands",nameDe:"Marshallinseln",capitalEn:"Majuro",capitalDe:"Majuro",code:"mh"},
+        { nameEn:"Mauritania",nameDe:"Mauretanien",capitalEn:"Nouakchott",capitalDe:"Nouakchott",code:"mr"},
+        { nameEn:"Mauritius",nameDe:"Mauritius",capitalEn:"Port Louis",capitalDe:"Port Louis",code:"mu"},
+        { nameEn:"Mexico",nameDe:"Mexiko",capitalEn:"Mexico City",capitalDe:"Mexiko-Stadt",code:"mx"},
+        { nameEn:"Micronesia",nameDe:"Mikronesien",capitalEn:"Palikir",capitalDe:"Palikir",code:"fm"},
+        { nameEn:"Moldova",nameDe:"Moldawien",capitalEn:"Chișinău",capitalDe:"Kischinau",code:"md"},
+        { nameEn:"Monaco",nameDe:"Monaco",capitalEn:"Monaco",capitalDe:"Monaco",code:"mc"},
+        { nameEn:"Mongolia",nameDe:"Mongolei",capitalEn:"Ulaanbaatar",capitalDe:"Ulaanbaatar",code:"mn"},
+        { nameEn:"Montenegro",nameDe:"Montenegro",capitalEn:"Podgorica",capitalDe:"Podgorica",code:"me"},
+        { nameEn:"Morocco",nameDe:"Marokko",capitalEn:"Rabat",capitalDe:"Rabat",code:"ma"},
+        { nameEn:"Mozambique",nameDe:"Mosambik",capitalEn:"Maputo",capitalDe:"Maputo",code:"mz"},
+        { nameEn:"Myanmar",nameDe:"Myanmar",capitalEn:"Naypyidaw",capitalDe:"Naypyidaw",code:"mm"},
+
+        { nameEn:"Namibia",nameDe:"Namibia",capitalEn:"Windhoek",capitalDe:"Windhuk",code:"na"},
+        { nameEn:"Nauru",nameDe:"Nauru",capitalEn:"Yaren District",capitalDe:"Yaren",code:"nr"},
+        { nameEn:"Nepal",nameDe:"Nepal",capitalEn:"Kathmandu",capitalDe:"Kathmandu",code:"np"},
+        { nameEn:"Netherlands",nameDe:"Niederlande",capitalEn:"Amsterdam",capitalDe:"Amsterdam",code:"nl"},
+        { nameEn:"New Zealand",nameDe:"Neuseeland",capitalEn:"Wellington",capitalDe:"Wellington",code:"nz"},
+        { nameEn:"Nicaragua",nameDe:"Nicaragua",capitalEn:"Managua",capitalDe:"Managua",code:"ni"},
+        { nameEn:"Niger",nameDe:"Niger",capitalEn:"Niamey",capitalDe:"Niamey",code:"ne"},
+        { nameEn:"Nigeria",nameDe:"Nigeria",capitalEn:"Abuja",capitalDe:"Abuja",code:"ng"},
+        { nameEn:"North Korea",nameDe:"Nordkorea",capitalEn:"Pyongyang",capitalDe:"Pjöngjang",code:"kp"},
+        { nameEn:"North Macedonia",nameDe:"Nordmazedonien",capitalEn:"Skopje",capitalDe:"Skopje",code:"mk"},
+        { nameEn:"Norway",nameDe:"Norwegen",capitalEn:"Oslo",capitalDe:"Oslo",code:"no"},
+
+        { nameEn:"Oman",nameDe:"Oman",capitalEn:"Muscat",capitalDe:"Maskat",code:"om"},
+
+        { nameEn:"Pakistan",nameDe:"Pakistan",capitalEn:"Islamabad",capitalDe:"Islamabad",code:"pk"},
+        { nameEn:"Palau",nameDe:"Palau",capitalEn:"Ngerulmud",capitalDe:"Ngerulmud",code:"pw"},
+        { nameEn:"Panama",nameDe:"Panama",capitalEn:"Panama City",capitalDe:"Panama-Stadt",code:"pa"},
+        { nameEn:"Papua New Guinea",nameDe:"Papua-Neuguinea",capitalEn:"Port Moresby",capitalDe:"Port Moresby",code:"pg"},
+        { nameEn:"Paraguay",nameDe:"Paraguay",capitalEn:"Asunción",capitalDe:"Asunción",code:"py"},
+        { nameEn:"Peru",nameDe:"Peru",capitalEn:"Lima",capitalDe:"Lima",code:"pe"},
+        { nameEn:"Philippines",nameDe:"Philippinen",capitalEn:"Manila",capitalDe:"Manila",code:"ph"},
+        { nameEn:"Poland",nameDe:"Polen",capitalEn:"Warsaw",capitalDe:"Warschau",code:"pl"},
+        { nameEn:"Portugal",nameDe:"Portugal",capitalEn:"Lisbon",capitalDe:"Lissabon",code:"pt"},
+
+        { nameEn:"Qatar",nameDe:"Katar",capitalEn:"Doha",capitalDe:"Doha",code:"qa"},
+
+        { nameEn:"Romania",nameDe:"Rumänien",capitalEn:"Bucharest",capitalDe:"Bukarest",code:"ro"},
+        { nameEn:"Russia",nameDe:"Russland",capitalEn:"Moscow",capitalDe:"Moskau",code:"ru"},
+        { nameEn:"Rwanda",nameDe:"Ruanda",capitalEn:"Kigali",capitalDe:"Kigali",code:"rw"},
+
+        { nameEn:"Saint Kitts and Nevis",nameDe:"St. Kitts und Nevis",capitalEn:"Basseterre",capitalDe:"Basseterre",code:"kn"},
+        { nameEn:"Saint Lucia",nameDe:"St. Lucia",capitalEn:"Castries",capitalDe:"Castries",code:"lc"},
+        { nameEn:"Saint Vincent and the Grenadines",nameDe:"St. Vincent und die Grenadinen",capitalEn:"Kingstown",capitalDe:"Kingstown",code:"vc"},
+        { nameEn:"Samoa",nameDe:"Samoa",capitalEn:"Apia",capitalDe:"Apia",code:"ws"},
+        { nameEn:"San Marino",nameDe:"San Marino",capitalEn:"San Marino",capitalDe:"San Marino",code:"sm"},
+        { nameEn:"Sao Tome and Principe",nameDe:"São Tomé und Príncipe",capitalEn:"São Tomé",capitalDe:"São Tomé",code:"st"},
+        { nameEn:"Saudi Arabia",nameDe:"Saudi-Arabien",capitalEn:"Riyadh",capitalDe:"Riad",code:"sa"},
+        { nameEn:"Senegal",nameDe:"Senegal",capitalEn:"Dakar",capitalDe:"Dakar",code:"sn"},
+        { nameEn:"Serbia",nameDe:"Serbien",capitalEn:"Belgrade",capitalDe:"Belgrad",code:"rs"},
+        { nameEn:"Seychelles",nameDe:"Seychellen",capitalEn:"Victoria",capitalDe:"Victoria",code:"sc"},
+        { nameEn:"Sierra Leone",nameDe:"Sierra Leone",capitalEn:"Freetown",capitalDe:"Freetown",code:"sl"},
+        { nameEn:"Singapore",nameDe:"Singapur",capitalEn:"Singapore",capitalDe:"Singapur",code:"sg"},
+        { nameEn:"Slovakia",nameDe:"Slowakei",capitalEn:"Bratislava",capitalDe:"Pressburg",code:"sk"},
+        { nameEn:"Slovenia",nameDe:"Slowenien",capitalEn:"Ljubljana",capitalDe:"Laibach",code:"si"},
+        { nameEn:"Solomon Islands",nameDe:"Salomonen",capitalEn:"Honiara",capitalDe:"Honiara",code:"sb"},
+        { nameEn:"Somalia",nameDe:"Somalia",capitalEn:"Mogadishu",capitalDe:"Mogadischu",code:"so"},
+        { nameEn:"South Africa",nameDe:"Südafrika",capitalEn:"Pretoria",capitalDe:"Pretoria",code:"za"},
+        { nameEn:"South Korea",nameDe:"Südkorea",capitalEn:"Seoul",capitalDe:"Seoul",code:"kr"},
+        { nameEn:"South Sudan",nameDe:"Südsudan",capitalEn:"Juba",capitalDe:"Juba",code:"ss"},
+        { nameEn:"Spain",nameDe:"Spanien",capitalEn:"Madrid",capitalDe:"Madrid",code:"es"},
+        { nameEn:"Sri Lanka",nameDe:"Sri Lanka",capitalEn:"Sri Jayawardenepura Kotte",capitalDe:"Sri Jayawardenepura Kotte",code:"lk"},
+        { nameEn:"Sudan",nameDe:"Sudan",capitalEn:"Khartoum",capitalDe:"Khartum",code:"sd"},
+        { nameEn:"Suriname",nameDe:"Suriname",capitalEn:"Paramaribo",capitalDe:"Paramaribo",code:"sr"},
+        { nameEn:"Sweden",nameDe:"Schweden",capitalEn:"Stockholm",capitalDe:"Stockholm",code:"se"},
+        { nameEn:"Switzerland",nameDe:"Schweiz",capitalEn:"Bern",capitalDe:"Bern",code:"ch"},
+        { nameEn:"Syria",nameDe:"Syrien",capitalEn:"Damascus",capitalDe:"Damaskus",code:"sy"},
+
+        { nameEn:"Taiwan",nameDe:"Taiwan",capitalEn:"Taipei",capitalDe:"Taipeh",code:"tw"},
+        { nameEn:"Tajikistan",nameDe:"Tadschikistan",capitalEn:"Dushanbe",capitalDe:"Duschanbe",code:"tj"},
+        { nameEn:"Tanzania",nameDe:"Tansania",capitalEn:"Dodoma",capitalDe:"Dodoma",code:"tz"},
+        { nameEn:"Thailand",nameDe:"Thailand",capitalEn:"Bangkok",capitalDe:"Bangkok",code:"th"},
+        { nameEn:"Timor-Leste",nameDe:"Osttimor",capitalEn:"Dili",capitalDe:"Díli",code:"tl"},
+        { nameEn:"Togo",nameDe:"Togo",capitalEn:"Lomé",capitalDe:"Lomé",code:"tg"},
+        { nameEn:"Tonga",nameDe:"Tonga",capitalEn:"Nukuʻalofa",capitalDe:"Nuku'alofa",code:"to"},
+        { nameEn:"Trinidad and Tobago",nameDe:"Trinidad und Tobago",capitalEn:"Port of Spain",capitalDe:"Port of Spain",code:"tt"},
+        { nameEn:"Tunisia",nameDe:"Tunesien",capitalEn:"Tunis",capitalDe:"Tunis",code:"tn"},
+        { nameEn:"Turkey",nameDe:"Türkei",capitalEn:"Ankara",capitalDe:"Ankara",code:"tr"},
+        { nameEn:"Turkmenistan",nameDe:"Turkmenistan",capitalEn:"Ashgabat",capitalDe:"Aschgabat",code:"tm"},
+        { nameEn:"Tuvalu",nameDe:"Tuvalu",capitalEn:"Funafuti",capitalDe:"Funafuti",code:"tv"},
+
+        { nameEn:"Uganda",nameDe:"Uganda",capitalEn:"Kampala",capitalDe:"Kampala",code:"ug"},
+        { nameEn:"Ukraine",nameDe:"Ukraine",capitalEn:"Kyiv",capitalDe:"Kiew",code:"ua"},
+        { nameEn:"United Arab Emirates",nameDe:"Vereinigte Arabische Emirate",capitalEn:"Abu Dhabi",capitalDe:"Abu Dhabi",code:"ae"},
+        { nameEn:"United Kingdom",nameDe:"Vereinigtes Königreich",capitalEn:"London",capitalDe:"London",code:"gb"},
+        { nameEn:"United States",nameDe:"Vereinigte Staaten",capitalEn:"Washington, D.C.",capitalDe:"Washington, D.C.",code:"us"},
+        { nameEn:"Uruguay",nameDe:"Uruguay",capitalEn:"Montevideo",capitalDe:"Montevideo",code:"uy"},
+        { nameEn:"Uzbekistan",nameDe:"Usbekistan",capitalEn:"Tashkent",capitalDe:"Taschkent",code:"uz"},
+
+        { nameEn:"Vanuatu",nameDe:"Vanuatu",capitalEn:"Port Vila",capitalDe:"Port Vila",code:"vu"},
+        { nameEn:"Vatican City",nameDe:"Vatikanstadt",capitalEn:"Vatican City",capitalDe:"Vatikanstadt",code:"va"},
+        { nameEn:"Venezuela",nameDe:"Venezuela",capitalEn:"Caracas",capitalDe:"Caracas",code:"ve"},
+        { nameEn:"Vietnam",nameDe:"Vietnam",capitalEn:"Hanoi",capitalDe:"Hanoi",code:"vn"},
+
+        { nameEn:"Yemen",nameDe:"Jemen",capitalEn:"Sanaa",capitalDe:"Sanaa",code:"ye"},
+
+        { nameEn:"Zambia",nameDe:"Sambia",capitalEn:"Lusaka",capitalDe:"Lusaka",code:"zm"},
+        { nameEn:"Zimbabwe",nameDe:"Simbabwe",capitalEn:"Harare",capitalDe:"Harare",code:"zw"}
+        ];
+
+
+        /* Shuffle array */
+        function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
+
+        /* Detect current language */
+        function getLang() {
+          const deSpan = document.querySelector('span[data-lang="de"]');
+          if (deSpan && getComputedStyle(deSpan).display !== "none") return "de";
+          return "en";
+        }
+
+        /* CAPITAL GAME VARIABLES */
+        let remainingCap = [];
+        let correctCountryCap = null;
+        let correctCountCap = 0;
+        let wrongCountCap = 0;
+
+        /* Update score */
+        function updateScoresCap() {
+          document.getElementById("correctScoreCap").textContent = correctCountCap;
+          document.getElementById("wrongScoreCap").textContent = wrongCountCap;
+          document.getElementById("correctScoreEnCap").textContent = correctCountCap;
+          document.getElementById("wrongScoreEnCap").textContent = wrongCountCap;
+        }
+
+        /* Buttons */
+        function generateButtonsCap() {
+          const lang = getLang();
+          const optionsDiv = document.getElementById("optionsCap");
+          optionsDiv.innerHTML = "";
+
+          let choices = [correctCountryCap];
+
+          const others = shuffle(countries.filter(c => c !== correctCountryCap)).slice(0,3);
+          choices = shuffle(choices.concat(others));
+
+          choices.forEach(choice => {
+            const btn = document.createElement("button");
+            btn.textContent = lang === "de" ? choice.capitalDe : choice.capitalEn;
+
+            btn.onclick = () => {
+              Array.from(optionsDiv.children).forEach(b => b.disabled = true);
+
+              const correctName = lang === "de" ? correctCountryCap.capitalDe : correctCountryCap.capitalEn;
+
+              if (btn.textContent === correctName) {
+                btn.classList.add("correct");
+                document.getElementById("resultCap").style.color = "#0a2e6e"; // blue as in flag game
+                document.getElementById("resultCap").textContent =
+                  lang === "de" ? "✔ Richtig!" : "✔ Correct!";
+                correctCountCap++;
+              } else {
+                btn.classList.add("wrong");
+                document.getElementById("resultCap").style.color = "red";
+                document.getElementById("resultCap").textContent =
+                  lang === "de" ? "✘ Falsch!" : "✘ Wrong!";
+
+                Array.from(optionsDiv.children).forEach(b => {
+                  if (b.textContent === correctName) b.classList.add("correct");
+                });
+
+                wrongCountCap++;
+              }
+
+              updateScoresCap();
+
+              setTimeout(() => {
+                document.getElementById("resultCap").textContent = "";
+                newCountryCap();
+              }, 1000);
+            };
+
+            optionsDiv.appendChild(btn);
+          });
+        }
+
+        /* New country */
+        function newCountryCap() {
+          if (remainingCap.length === 0) {
+            alert(getLang() === "de"
+              ? "Spiel beendet! Seite neu laden."
+              : "Game finished! Reload the page.");
+            return;
+          }
+
+          correctCountryCap = remainingCap.pop();
+
+          const lang = getLang();
+          document.getElementById("countryName").textContent =
+            lang === "de" ? correctCountryCap.nameDe : correctCountryCap.nameEn;
+
+          document.getElementById("flagImgCap").src =
+            `https://flagcdn.com/w320/${correctCountryCap.code}.png`;
+
+          generateButtonsCap();
+        }
+
+        /* Reset */
+        function resetGameCap() {
+          remainingCap = shuffle([...countries]);
+          correctCountCap = 0;
+          wrongCountCap = 0;
+          updateScoresCap();
+          newCountryCap();
+        }
+
+        resetGameCap();
+
+        /* Auto update language */
+        const observerCap = new MutationObserver(() => {
+          if (correctCountryCap) newCountryCap();
+        });
+        document.querySelectorAll("#capitalGame [data-lang]").forEach(el => {
+          observerCap.observe(el, { attributes: true, attributeFilter: ["style", "class"] });
+        });
+
+    </script>
+
 
     <!-- Impressum & Copyright -->
     <div class="container-fluid bg-dark text-white py-4 mt-5">
