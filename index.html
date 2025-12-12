@@ -1759,6 +1759,7 @@
 
 
         /* Shuffle array */
+        /* Shuffle array */
         function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
 
         /* Detect current language */
@@ -1774,7 +1775,7 @@
         let correctCountCap = 0;
         let wrongCountCap = 0;
 
-        /* Update score */
+        /* Update score (DE + EN) */
         function updateScoresCap() {
           document.getElementById("correctScoreCap").textContent = correctCountCap;
           document.getElementById("wrongScoreCap").textContent = wrongCountCap;
@@ -1782,34 +1783,76 @@
           document.getElementById("wrongScoreEnCap").textContent = wrongCountCap;
         }
 
-        /* Buttons */
+        /* Update current display to chosen language WITHOUT changing the question */
+        function updateDisplayedLanguageCap() {
+            if (!correctCountryCap) return;
+
+            const lang = getLang();
+
+            /* Country name */
+            document.getElementById("countryName").textContent =
+                lang === "de" ? correctCountryCap.nameDe : correctCountryCap.nameEn;
+
+            /* Update each answer button (keep same choices) */
+            const optionButtons = document.querySelectorAll("#optionsCap button");
+
+            optionButtons.forEach(btn => {
+                const code = btn.dataset.choice;
+                const c = countries.find(x => x.code === code);
+
+                if (c) {
+                    btn.textContent = lang === "de" ? c.capitalDe : c.capitalEn;
+                }
+            });
+
+            /* Update result text if visible */
+            const resultCap = document.getElementById("resultCap");
+
+            if (resultCap.textContent.includes("✔")) {
+                resultCap.textContent = lang === "de" ? "✔ Richtig!" : "✔ Correct!";
+            }
+            if (resultCap.textContent.includes("✘")) {
+                resultCap.textContent = lang === "de" ? "✘ Falsch!" : "✘ Wrong!";
+            }
+
+            updateScoresCap();
+        }
+
+        /* Generate 4 choice buttons */
         function generateButtonsCap() {
           const lang = getLang();
           const optionsDiv = document.getElementById("optionsCap");
           optionsDiv.innerHTML = "";
 
           let choices = [correctCountryCap];
-
-          const others = shuffle(countries.filter(c => c !== correctCountryCap)).slice(0,3);
+          const others = shuffle(countries.filter(c => c !== correctCountryCap)).slice(0, 3);
           choices = shuffle(choices.concat(others));
 
           choices.forEach(choice => {
             const btn = document.createElement("button");
+
+            // Store choice code so language switch can re-translate
+            btn.dataset.choice = choice.code;
+
             btn.textContent = lang === "de" ? choice.capitalDe : choice.capitalEn;
 
             btn.onclick = () => {
               Array.from(optionsDiv.children).forEach(b => b.disabled = true);
 
-              const correctName = lang === "de" ? correctCountryCap.capitalDe : correctCountryCap.capitalEn;
+              const correctName =
+                lang === "de" ? correctCountryCap.capitalDe : correctCountryCap.capitalEn;
 
               if (btn.textContent === correctName) {
                 btn.classList.add("correct");
-                document.getElementById("resultCap").style.color = "#0a2e6e"; // blue as in flag game
+
+                document.getElementById("resultCap").style.color = "#0a2e6e";
                 document.getElementById("resultCap").textContent =
                   lang === "de" ? "✔ Richtig!" : "✔ Correct!";
+
                 correctCountCap++;
               } else {
                 btn.classList.add("wrong");
+
                 document.getElementById("resultCap").style.color = "red";
                 document.getElementById("resultCap").textContent =
                   lang === "de" ? "✘ Falsch!" : "✘ Wrong!";
@@ -1833,7 +1876,7 @@
           });
         }
 
-        /* New country */
+        /* New question */
         function newCountryCap() {
           if (remainingCap.length === 0) {
             alert(getLang() === "de"
@@ -1854,7 +1897,7 @@
           generateButtonsCap();
         }
 
-        /* Reset */
+        /* Reset game */
         function resetGameCap() {
           remainingCap = shuffle([...countries]);
           correctCountCap = 0;
@@ -1865,13 +1908,15 @@
 
         resetGameCap();
 
-        /* Auto update language */
+        /* Auto-update language WITHOUT changing question */
         const observerCap = new MutationObserver(() => {
-          if (correctCountryCap) newCountryCap();
+          updateDisplayedLanguageCap();  // FIXED — does NOT load new country
         });
+
         document.querySelectorAll("#capitalGame [data-lang]").forEach(el => {
           observerCap.observe(el, { attributes: true, attributeFilter: ["style", "class"] });
         });
+
 
     </script>
 
