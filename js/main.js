@@ -90,20 +90,22 @@
      // ---------------------------
      // LANGUAGE + TYPED
      // ---------------------------
-
      let typed = null;
-     let currentLang = "de"; // default = German
+
+     // Load saved language, fall back to German for first-time visitors
+     let savedLang = localStorage.getItem("lang");
+     let currentLang = savedLang ? savedLang : "de";
 
      const deBtn = document.getElementById("lang-de");
      const enBtn = document.getElementById("lang-en");
 
+     // Start typed.js
      function startTyped(lang) {
          if (typed) typed.destroy();
 
          const selector = lang === "de" ? ".typed-de" : ".typed-en";
          const element = document.querySelector(selector);
 
-         // --- SAFETY CHECKS ---
          if (!element) {
              console.warn("Typed.js element missing:", selector);
              return;
@@ -114,7 +116,6 @@
              console.warn("Typed output element missing!");
              return;
          }
-         // ----------------------
 
          const words = element.textContent.trim().split(", ");
 
@@ -126,13 +127,14 @@
          });
      }
 
+     // Show correct language elements
      function updateTextElements(lang) {
          document.querySelectorAll('[data-lang]').forEach(el => {
              el.style.display = (el.getAttribute('data-lang') === lang) ? '' : 'none';
          });
      }
 
-     // Update segmented switcher UI
+     // Update language switcher UI
      function updateSwitcher(lang) {
          if (lang === "de") {
              deBtn.classList.add("active");
@@ -151,7 +153,17 @@
              deBtn.classList.add("inactive");
              deBtn.disabled = false;
          }
+
+         // Save last selected language
+         localStorage.setItem("lang", lang);
      }
+
+     // When the page loads, enable correct language
+     document.addEventListener("DOMContentLoaded", () => {
+         updateSwitcher(currentLang);
+         updateTextElements(currentLang);
+         startTyped(currentLang);
+     });
 
      // -----------------------------------
      // SKILL BAR WAYPOINT RE-INITIALIZATION
