@@ -794,24 +794,30 @@ html, body {
     text-align:center;
     color:#0a2e6e;
 }
-@media (max-width: 480px) {
-  #flagGameCard {
-    padding: 10px;
-  }
 
-  h3 {
-    font-size: 18px;
-    text-align: center;
-  }
+/* For screens smaller than the card width */
+@media (max-width: 420px) {
+    #flagGameCard {
+        transform-origin: top center;
+        transform: scale(0.9);
+        margin-top: 10px;
+    }
+}
 
-  #scoreBox, #scoreBoxCap {
-    font-size: 14px;
-    text-align: center;
-  }
+@media (max-width: 370px) {
+    #flagGameCard {
+        transform: scale(0.8);
+    }
+}
 
-  #options button,
-  #optionsCap button {
-    font-size: 14px;
-    padding: 8px;
-  }
+@media (max-width: 330px) {
+    #flagGameCard {
+        transform: scale(0.7);
+    }
+}
+
+@media (max-width: 300px) {
+    #flagGameCard {
+        transform: scale(0.63);
+    }
 }
