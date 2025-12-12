@@ -633,3 +633,164 @@ html, body {
     border-radius: 0 999px 999px 0 !important;
   }
 }
+/* Layout */
+.map-box {
+    flex:1;
+    height:500px;
+    border:0;
+    border-radius:10px;
+}
+
+#flagGameCard {
+    width:400px;
+    height:500px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    padding:10px;
+    display:flex;
+    flex-direction:column;
+    box-sizing:border-box;
+    overflow:hidden;
+}
+
+/* SWITCHER */
+.switcher {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.switcher button {
+    flex:1;
+    padding:10px;
+    font-size:14px;
+    font-weight:bold;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    background: linear-gradient(to bottom, #fafafa 0%, #ddd 50%, #fafafa 100%);
+    box-shadow: 0 4px 0 #bdbdbd;
+    transition: all 0.15s ease;
+}
+
+.switcher button.switch-active {
+    background: linear-gradient(to bottom, #0a5adf 0%, #1470f5 50%, #0a5adf 100%);
+    color:white;
+    box-shadow:0 4px 0 #0a3ea0;
+}
+
+.switcher button:hover {
+    transform: translateY(-2px);
+    box-shadow:0 6px 0 #0a3ea0;
+}
+
+.switcher button:active {
+    transform: translateY(2px);
+    box-shadow:0 2px 0 #0a3ea0;
+}
+
+/* GAME STYLES (both games same appearance) */
+#flagGame, #capitalGame {
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* FLAG / CAPITAL IMAGE BOX */
+#flagContainer, #flagContainerCap {
+    width:100%;
+    height:130px;
+    margin-bottom:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f8f8f8;
+    border-radius:10px;
+    border:1px solid #ddd;
+    overflow:hidden;
+}
+
+#flagContainer img, #flagContainerCap img {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+/* BUTTONS GRID */
+#options, #optionsCap {
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    flex-grow:1;
+}
+
+#options button, #optionsCap button {
+    width:100%;
+    height:50px;
+    font-size:13px;
+    font-weight:bold;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    background:linear-gradient(#fafafa,#e5e5e5);
+    box-shadow:0 4px 0 #bdbdbd;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition: all 0.15s ease;
+}
+
+#options button.correct, #optionsCap button.correct {
+    background:#4caf50 !important;
+    color:white;
+    box-shadow:0 4px 0 #2e7d32 !important;
+}
+
+#options button.wrong, #optionsCap button.wrong {
+    background:#e53935 !important;
+    color:white;
+    box-shadow:0 4px 0 #b71c1c !important;
+}
+
+#options button:hover, #optionsCap button:hover {
+    transform: translateY(-2px);
+    box-shadow:0 6px 0 #999;
+}
+
+#options button:active, #optionsCap button:active {
+    transform: translateY(2px);
+    box-shadow:0 2px 0 #777;
+}
+
+/* COUNTRY NAME for Capitals */
+#countryName {
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:8px;
+    text-align:center;
+    color:darkred;
+}
+
+/* SCORE BOX - Dark blue and bold for both games */
+#scoreBox span.score-part, #scoreBoxCap span.score-part,
+#scoreBox .score-hidden, #scoreBoxCap .score-hidden {
+    font-size:16px;
+    font-weight:bold;
+    color:#0a2e6e;
+    margin-bottom:10px;
+}
+
+/* RESULT - Dark blue and bold */
+#result, #resultCap {
+    height:22px;
+    margin-top:12px;
+    font-weight:bold;
+    text-align:center;
+    color:#0a2e6e;
+}
