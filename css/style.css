@@ -636,14 +636,19 @@ html, body {
 /* Layout */
 .map-box {
     flex:1;
-    height:500px;
+    height:550px;
     border:0;
     border-radius:10px;
 }
-
+/* ==========================
+   CARD STYLE
+========================== */
+/* ==========================
+   CARD STYLE
+========================== */
 #flagGameCard {
     width:400px;
-    height:500px;
+    height:550px; /* slightly longer for result text */
     background:#fff;
     border-radius:12px;
     box-shadow:0 4px 12px rgba(0,0,0,0.1);
@@ -652,6 +657,7 @@ html, body {
     flex-direction:column;
     box-sizing:border-box;
     overflow:hidden;
+    margin: 0 auto;
 }
 
 /* SWITCHER */
@@ -664,8 +670,8 @@ html, body {
 
 .switcher button {
     flex:1;
-    padding:10px;
-    font-size:14px;
+    padding:12px;
+    font-size:16px;
     font-weight:bold;
     border-radius:8px;
     border:none;
@@ -673,6 +679,8 @@ html, body {
     background: linear-gradient(to bottom, #fafafa 0%, #ddd 50%, #fafafa 100%);
     box-shadow: 0 4px 0 #bdbdbd;
     transition: all 0.15s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .switcher button.switch-active {
@@ -691,7 +699,7 @@ html, body {
     box-shadow:0 2px 0 #0a3ea0;
 }
 
-/* GAME STYLES (both games same appearance) */
+/* GAME STYLES */
 #flagGame, #capitalGame {
     width:100%;
     height:100%;
@@ -701,11 +709,11 @@ html, body {
     align-items:center;
 }
 
-/* FLAG / CAPITAL IMAGE BOX */
+/* FLAG / CAPITAL IMAGE BOX — UPDATED */
 #flagContainer, #flagContainerCap {
-    width:100%;
-    height:130px;
-    margin-bottom:12px;
+    width:90%;
+    height:160px;
+    margin:0 auto 12px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -726,14 +734,15 @@ html, body {
     width:100%;
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:8px;
+    gap:10px;
     flex-grow:1;
 }
 
+/* CHOICE BUTTONS — UPDATED (allow 2 lines) */
 #options button, #optionsCap button {
     width:100%;
-    height:50px;
-    font-size:13px;
+    height:65px;
+    font-size:15px;
     font-weight:bold;
     border-radius:8px;
     border:none;
@@ -744,6 +753,11 @@ html, body {
     justify-content:center;
     align-items:center;
     transition: all 0.15s ease;
+
+    white-space: normal;     /* allow multi-line */
+    line-height: 1.15;       /* better spacing */
+    text-align:center;       /* center multi-line text */
+    padding: 5px;            /* prevent text touching edges */
 }
 
 #options button.correct, #optionsCap button.correct {
@@ -768,7 +782,7 @@ html, body {
     box-shadow:0 2px 0 #777;
 }
 
-/* COUNTRY NAME for Capitals */
+/* COUNTRY NAME */
 #countryName {
     font-size:18px;
     font-weight:bold;
@@ -777,7 +791,7 @@ html, body {
     color:darkred;
 }
 
-/* SCORE BOX - Dark blue and bold for both games */
+/* SCORE BOX */
 #scoreBox span.score-part, #scoreBoxCap span.score-part,
 #scoreBox .score-hidden, #scoreBoxCap .score-hidden {
     font-size:16px;
@@ -786,7 +800,7 @@ html, body {
     margin-bottom:10px;
 }
 
-/* RESULT - Dark blue and bold */
+/* RESULT */
 #result, #resultCap {
     height:22px;
     margin-top:12px;
@@ -795,69 +809,33 @@ html, body {
     color:#0a2e6e;
 }
 
-/* For screens smaller than the card width */
-@media (max-width: 420px) {
-    #flagGameCard {
-        transform-origin: top center;
-        transform: scale(0.9);
-        margin-top: 10px;
-    }
-}
-
-@media (max-width: 370px) {
-    #flagGameCard {
-        transform: scale(0.8);
-    }
-}
-
-@media (max-width: 330px) {
-    #flagGameCard {
-        transform: scale(0.7);
-    }
-}
-
-@media (max-width: 300px) {
-    #flagGameCard {
-        transform: scale(0.63);
-    }
-}
-/* Desktop (same as always) */
-#flagGameCard {
-    width:400px;
-    height:500px;
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
-    padding:10px;
-    display:flex;
-    flex-direction:column;
-    box-sizing:border-box;
-    overflow:hidden;
-    margin: 0 auto;
-}
-
-/* --- FULL WIDTH FIX ON ALL MOBILES --- */
+/* ==========================
+   MOBILE FIX — FULL WIDTH
+========================== */
 @media (max-width: 600px) {
-
-    /* Break out of ANY parent container */
     #flagGameCard {
-        position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -50vw;
-        margin-right: -50vw;
-        width: 100vw !important;
-        max-width: 100vw !important;
-        min-width: 100vw !important;
-
-        height: 500px;   /* keep your height */
-        border-radius: 0;
+        width: 100%;
+        max-width: 400px;
+        height: 540px; /* match new height */
+        margin: 0 auto;
         padding: 10px;
+        border-radius: 12px;
         box-sizing: border-box;
     }
 
-    /* Remove horizontal scrolling */
-    html, body {
-        overflow-x: hidden !important;
+    .switcher button {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    #options button, #optionsCap button {
+        font-size: 16px;
+        height: 65px;
+        white-space: normal;
+    }
+
+    #flagContainer, #flagContainerCap {
+        width: 90%;
+        height: 160px;
     }
 }
