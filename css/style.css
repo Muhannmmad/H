@@ -794,3 +794,24 @@ html, body {
     text-align:center;
     color:#0a2e6e;
 }
+@media (max-width: 480px) {
+  #flagGameCard {
+    padding: 10px;
+  }
+
+  h3 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  #scoreBox, #scoreBoxCap {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  #options button,
+  #optionsCap button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
