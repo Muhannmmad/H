@@ -817,17 +817,17 @@ html, body {
 
 /* COUNTRY NAME */
 #countryName {
-    font-size:18px;
+    font-size:22px;
     font-weight:bold;
     margin-bottom:8px;
     text-align:center;
-    color:darkred;
+    color:black;
 }
 
 /* SCORE BOX */
 #scoreBox span.score-part, #scoreBoxCap span.score-part,
 #scoreBox .score-hidden, #scoreBoxCap .score-hidden {
-    font-size:16px;
+    font-size:18px;
     font-weight:bold;
     color:#0a2e6e;
     margin-bottom:10px;
