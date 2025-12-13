@@ -41,6 +41,26 @@
   position: relative;
   overflow: hidden;
 }
+/* Flag image support (replace emoji flags) */
+.lang-floating-btn .flag {
+    display: inline-flex;
+    align-items: center;
+}
+
+.lang-floating-btn .flag img {
+    width: 22px;
+    height: 16px;
+    display: block;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+/* Optional: ensure text and flag stay aligned */
+.lang-floating-btn .lang-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
 /* Inner content stays CENTERED always */
 .lang-inner {
@@ -647,18 +667,30 @@ html, body {
    CARD STYLE
 ========================== */
 #flagGameCard {
-    width:400px;
-    height:550px; /* slightly longer for result text */
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
-    padding:10px;
-    display:flex;
-    flex-direction:column;
-    box-sizing:border-box;
-    overflow:hidden;
+    position: relative;
+    width: 400px;
+    height: 550px;
+    border-radius: 16px;
+    padding: 14px;
+    box-sizing: border-box;
     margin: 0 auto;
+
+    /* Gold metal background */
+    background: linear-gradient(
+        135deg,
+        #7a5c00,
+        #d4af37,
+        #fff2a8,
+        #d4af37,
+        #7a5c00
+    );
+
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.35),
+        inset 0 2px 3px rgba(255, 255, 255, 0.4),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.35);
 }
+
 
 /* SWITCHER */
 .switcher {
