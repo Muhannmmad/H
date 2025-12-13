@@ -829,8 +829,8 @@ html, body {
 #scoreBox .score-hidden, #scoreBoxCap .score-hidden {
     font-size:18px;
     font-weight:bold;
-    color:#0a2e6e;
-    margin-bottom:10px;
+    color:darkblue;
+
 }
 
 /* RESULT */
@@ -839,7 +839,16 @@ html, body {
     margin-top:12px;
     font-weight:bold;
     text-align:center;
-    color:#0a2e6e;
+    color:darkblue;
+}
+/* SCORE BOX (more space below) */
+#scoreBox {
+    margin-bottom: 50px; /* adjust as needed */
+}
+
+/* SCORE BOX CAP (less space) */
+#scoreBoxCap {
+    margin-bottom: 10px;
 }
 
 /* ==========================
