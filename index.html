@@ -1377,95 +1377,136 @@
         ];
 
         // Shuffle helper
-        function shuffle(array){ return array.sort(()=>Math.random()-0.5); }
+      
+        /* =========================
+           UTILITIES
+           ========================= */
+        function shuffle(array) {
+          return array.sort(() => Math.random() - 0.5);
+        }
 
-        // Game state
+        /* =========================
+           GAME STATE
+           ========================= */
         let remaining = [];
         let correctCountry = null;
         let correctCount = 0;
         let wrongCount = 0;
 
-        // Messages
+        /* =========================
+           MESSAGES
+           ========================= */
         const messages = {
-          correct: {en:"✔ Correct!", de:"✔ Richtig!"},
-          wrong: {en:"✘ Wrong!", de:"✘ Falsch!"}
+          correct: { en: "✔ Correct!", de: "✔ Richtig!" },
+          wrong: { en: "✘ Wrong!", de: "✘ Falsch!" }
         };
 
-        // Detect current visible language based on spans
-        function getLang(){
+        /* =========================
+           LANGUAGE DETECTION
+           ========================= */
+        function getLang() {
           const deSpan = document.querySelector('span[data-lang="de"]');
-          if(deSpan && getComputedStyle(deSpan).display !== "none") return "de";
+          if (deSpan && getComputedStyle(deSpan).display !== "none") return "de";
           return "en";
         }
 
-        // Update scores
-        function updateScores(){
+        /* =========================
+           SCORE UPDATE
+           ========================= */
+        function updateScores() {
           document.getElementById("correctScore").textContent = correctCount;
           document.getElementById("wrongScore").textContent = wrongCount;
           document.getElementById("correctScoreEn").textContent = correctCount;
           document.getElementById("wrongScoreEn").textContent = wrongCount;
         }
 
-        // Generate buttons for current flag
+        /* =========================
+           GENERATE ANSWER BUTTONS
+           ========================= */
         function generateButtons() {
-          if(!correctCountry) return;
+          if (!correctCountry) return;
+
           const lang = getLang();
           const optionsDiv = document.getElementById("options");
           optionsDiv.innerHTML = "";
 
           let choices = [correctCountry];
-          const others = shuffle(flags.filter(f => f.code !== correctCountry.code)).slice(0,3);
+          const others = shuffle(
+            flags.filter(f => f.code !== correctCountry.code)
+          ).slice(0, 3);
+
           choices = shuffle(choices.concat(others));
 
-          choices.forEach(choice=>{
+          const correctLabel =
+            lang === "de" ? correctCountry.nameDe : correctCountry.nameEn;
+
+          choices.forEach(choice => {
             const btn = document.createElement("button");
-            btn.textContent = lang==="de" ? choice.nameDe : choice.nameEn;
 
-            btn.onclick = ()=>{
+            const label = lang === "de" ? choice.nameDe : choice.nameEn;
+            btn.innerHTML = `<span>${label}</span>`;
+            btn.dataset.value = label;
+
+            btn.onclick = () => {
               const result = document.getElementById("result");
-              Array.from(optionsDiv.children).forEach(b=>b.disabled=true);
-              const correctName = lang==="de" ? correctCountry.nameDe : correctCountry.nameEn;
 
-              if(btn.textContent === correctName){
+              Array.from(optionsDiv.children).forEach(b => (b.disabled = true));
+
+              if (btn.dataset.value === correctLabel) {
                 btn.classList.add("correct");
-                result.style.color="green";
+                result.style.color = "green";
                 result.textContent = messages.correct[lang];
                 correctCount++;
               } else {
                 btn.classList.add("wrong");
-                result.style.color="red";
+                result.style.color = "red";
                 result.textContent = messages.wrong[lang];
                 wrongCount++;
-                Array.from(optionsDiv.children).forEach(b=>{
-                  if(b.textContent === correctName) b.classList.add("correct");
+
+                Array.from(optionsDiv.children).forEach(b => {
+                  if (b.dataset.value === correctLabel) {
+                    b.classList.add("correct");
+                  }
                 });
               }
 
               updateScores();
 
-              setTimeout(()=>{
+              setTimeout(() => {
                 result.textContent = "";
                 newFlag();
-              },1000);
+              }, 1000);
             };
 
             optionsDiv.appendChild(btn);
           });
         }
 
-        // Generate new flag
-        function newFlag(){
-          if(remaining.length === 0){
-            alert(getLang()==="de"?"Spiel beendet! Seite neu laden zum Weiterspielen.":"Game finished! Reload the page to play again.");
+        /* =========================
+           NEW FLAG
+           ========================= */
+        function newFlag() {
+          if (remaining.length === 0) {
+            alert(
+              getLang() === "de"
+                ? "Spiel beendet! Seite neu laden zum Weiterspielen."
+                : "Game finished! Reload the page to play again."
+            );
             return;
           }
+
           correctCountry = remaining.pop();
-          document.getElementById("flagImg").src = `https://flagcdn.com/w320/${correctCountry.code}.png`;
+          document.getElementById(
+            "flagImg"
+          ).src = `https://flagcdn.com/w320/${correctCountry.code}.png`;
+
           generateButtons();
         }
 
-        // Reset game
-        function resetGame(){
+        /* =========================
+           RESET GAME
+           ========================= */
+        function resetGame() {
           remaining = shuffle([...flags]);
           correctCountry = null;
           correctCount = 0;
@@ -1474,114 +1515,26 @@
           newFlag();
         }
 
-        // Initialize
+        /* =========================
+           INIT
+           ========================= */
         resetGame();
 
-        // Listen to language changes (mutation observer to detect visible spans)
-        const observer = new MutationObserver(()=>{
-          generateButtons(); // regenerate buttons in new language immediately
+        /* =========================
+           LANGUAGE CHANGE OBSERVER
+           ========================= */
+        const observer = new MutationObserver(() => {
+          generateButtons(); // regenerate instantly
         });
-        document.querySelectorAll('[data-lang]').forEach(el=>{
-          observer.observe(el, {attributes:true, attributeFilter:['style','class']});
+
+        document.querySelectorAll('[data-lang]').forEach(el => {
+          observer.observe(el, {
+            attributes: true,
+            attributeFilter: ["style", "class"]
+          });
         });
         </script>
 
-
-    <!-- Validation + Language Script -->
-    <script>
-      // Language logic
-      let currentLang = localStorage.getItem('lang') || 'de';
-      const langButton = document.getElementById('lang-switch');
-
-      function updateLanguage() {
-        document.querySelectorAll('[data-lang]').forEach(el=>{
-          el.style.display = el.getAttribute('data-lang') === currentLang ? '' : 'none';
-        });
-        // Update button highlight
-        if(currentLang === 'de'){
-          document.getElementById('lang-de').style.opacity = '1';
-          document.getElementById('lang-en').style.opacity = '0.6';
-        } else {
-          document.getElementById('lang-de').style.opacity = '0.6';
-          document.getElementById('lang-en').style.opacity = '1';
-        }
-      }
-
-      langButton.addEventListener('click', ()=>{
-        currentLang = currentLang === 'de' ? 'en' : 'de';
-        localStorage.setItem('lang', currentLang);
-        updateLanguage();
-      });
-
-      updateLanguage();
-
-      // Form validation with bilingual feedback handling
-      const form = document.getElementById('contact-form');
-      const thankYou = document.getElementById('thank-you-message');
-      thankYou.style.display = 'none';
-
-      function setInvalid(el, messages){
-        el.classList.add('is-invalid');
-        // find sibling invalid-feedback and update its spans (if present)
-        const fb = el.parentElement.nextElementSibling;
-        if(fb && fb.classList && fb.classList.contains('invalid-feedback')){
-          const deSpan = fb.querySelector('[data-lang="de"]');
-          const enSpan = fb.querySelector('[data-lang="en"]');
-          if(deSpan) deSpan.textContent = messages.de;
-          if(enSpan) enSpan.textContent = messages.en;
-        }
-      }
-
-      form.addEventListener('submit', async function(e){
-        e.preventDefault();
-        form.querySelectorAll('.form-control').forEach(input => input.classList.remove('is-invalid'));
-        let isValid = true;
-
-        const name = document.getElementById('name-field');
-        const telephone = document.getElementById('telephone-field');
-        const email = document.getElementById('email-field');
-        const subject = document.getElementById('subject-field');
-        const message = document.getElementById('message-field');
-
-        const phonePattern = /^[0-9+\-\s()]{6,20}$/;
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if(name.value.trim() === ''){ setInvalid(name, {de:'Bitte geben Sie Ihren Namen ein.', en:'Please write your name.'}); isValid=false; }
-
-        if(telephone.value.trim() === ''){ setInvalid(telephone, {de:'Bitte geben Sie Ihre Telefonnummer ein.', en:'Please write your telephone number.'}); isValid=false; }
-        else if(!phonePattern.test(telephone.value.trim())){ setInvalid(telephone, {de:'Bitte geben Sie eine gültige Telefonnummer ein.', en:'Please enter a valid telephone number.'}); isValid=false; }
-
-        if(email.value.trim() === ''){ setInvalid(email, {de:'Bitte geben Sie Ihre E-Mail ein.', en:'Please write your email.'}); isValid=false; }
-        else if(!emailPattern.test(email.value.trim())){ setInvalid(email, {de:'Bitte geben Sie eine gültige E-Mail-Adresse ein.', en:'Please enter a valid email address.'}); isValid=false; }
-
-        if(subject.value.trim() === ''){ setInvalid(subject, {de:'Bitte geben Sie einen Betreff ein.', en:'Please write a subject.'}); isValid=false; }
-        if(message.value.trim() === ''){ setInvalid(message, {de:'Bitte geben Sie Ihre Nachricht ein.', en:'Please write your message.'}); isValid=false; }
-
-        if(!isValid) return;
-
-        try{
-          const data = new FormData(form);
-          const response = await fetch(form.action, { method: form.method, body: data, headers:{Accept:'application/json'} });
-          if(response.ok){ form.reset(); form.style.display='none'; thankYou.style.display='block'; }
-          else { alert(currentLang==='de'? 'Ups! Etwas ist schiefgegangen. Bitte versuchen Sie es erneut.' : 'Oops! Something went wrong. Please try again.'); }
-        } catch(err){ alert(currentLang==='de'? 'Verbindungsfehler. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.' : 'Connection error. Please check your internet and try again.'); }
-
-      });
-
-      function resetForm(event){ event.preventDefault(); thankYou.style.display='none'; form.style.display='block'; }
-
-      // Optional: initialize typed.js with translated strings if typed lib loaded
-      document.addEventListener('DOMContentLoaded', ()=>{
-        const typedEl = document.querySelector('.typed-text');
-        const output = document.querySelector('.typed-text-output');
-        if(typedEl && output && typeof Typed !== 'undefined'){
-          // gather the active language texts from .typed-text
-          const texts = [];
-          typedEl.querySelectorAll('[data-lang]').forEach(span=>{ if(span.getAttribute('data-lang')===currentLang) texts.push(span.textContent); });
-          new Typed(output, { strings: texts, typeSpeed: 80, backSpeed: 40, backDelay: 2000, loop: true });
-        }
-      });
-    </script>
     <script>
     /* Country + capitals */
         const countries = [
