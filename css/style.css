@@ -825,12 +825,34 @@ html, body {
 }
 
 /* SCORE BOX */
-#scoreBox span.score-part, #scoreBoxCap span.score-part,
-#scoreBox .score-hidden, #scoreBoxCap .score-hidden {
-    font-size:18px;
-    font-weight:bold;
-    color:darkblue;
+/* Default desktop styling */
+#scoreBox span.score-part,
+#scoreBoxCap span.score-part,
+#scoreBox .score-hidden,
+#scoreBoxCap .score-hidden {
+    font-size: 16px;
+    font-weight: bold;
+    color: darkblue;
+}
 
+/* Tablets */
+@media (max-width: 768px) {
+    #scoreBox span.score-part,
+    #scoreBoxCap span.score-part,
+    #scoreBox .score-hidden,
+    #scoreBoxCap .score-hidden {
+        font-size: 16px; /* smaller for tablets */
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    #scoreBox span.score-part,
+    #scoreBoxCap span.score-part,
+    #scoreBox .score-hidden,
+    #scoreBoxCap .score-hidden {
+        font-size: 14px; /* smaller for phones */
+    }
 }
 
 /* RESULT */
