@@ -763,35 +763,62 @@ html, body {
 }
 
 /* BUTTONS GRID */
-#options, #optionsCap {
-    width:100%;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    flex-grow:1;
+/* BUTTONS GRID */
+/* =========================
+   BUTTONS GRID
+   ========================= */
+#options,
+#optionsCap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* always 2 buttons per row */
+    gap: 10px;                      /* space between buttons */
+    flex-grow: 1;
 }
 
-/* CHOICE BUTTONS — UPDATED (allow 2 lines) */
-#options button, #optionsCap button {
-    width:100%;
-    height:65px;
-    font-size:15px;
-    font-weight:bold;
-    border-radius:8px;
-    border:none;
-    cursor:pointer;
-    background:linear-gradient(#fafafa,#e5e5e5);
-    box-shadow:0 4px 0 #bdbdbd;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+/* Tablets */
+@media (max-width: 768px) {
+    #options,
+    #optionsCap {
+        gap: 8px; /* slightly smaller gap for tablets */
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    #options,
+    #optionsCap {
+        gap: 6px; /* smaller gap for small phones */
+    }
+}
+
+
+/* =========================
+   CHOICE BUTTONS — RESPONSIVE
+   ========================= */
+#options button,
+#optionsCap button {
+    width: 100%;
+    height: 65px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(#fafafa, #e5e5e5);
+    box-shadow: 0 4px 0 #bdbdbd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all 0.15s ease;
 
-    white-space: normal;     /* allow multi-line */
-    line-height: 1.15;       /* better spacing */
-    text-align:center;       /* center multi-line text */
-    padding: 5px;            /* prevent text touching edges */
+    white-space: normal;  /* allow multi-line */
+    line-height: 1.15;    /* better spacing */
+    text-align: center;   /* center multi-line text */
+    padding: 5px;         /* prevent text touching edges */
 }
+
+
 
 #options button.correct, #optionsCap button.correct {
     background:#4caf50 !important;
@@ -816,13 +843,29 @@ html, body {
 }
 
 /* COUNTRY NAME */
+/* Default desktop styling */
 #countryName {
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:8px;
-    text-align:center;
-    color:black;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+    color: black;
 }
+
+/* Tablets */
+@media (max-width: 768px) {
+    #countryName {
+        font-size: 18px; /* smaller for tablets */
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    #countryName {
+        font-size: 16px; /* smaller for phones */
+    }
+}
+
 
 /* SCORE BOX */
 /* Default desktop styling */
@@ -865,7 +908,7 @@ html, body {
 }
 /* SCORE BOX (more space below) */
 #scoreBox {
-    margin-bottom: 50px; /* adjust as needed */
+    margin-bottom: 40px; /* adjust as needed */
 }
 
 /* SCORE BOX CAP (less space) */
