@@ -14,65 +14,146 @@
     z-index: 99;
 }
 
-.my-6 {
-    margin-top: 6rem;
-    margin-bottom: 6rem;
-}
 
-.py-6 {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-}
-
+/* -------------------------
+   Switcher container
+-------------------------- */
 .lang-floating-btn {
   position: fixed;
   top: 15px;
   right: 15px;
   z-index: 9999;
-  background: var(--bs-body-bg);
-  color: var(--bs-primary);
+  display: flex;
+  overflow: hidden;
+  border-radius: 26px;
   border: 1px solid var(--bs-primary);
-  padding: 8px 14px;
-  border-radius: 8px;
+  background: var(--bs-body-bg);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.20);
+}
+
+/* Each language half */
+.lang-side {
+  width: 70px;
+  height: 40px;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
 }
-.typed-cursor:nth-of-type(2) {
-    display: none !important;
+/* Flag image support (replace emoji flags) */
+.lang-floating-btn .flag {
+    display: inline-flex;
+    align-items: center;
 }
 
-html {
-  scroll-behavior: smooth;
+.lang-floating-btn .flag img {
+    width: 22px;
+    height: 16px;
+    display: block;
+    object-fit: cover;
+    border-radius: 2px;
 }
 
-.lang-floating-btn {
-  display: inline-flex;
+/* Optional: ensure text and flag stay aligned */
+.lang-floating-btn .lang-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Inner content stays CENTERED always */
+.lang-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
   align-items: center;
   gap: 6px;
+  transition: opacity 0.25s ease;
+  z-index: 3;
 }
 
-.lang-floating-btn .lang-active {
-    font-weight: 700;
-    opacity: 1;
+/* Remove text and small flag when active */
+.lang-side.active .flag,
+.lang-side.active strong {
+  display: none;
 }
 
-.lang-floating-btn .lang-inactive {
-    opacity: 0.4;
-}
-/* --- MOBILE NAVBAR FIX --- */
-@media (max-width: 991px) {
+/* 3D BUTTON CIRCLE */
+.lang-side.active::after {
+  content: "";
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(#ffffff, #e5e5e5);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  transition: all 0.25s ease;
 
-  /* Reduce padding so navbar is fully visible */
-  .navbar {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-  }
+  /* 3D embossed effect */
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.25),
+    inset 0 2px 3px rgba(255,255,255,0.6),
+    inset 0 -2px 4px rgba(0,0,0,0.20);
+}
+
+/* BUTTON POSITIONING LEFT / RIGHT */
+#lang-de.active::after { left: 7px; }
+#lang-en.active::after { right: 7px; }
+
+/* ACTIVE FLAG BACKGROUND */
+.lang-side.active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.92;
+  z-index: 1;
+}
+
+#lang-de.active::before { background-image: url("https://flagcdn.com/w320/de.png"); }
+#lang-en.active::before { background-image: url("https://flagcdn.com/w320/gb.png"); }
+
+/* INACTIVE LOOK — centered and slightly dim */
+.lang-side.inactive {
+  opacity: 0.55;
+}
+
+.lang-side:not(.active):hover {
+  background: rgba(0,0,0,0.06);
+  opacity: 1;
+}
+/* POP-OUT BUTTON EFFECT ON INACTIVE HOVER */
+.lang-side.inactive:hover {
+  transform: scale(1.07);                /* pops out */
+  z-index: 5;                            /* above neighbor */
+  background: white;                     /* button surface */
+  
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.22),         /* outer shadow */
+    inset 0 2px 3px rgba(255,255,255,0.75), /* inner highlight */
+    inset 0 -2px 4px rgba(0,0,0,0.22);       /* inner depth */
+  transition: all 0.25s ease;
+}
+
+/* smooth transform for all states */
+.lang-side {
+  transition: all 0.25s ease !important;
+}
 
   /* Remove extra padding in collapse menu */
   .navbar .collapse {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
+.navbar-nav .nav-link span[data-lang="de"] {
+    white-space: nowrap;
+}
 
   /* Prevent WOW animation from jumping */
   .navbar.wow {
@@ -129,6 +210,67 @@ html {
         padding: 15px;
     }
 }
+.wrapper-box {
+    
+   
+    border-radius: 12px;        /* Rounded corners */
+    max-width: 700px;           /* How wide the whole block can be */
+    margin: 0 auto;             /* Centers the entire box */
+    
+}
+
+.card-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.professional-text {
+    text-align: left;
+    max-width: 400px;           /* Keeps long text from stretching too far */
+}
+/* Desktop stays unchanged */
+/* Desktop default */
+.logo-img {
+    width: 200px;
+    height: auto;
+        margin-bottom: 15px !important;
+    }
+
+}
+
+/* MOBILE FIX – stack and center */
+@media (max-width: 768px) {
+
+    .wrapper-box {
+        display: flex;
+        flex-direction: column;    /* stack text + logo */
+        align-items: center;       /* center them */
+        text-align: center;
+    }
+
+    .professional-text {
+        max-width: 100% !important;  /* full width text */
+        text-align: left;          /* center text */
+    }
+
+    .card-wrapper {
+        width: 50%;
+        display: flex;
+        justify-content: center;     /* center logo */
+        margin-top: 20px;
+    }
+
+    .logo-img {
+        width: 200px !important;     /* bigger logo on mobile */
+        height: auto;
+    }
+}
+
+
+
 /* --- FIX FLOATING LANGUAGE BUTTON ON MOBILE --- */
 .lang-floating-btn {
   position: fixed;
@@ -144,7 +286,8 @@ html {
     transform: scale(0.95);
   }
 }
-
+#lang-switch { border-radius: 999px; padding: 6px 10px; font-weight:600; }
+@media (max-width:991px){ #lang-switch{margin-left:12px;} }
 /*** Spinner ***/
 #spinner {
     opacity: 0;
@@ -286,6 +429,10 @@ html, body {
         padding: 10px 0;
     }
 }
+.navbar-brand h1 {
+    font-size: 40px; /* adjust to your preferred size */
+    line-height: 1;
+}
 
 /*** Header ***/
 #home {
@@ -406,4 +553,441 @@ html, body {
 
 .team-item:hover .team-text div {
     margin-left: 30px;
+}
+/* FIX: Prevent header text from going under the mobile navbar */
+@media (max-width: 768px) {
+    #home {
+        padding-top: 50px !important;   /* adjust until perfect */
+    }
+}
+.social-container {
+    display: flex;
+    gap: 12px;
+}
+
+.flip-card {
+    width: 60px;
+    height: 60px;
+    perspective: 800px;
+}
+
+.flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease, scale 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-inner {
+    transform: rotateY(180deg) scale(1.15);
+}
+
+.flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: white;
+}
+
+.flip-front {
+    background: #6244C5;
+}
+
+.flip-back {
+    transform: rotateY(180deg);
+    background-size: cover;
+    background-position: center;
+}
+/* --- ENHANCED ACTIVE NAVBAR EFFECT --- */
+.navbar .navbar-nav .nav-link.active {
+    color: var(--primary) !important;
+    transform: scale(1.15);
+    font-weight: 700;
+}
+
+/* Smooth animation */
+.navbar .navbar-nav .nav-link {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.lang-inactive {
+  background: red !important;
+}
+@media (max-width: 768px) {
+  .navbar .navbar-nav {
+    text-align: left;
+  }
+
+  .navbar .nav-link {
+    width: auto;                 /* don't stretch */
+    display: inline-block;       /* needed for transform */
+    transform-origin: left center; /* VERY IMPORTANT */
+  }
+}
+
+/* === Force top-right position on mobile to match desktop ===
+   Place this at the BOTTOM of your CSS so it overrides earlier rules.
+*/
+@media (max-width: 991px) {
+  .lang-floating-btn {
+    position: fixed !important;
+    top: 7px !important;
+    right: 7px !important;
+    transform: none !important;
+    margin: 0 !important;
+    z-index: 99999 !important;
+  }
+
+  /* ensure the left/right rounded ends keep their shape */
+  .lang-floating-btn .lang-side:first-child {
+    border-radius: 999px 0 0 999px !important;
+  }
+  .lang-floating-btn .lang-side:last-child {
+    border-radius: 0 999px 999px 0 !important;
+  }
+}
+/* Layout */
+.map-box {
+    flex:1;
+    height:550px;
+    border:0;
+    border-radius:10px;
+}
+/* ==========================
+   CARD STYLE
+========================== */
+/* ==========================
+   CARD STYLE
+========================== */
+#flagGameCard {
+    position: relative;
+    width: 400px;
+    height: 550px;
+    border-radius: 16px;
+    padding: 14px;
+    box-sizing: border-box;
+    margin: 0 auto;
+
+    /* Gold metal background */
+    background: linear-gradient(
+        135deg,
+        #7a5c00,
+        #d4af37,
+        #fff2a8,
+        #d4af37,
+        #7a5c00
+    );
+
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.35),
+        inset 0 2px 3px rgba(255, 255, 255, 0.4),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.35);
+}
+
+
+/* SWITCHER */
+.switcher {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.switcher button {
+    flex:1;
+    padding:12px;
+    font-size:16px;
+    font-weight:bold;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    background: linear-gradient(to bottom, #fafafa 0%, #ddd 50%, #fafafa 100%);
+    box-shadow: 0 4px 0 #bdbdbd;
+    transition: all 0.15s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.switcher button.switch-active {
+    background: linear-gradient(to bottom, #2ecc71 0%, #27ae60 50%, #2ecc71 100%);
+    color: white;
+    box-shadow: 0 4px 0 #1e8449;
+}
+
+
+.switcher button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 #1e8449;
+}
+
+.switcher button:active {
+    transform: translateY(2px);
+    box-shadow:0 2px 0 #0a3ea0;
+}
+
+/* GAME STYLES */
+#flagGame, #capitalGame {
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* FLAG / CAPITAL IMAGE BOX — UPDATED */
+#flagContainer, #flagContainerCap {
+    width:90%;
+    height:160px;
+    margin:0 auto 12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f8f8f8;
+    border-radius:10px;
+    border:1px solid #ddd;
+    overflow:hidden;
+}
+
+#flagContainer img, #flagContainerCap img {
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+/* BUTTONS GRID */
+/* BUTTONS GRID */
+/* =========================
+   BUTTONS GRID
+   ========================= */
+#options,
+#optionsCap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* always 2 buttons per row */
+    gap: 10px;                      /* space between buttons */
+    flex-grow: 1;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    #options,
+    #optionsCap {
+        gap: 8px; /* slightly smaller gap for tablets */
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    #options,
+    #optionsCap {
+        gap: 6px; /* smaller gap for small phones */
+    }
+}
+
+
+/* =========================
+   CHOICE BUTTONS — RESPONSIVE
+   ========================= */
+#options button,
+#optionsCap button {
+    width: 100%;
+    height: 65px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(#fafafa, #e5e5e5);
+    box-shadow: 0 4px 0 #bdbdbd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.15s ease;
+
+    white-space: normal;  /* allow multi-line */
+    line-height: 1.15;    /* better spacing */
+    text-align: center;   /* center multi-line text */
+    padding: 5px;         /* prevent text touching edges */
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    #options button,
+    #optionsCap button {
+        height: 55px;     /* slightly smaller height */
+        font-size: 14px;  /* smaller text */
+        padding: 4px;
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    #options button,
+    #optionsCap button {
+        height: 50px;     /* smaller height for phones */
+        font-size: 12px;  /* smaller text */
+        padding: 3px;
+    }
+}
+
+#options button.correct, #optionsCap button.correct {
+    background:#4caf50 !important;
+    color:white;
+    box-shadow:0 4px 0 #2e7d32 !important;
+}
+
+#options button.wrong, #optionsCap button.wrong {
+    background:#e53935 !important;
+    color:white;
+    box-shadow:0 4px 0 #b71c1c !important;
+}
+
+#options button:hover, #optionsCap button:hover {
+    transform: translateY(-2px);
+    box-shadow:0 6px 0 #999;
+}
+
+#options button:active, #optionsCap button:active {
+    transform: translateY(2px);
+    box-shadow:0 2px 0 #777;
+}
+
+/* COUNTRY NAME */
+/* Default desktop styling */
+#countryName {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+    color: black;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    #countryName {
+        font-size: 18px; /* smaller for tablets */
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    #countryName {
+        font-size: 16px; /* smaller for phones */
+    }
+}
+
+
+/* SCORE BOX */
+/* Default desktop styling */
+#scoreBox span.score-part,
+#scoreBoxCap span.score-part,
+#scoreBox .score-hidden,
+#scoreBoxCap .score-hidden {
+    font-size: 16px;
+    font-weight: bold;
+    color: darkblue;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    #scoreBox span.score-part,
+    #scoreBoxCap span.score-part,
+    #scoreBox .score-hidden,
+    #scoreBoxCap .score-hidden {
+        font-size: 16px; /* smaller for tablets */
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    #scoreBox span.score-part,
+    #scoreBoxCap span.score-part,
+    #scoreBox .score-hidden,
+    #scoreBoxCap .score-hidden {
+        font-size: 14px; /* smaller for phones */
+    }
+}
+
+/* RESULT */
+#result, #resultCap {
+    height:22px;
+    margin-top:12px;
+    font-weight:bold;
+    text-align:center;
+    color:darkblue;
+}
+/* SCORE BOX (more space below) */
+#scoreBox {
+    margin-bottom: 40px; /* adjust as needed */
+}
+
+/* SCORE BOX CAP (less space) */
+#scoreBoxCap {
+    margin-bottom: 10px;
+}
+
+/* ==========================
+   MOBILE FIX — FULL WIDTH
+========================== */
+@media (max-width: 600px) {
+    #flagGameCard {
+        width: 100%;
+        max-width: 400px;
+        height: 540px; /* match new height */
+        margin: 0 auto;
+        padding: 10px;
+        border-radius: 12px;
+        box-sizing: border-box;
+    }
+
+    .switcher button {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    #options button, #optionsCap button {
+        font-size: 16px;
+        height: 65px;
+        white-space: normal;
+    }
+
+    #flagContainer, #flagContainerCap {
+        width: 90%;
+        height: 160px;
+    }
+    #result,
+    #resultCap {
+        font-size: 14px;
+    }
+}
+}
+@media (max-width: 768px) {
+    #result,
+    #resultCap {
+        font-size: 14px;
+    }
+}
+
+/* Smaller on phones */
+@media (max-width: 480px) {
+    #result,
+    #resultCap {
+        font-size: 12px;
+    }
+}
+/* --- MOBILE FIX: Move Back-To-Top button into bottom-right corner --- */
+@media (max-width: 575px) {
+  .back-to-top {
+    right: 15px !important;   /* closer to screen edge */
+    bottom: 15px !important;  /* closer to screen edge */
+    transform: scale(0.85);   /* slightly smaller for mobile */
+  }
 }
