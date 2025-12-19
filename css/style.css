@@ -744,8 +744,8 @@ html, body {
 
 /* FLAG / CAPITAL IMAGE BOX — UPDATED */
 #flagContainer, #flagContainerCap {
-    width:80%;
-    height:180px;
+    width:90%;
+    height:160px;
     margin:0 auto 12px;
     display:flex;
     justify-content:center;
@@ -774,7 +774,7 @@ html, body {
 /* CHOICE BUTTONS — UPDATED (allow 2 lines) */
 #options button, #optionsCap button {
     width:100%;
-    height:75px;
+    height:65px;
     font-size:15px;
     font-weight:bold;
     border-radius:8px;
@@ -881,58 +881,6 @@ html, body {
         height: 160px;
     }
 }
-/* ==========================
-  DESKTOP / LARGE SCREEN FIT
-========================== */
-
-#flagGameCard {
-   width: 100%;
-   max-width: 520px;        /* fits nicely in right column */
-   min-height: 620px;       /* makes card taller */
-   margin: 0 auto;
-   padding: 16px;
-   box-sizing: border-box;
-   display: flex;
-   flex-direction: column;
-}
-
-/* Let game content fill card height */
-#flagGameContent,
-#capitalGameContent {
-   flex: 1;
-   display: flex;
-}
-
-/* Make games stretch vertically */
-#flagGame,
-#capitalGame {
-   flex: 1;
-   justify-content: space-between;
-}
-
-/* Better spacing between main sections */
-#scoreBox,
-#scoreBoxCap {
-   margin-top: 6px;
-}
-
-/* Push result text slightly down */
-#result,
-#resultCap {
-   margin-top: 16px;
-}
-
-/* Switcher spacing improvement */
-.switcher {
-   margin-bottom: 14px;
-}
-
-/* Options grid breathes better in taller card */
-#options,
-#optionsCap {
-   margin-top: 8px;
-}
-
 /* --- MOBILE FIX: Move Back-To-Top button into bottom-right corner --- */
 @media (max-width: 575px) {
   .back-to-top {
