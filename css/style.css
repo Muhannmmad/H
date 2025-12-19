@@ -880,6 +880,25 @@ html, body {
         width: 90%;
         height: 160px;
     }
+    #result,
+    #resultCap {
+        font-size: 14px;
+    }
+}
+}
+@media (max-width: 768px) {
+    #result,
+    #resultCap {
+        font-size: 14px;
+    }
+}
+
+/* Smaller on phones */
+@media (max-width: 480px) {
+    #result,
+    #resultCap {
+        font-size: 12px;
+    }
 }
 /* --- MOBILE FIX: Move Back-To-Top button into bottom-right corner --- */
 @media (max-width: 575px) {
