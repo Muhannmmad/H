@@ -761,6 +761,49 @@ html, body {
     height:100%;
     object-fit:contain;
 }
+#options button span,
+#optionsCap button span {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    word-break: break-word;       /* BREAK long words */
+    overflow-wrap: anywhere;      /* force wrapping */
+    hyphens: auto;                /* optional hyphen */
+}
+#options button,
+#optionsCap button {
+    height: 65px;                 /* fixed height */
+    overflow: hidden;             /* never grow */
+    white-space: normal;
+
+    font-size: clamp(11px, 3.5vw, 15px);
+}
+#options,
+#optionsCap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;            /* smaller than before */
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    #options,
+    #optionsCap {
+        gap: 6px;
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    #options,
+    #optionsCap {
+        gap: 4px;        /* tight but usable */
+    }
+}
 
 /* BUTTONS GRID */
 /* BUTTONS GRID */
@@ -771,16 +814,15 @@ html, body {
 #optionsCap {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr; /* always 2 buttons per row */
-    gap: 10px;                      /* space between buttons */
-    flex-grow: 1;
+    grid-template-columns: repeat(2, 1fr); /* ALWAYS 2 buttons */
+    gap: 10px;
 }
 
 /* Tablets */
 @media (max-width: 768px) {
     #options,
     #optionsCap {
-        gap: 8px; /* slightly smaller gap for tablets */
+        gap: 8px;
     }
 }
 
@@ -788,36 +830,46 @@ html, body {
 @media (max-width: 480px) {
     #options,
     #optionsCap {
-        gap: 6px; /* smaller gap for small phones */
+        gap: 6px;
     }
 }
 
-
 /* =========================
-   CHOICE BUTTONS — RESPONSIVE
+   CHOICE BUTTONS — FIXED SIZE
    ========================= */
 #options button,
 #optionsCap button {
     width: 100%;
-    height: 65px;
-    font-size: 15px;
+    height: 65px;                /* FIXED height */
+    padding: 6px;
+
+    font-size: clamp(11px, 3.5vw, 15px);
     font-weight: bold;
+    line-height: 1.15;
+    text-align: center;
+
     border-radius: 8px;
     border: none;
     cursor: pointer;
     background: linear-gradient(#fafafa, #e5e5e5);
     box-shadow: 0 4px 0 #bdbdbd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.15s ease;
 
-    white-space: normal;  /* allow multi-line */
-    line-height: 1.15;    /* better spacing */
-    text-align: center;   /* center multi-line text */
-    padding: 5px;         /* prevent text touching edges */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    white-space: normal;         /* wrap text */
+    overflow: hidden;            /* NEVER grow */
 }
 
+/* Limit text to max 3 lines */
+#options button span,
+#optionsCap button span {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 
 
 #options button.correct, #optionsCap button.correct {
