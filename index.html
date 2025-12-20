@@ -1487,11 +1487,11 @@
           generateButtons();
         }
         const fullscreenBtn = document.getElementById("fullscreenBtn");
-        const gameCardWrapper = document.getElementById("flagGameCardWrapper");
+        const gameCard = document.getElementById("flagGameCard");
 
         fullscreenBtn.addEventListener("click", () => {
             if (!document.fullscreenElement) {
-                gameCardWrapper.requestFullscreen();
+                gameCard.requestFullscreen();
             } else {
                 document.exitFullscreen();
             }
