@@ -688,26 +688,48 @@ html, body {
         #d4af37,
         #7a5c00
     );
-    /* FULLSCREEN - card-style for desktop */
-    :fullscreen #flagGameCard {
-        width: 80%;               /* leave space on left/right */
-        max-width: 800px;         /* max width for big screens */
-        height: 90%;              /* most of the height */
-        margin: auto;             /* center horizontally & vertically */
-        border-radius: 16px;      /* keep card look */
-        padding: 20px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    .fullscreen-bar {
+        position: sticky;
+        top: 8px;                 /* distance from top */
+        z-index: 100;
+        display: flex;
+        justify-content: center;   /* CENTER horizontally */
+        margin-bottom: 10px;       /* space between button and card */
     }
 
-    /* Mobile fullscreen - almost full screen */
-    @media (max-width: 768px) {
-        :fullscreen #flagGameCard {
-            width: 95%;
-            height: 95%;
-            border-radius: 12px;
-            padding: 14px;
+    /* Fullscreen button */
+    #fullscreenBtn {
+        width: 48px;               /* slightly bigger for better tap */
+        height: 48px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        background: rgba(0,0,0,0.7);
+        color: #fff;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    #fullscreenBtn:hover {
+        background: rgba(0,0,0,0.9);
+    }
+
+    #fullscreenBtn:active {
+        transform: scale(0.95);
+    }
+
+    /* Mobile adjustment */
+    @media (max-width: 480px) {
+        #fullscreenBtn {
+            width: 56px;
+            height: 56px;
+            font-size: 26px;
         }
     }
+
 
 
 
@@ -825,7 +847,7 @@ html, body {
     #fullscreenBtn {
         width: 56px;
         height: 56px;
-        font-size: 26px;
+        font-size: 30px;
     }
 }
 
