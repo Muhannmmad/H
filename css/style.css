@@ -664,20 +664,16 @@ html, body {
    CARD STYLE
 ========================== */
 /* ==========================
-   CARD STYLE
+   GAME CARD
 ========================== */
 #flagGameCard {
     position: relative;
     width: 100%;
-    max-width: 400px;         /* normal card width */
-    margin: 0 auto 30px auto; /* center + bottom spacing */
-    height: 550px;
+    max-width: 400px;
+    margin: 0 auto 30px auto;
     padding: 14px;
     box-sizing: border-box;
     border-radius: 16px;
-    background: #fff;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
 
     /* Gold metal background */
     background: linear-gradient(
@@ -688,139 +684,29 @@ html, body {
         #d4af37,
         #7a5c00
     );
-    .fullscreen-bar {
-        position: sticky;
-        top: 8px;                 /* distance from top */
-        z-index: 100;
-        display: flex;
-        justify-content: center;   /* CENTER horizontally */
-        margin-bottom: 10px;       /* space between button and card */
-    }
-
-    /* Fullscreen button */
-    #fullscreenBtn {
-        width: 48px;               /* slightly bigger for better tap */
-        height: 48px;
-        border-radius: 50%;
-        border: none;
-        cursor: pointer;
-        background: rgba(0,0,0,0.7);
-        color: #fff;
-        font-size: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-    }
-
-    #fullscreenBtn:hover {
-        background: rgba(0,0,0,0.9);
-    }
-
-    #fullscreenBtn:active {
-        transform: scale(0.95);
-    }
-
-    /* Mobile adjustment */
-    @media (max-width: 480px) {
-        #fullscreenBtn {
-            width: 56px;
-            height: 56px;
-            font-size: 26px;
-        }
-    }
-
-
-
 
     box-shadow:
         0 12px 25px rgba(0, 0, 0, 0.35),
         inset 0 2px 3px rgba(255, 255, 255, 0.4),
         inset 0 -4px 6px rgba(0, 0, 0, 0.35);
+
+    transition: all 0.3s ease;
 }
 
-
-/* SWITCHER */
-.switcher {
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin-bottom:10px;
-}
-
-.switcher button {
-    flex:1;
-    padding:12px;
-    font-size:16px;
-    font-weight:bold;
-    border-radius:8px;
-    border:none;
-    cursor:pointer;
-    background: linear-gradient(to bottom, #fafafa 0%, #ddd 50%, #fafafa 100%);
-    box-shadow: 0 4px 0 #bdbdbd;
-    transition: all 0.15s ease;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.switcher button.switch-active {
-    background: linear-gradient(to bottom, #2ecc71 0%, #27ae60 50%, #2ecc71 100%);
-    color: white;
-    box-shadow: 0 4px 0 #1e8449;
-}
-
-
-.switcher button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 0 #1e8449;
-}
-
-.switcher button:active {
-    transform: translateY(2px);
-    box-shadow:0 2px 0 #0a3ea0;
-}
-
-/* GAME STYLES */
-#flagGame, #capitalGame {
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-/* FLAG / CAPITAL IMAGE BOX — UPDATED */
-#flagContainer, #flagContainerCap {
-    width:90%;
-    height:160px;
-    margin:0 auto 12px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#f8f8f8;
-    border-radius:10px;
-    border:1px solid #ddd;
-    overflow:hidden;
-}
-
-#flagContainer img, #flagContainerCap img {
-    width:100%;
-    height:100%;
-    object-fit:contain;
-}
+/* ==========================
+   FULLSCREEN BAR
+========================== */
 .fullscreen-bar {
     position: sticky;
-    top: 8px;                 /* distance from top */
+    top: 8px;
     z-index: 100;
     display: flex;
-    justify-content: center;   /* CENTER horizontally */
-    margin-bottom: 10px;       /* space between button and card */
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
-/* Fullscreen button */
 #fullscreenBtn {
-    width: 48px;               /* slightly bigger for better tap */
+    width: 48px;
     height: 48px;
     border-radius: 50%;
     border: none;
@@ -834,105 +720,76 @@ html, body {
     transition: all 0.2s ease;
 }
 
-#fullscreenBtn:hover {
-    background: rgba(0,0,0,0.9);
+#fullscreenBtn:hover { background: rgba(0,0,0,0.9); }
+#fullscreenBtn:active { transform: scale(0.95); }
+
+/* ==========================
+   SWITCHER
+========================== */
+.switcher {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
-#fullscreenBtn:active {
-    transform: scale(0.95);
-}
-
-/* Mobile adjustment */
-@media (max-width: 480px) {
-    #fullscreenBtn {
-        width: 56px;
-        height: 56px;
-        font-size: 30px;
-    }
-}
-
-/* BUTTONS GRID */
-/* BUTTONS GRID */
-/* =========================
-   BUTTONS GRID
-   ========================= */
-#options,
-#optionsCap {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* always 2 buttons per row */
-    gap: 10px;                      /* space between buttons */
-    flex-grow: 1;
-}
-
-/* Tablets */
-@media (max-width: 768px) {
-    #options,
-    #optionsCap {
-        gap: 8px; /* slightly smaller gap for tablets */
-    }
-}
-
-/* Phones */
-@media (max-width: 480px) {
-    #options,
-    #optionsCap {
-        gap: 6px; /* smaller gap for small phones */
-    }
-}
-
-
-/* =========================
-   CHOICE BUTTONS — RESPONSIVE
-   ========================= */
-#options button,
-#optionsCap button {
-    width: 100%;
-    height: 65px;
-    font-size: 15px;
+.switcher button {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
     font-weight: bold;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    background: linear-gradient(#fafafa, #e5e5e5);
+    background: linear-gradient(to bottom, #fafafa, #ddd, #fafafa);
     box-shadow: 0 4px 0 #bdbdbd;
+    transition: all 0.15s ease;
+}
+
+.switcher button.switch-active {
+    background: linear-gradient(to bottom, #2ecc71, #27ae60, #2ecc71);
+    color: #fff;
+    box-shadow: 0 4px 0 #1e8449;
+}
+
+/* ==========================
+   GAME AREA
+========================== */
+#flagGame,
+#capitalGame {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ==========================
+   IMAGE BOX
+========================== */
+#flagContainer,
+#flagContainerCap {
+    width: 90%;
+    height: 160px;
+    margin: 0 auto 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.15s ease;
-
-    white-space: normal;  /* allow multi-line */
-    line-height: 1.15;    /* better spacing */
-    text-align: center;   /* center multi-line text */
-    padding: 5px;         /* prevent text touching edges */
+    background: #f8f8f8;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    overflow: hidden;
 }
 
-
-
-#options button.correct, #optionsCap button.correct {
-    background:#4caf50 !important;
-    color:white;
-    box-shadow:0 4px 0 #2e7d32 !important;
+#flagContainer img,
+#flagContainerCap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-#options button.wrong, #optionsCap button.wrong {
-    background:#e53935 !important;
-    color:white;
-    box-shadow:0 4px 0 #b71c1c !important;
-}
-
-#options button:hover, #optionsCap button:hover {
-    transform: translateY(-2px);
-    box-shadow:0 6px 0 #999;
-}
-
-#options button:active, #optionsCap button:active {
-    transform: translateY(2px);
-    box-shadow:0 2px 0 #777;
-}
-
-/* COUNTRY NAME */
-/* Default desktop styling */
+/* ==========================
+   COUNTRY NAME
+========================== */
 #countryName {
     font-size: 22px;
     font-weight: bold;
@@ -941,138 +798,125 @@ html, body {
     color: black;
 }
 
-/* Tablets */
-@media (max-width: 768px) {
-    #countryName {
-        font-size: 18px; /* smaller for tablets */
-    }
-}
-
-/* Phones */
-@media (max-width: 480px) {
-    #countryName {
-        font-size: 16px; /* smaller for phones */
-    }
-}
-
-
-/* SCORE BOX */
-/* Default desktop styling */
-#scoreBox span.score-part,
-#scoreBoxCap span.score-part,
-#scoreBox .score-hidden,
-#scoreBoxCap .score-hidden {
-    font-size: 16px;
-    font-weight: bold;
-    color: darkblue;
-}
-
-/* Tablets */
-@media (max-width: 768px) {
-    #scoreBox span.score-part,
-    #scoreBoxCap span.score-part,
-    #scoreBox .score-hidden,
-    #scoreBoxCap .score-hidden {
-        font-size: 16px; /* smaller for tablets */
-    }
-}
-
-/* Phones */
-@media (max-width: 480px) {
-    #scoreBox span.score-part,
-    #scoreBoxCap span.score-part,
-    #scoreBox .score-hidden,
-    #scoreBoxCap .score-hidden {
-        font-size: 14px; /* smaller for phones */
-    }
-}
-
-/* RESULT */
-#result, #resultCap {
-    height:22px;
-    margin-top:12px;
-    font-weight:bold;
-    text-align:center;
-    color:darkblue;
-}
-/* SCORE BOX (more space below) */
-#scoreBox {
-    margin-bottom: 40px; /* adjust as needed */
-}
-
-/* SCORE BOX CAP (less space) */
-#scoreBoxCap {
-    margin-bottom: 10px;
+/* ==========================
+   OPTIONS GRID (DEFAULT: 2 PER ROW)
+========================== */
+#options,
+#optionsCap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 /* ==========================
-   MOBILE FIX — FULL WIDTH
+   OPTION BUTTONS
 ========================== */
-@media (max-width: 600px) {
-    #flagGameCard {
-        width: 100%;
-        max-width: 400px;
-        height: 540px; /* match new height */
-        margin: 0 auto;
-        padding: 10px;
-        border-radius: 12px;
-        box-sizing: border-box;
-    }
+#options button,
+#optionsCap button {
+    width: 100%;
+    height: 65px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(#fafafa, #e5e5e5);
+    box-shadow: 0 4px 0 #bdbdbd;
 
-    .switcher button {
-        font-size: 16px;
-        padding: 14px;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    #options button, #optionsCap button {
-        font-size: 16px;
-        height: 65px;
-        white-space: normal;
-    }
+    font-weight: bold;
+    font-size: clamp(14px, 3.8vw, 17px);
+    text-align: center;
+    padding: 8px;
 
-    #flagContainer, #flagContainerCap {
-        width: 90%;
-        height: 160px;
-    }
-    #result,
-    #resultCap {
-        font-size: 14px;
-    }
-}
-}
-@media (max-width: 768px) {
-    #result,
-    #resultCap {
-        font-size: 14px;
-    }
+    transition: all 0.15s ease;
+    overflow: hidden;
 }
 
-/* Smaller on phones */
-@media (max-width: 480px) {
-    #result,
-    #resultCap {
-        font-size: 12px;
-    }
-}
 #options button span,
 #optionsCap button span {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-
     overflow: hidden;
-
-    word-break: break-word;       /* BREAK long words */
-    overflow-wrap: anywhere;      /* force wrapping */
-    hyphens: auto;                /* optional hyphen */
+    word-break: break-word;
+    line-height: 1.2;
 }
-#options button,
-#optionsCap button {
-    height: 65px;                 /* fixed height */
-    overflow: hidden;             /* never grow */
-    white-space: normal;
 
-    font-size: clamp(11px, 3.5vw, 15px);
+/* Correct / Wrong */
+#options button.correct,
+#optionsCap button.correct {
+    background: #4caf50 !important;
+    color: #fff;
+    box-shadow: 0 4px 0 #2e7d32 !important;
+}
+
+#options button.wrong,
+#optionsCap button.wrong {
+    background: #e53935 !important;
+    color: #fff;
+    box-shadow: 0 4px 0 #b71c1c !important;
+}
+
+/* ==========================
+   SCORE & RESULT
+========================== */
+#scoreBox,
+#scoreBoxCap {
+    margin-bottom: 20px;
+}
+
+#scoreBox span,
+#scoreBoxCap span {
+    font-weight: bold;
+    color: darkblue;
+}
+
+#result,
+#resultCap {
+    margin-top: 12px;
+    font-weight: bold;
+    text-align: center;
+    color: darkblue;
+}
+
+/* ==========================
+   📱 MOBILE OPTIMIZATION
+========================== */
+@media (max-width: 480px) {
+
+    /* Full-height card */
+    #flagGameCard {
+        max-width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        padding: 12px;
+    }
+
+    /* One button per row */
+    #options,
+    #optionsCap {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    /* Bigger buttons */
+    #options button,
+    #optionsCap button {
+        height: 72px;
+        font-size: 17px;
+    }
+
+    #countryName {
+        font-size: 18px;
+    }
+
+    #result,
+    #resultCap {
+        font-size: 14px;
+    }
 }
 
 /* --- MOBILE FIX: Move Back-To-Top button into bottom-right corner --- */
@@ -1082,4 +926,13 @@ html, body {
     bottom: 15px !important;  /* closer to screen edge */
     transform: scale(0.85);   /* slightly smaller for mobile */
   }
+}
+/* ===== FORCE SINGLE COLUMN ON SMALL SCREENS ===== */
+@media (max-width: 600px) {
+    #options,
+    #optionsCap {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
 }
