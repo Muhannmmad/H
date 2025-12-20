@@ -1032,6 +1032,27 @@ html, body {
         font-size: 12px;
     }
 }
+#options button span,
+#optionsCap button span {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    word-break: break-word;       /* BREAK long words */
+    overflow-wrap: anywhere;      /* force wrapping */
+    hyphens: auto;                /* optional hyphen */
+}
+#options button,
+#optionsCap button {
+    height: 65px;                 /* fixed height */
+    overflow: hidden;             /* never grow */
+    white-space: normal;
+
+    font-size: clamp(11px, 3.5vw, 15px);
+}
+
 /* --- MOBILE FIX: Move Back-To-Top button into bottom-right corner --- */
 @media (max-width: 575px) {
   .back-to-top {
