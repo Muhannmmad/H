@@ -5,18 +5,10 @@
         
        
      
-          <!-- Google tag (gtag.js) -->
-          <script async src="https://www.googletagmanager.com/gtag/js?id=G-8Z91Y3Z9T0"></script>
-          <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+     <script defer src="https://cloud.umami.is/script.js"
+             data-website-id="79c4049c-3b96-43b4-86e1-9fadc3512cf7">
+     </script>
 
-            gtag('config', 'G-8Z91Y3Z9T0', {
-              anonymize_ip: true
-            });
-          </script>
-       
 
 
         <meta charset="utf-8">
@@ -2025,6 +2017,49 @@
 
 
     </script>
+    <script>
+      // --- LANGUAGE SWITCH ---
+      document.getElementById("lang-de").addEventListener("click", () => {
+        umami.track("Language Switch: DE");
+      });
+
+      document.getElementById("lang-en").addEventListener("click", () => {
+        umami.track("Language Switch: EN");
+      });
+
+      // --- INNOVATION BUTTON ---
+      document.querySelector('a[href="Innovation/"]').addEventListener("click", () => {
+        umami.track("Clicked Innovation Button");
+      });
+
+      // --- QUIZ SWITCHER ---
+      document.getElementById("btnFlags").addEventListener("click", () => {
+        umami.track("Game Switch: Flags Quiz");
+      });
+
+      document.getElementById("btnCapitals").addEventListener("click", () => {
+        umami.track("Game Switch: Capitals Quiz");
+      });
+
+      // --- FULLSCREEN BUTTON ---
+      document.getElementById("fullscreenBtn").addEventListener("click", () => {
+        umami.track("Fullscreen Button Click");
+      });
+
+      // --- DYNAMIC QUIZ CHOICE BUTTONS ---
+      function trackChoiceClicks(containerId, gameName) {
+        const container = document.getElementById(containerId);
+        container.addEventListener("click", (e) => {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+          umami.track(`${gameName} Choice: ${btn.textContent.trim()}`);
+        });
+      }
+
+      trackChoiceClicks("options", "Flag Game");
+      trackChoiceClicks("optionsCap", "Capital Game");
+    </script>
+
 
 
     <!-- Impressum & Copyright -->
