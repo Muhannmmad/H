@@ -1,4 +1,4 @@
-/********** Template CSS **********/
+/**********  CSS **********/
 :root {
     --primary: #6244C5;
     --secondary: #FFC448;
@@ -302,12 +302,32 @@
     opacity: 1;
 }
 
-/*** Service Card Styling ***/
+/* ===============================
+   SERVICES SECTION — FULL CSS
+   Light + Dark Mode Compatible
+================================ */
+
+/*** Service Card Styling (LIGHT MODE DEFAULT) ***/
 .service-item {
     transition: all 0.35s ease;
     border: 1px solid rgba(0, 0, 0, 0.05);
     cursor: pointer;
     background: #ffffff;
+    color: #111111;
+}
+
+/* Headings inside card */
+.service-item h1,
+.service-item h2,
+.service-item h3,
+.service-item h4,
+.service-item h5 {
+    color: #111111;
+}
+
+/* Paragraph text */
+.service-item p {
+    color: #444444;
 }
 
 /* Hover Animation */
@@ -317,14 +337,12 @@
     background: #ffffff;
 }
 
-/*** FIXED SERVICE ICON DARK MODE PROBLEM ***/
-/* Always force icon background to remain bright */
+/*** FIXED SERVICE ICON (ALWAYS BRIGHT) ***/
 .service-item .bg-icon {
     width: 100px;
     height: 100px;
     position: relative;
-    
-    /* fix darkness caused by dark-mode browsers */
+
     background: none !important;
     filter: none !important;
     mix-blend-mode: normal !important;
@@ -340,7 +358,6 @@
     object-fit: cover;
     border-radius: 50%;
 
-    /* force no dark-mode dimming */
     filter: none !important;
     mix-blend-mode: normal !important;
 }
@@ -352,24 +369,57 @@
 .service-item:hover .bg-icon i {
     transform: scale(1.25) rotate(5deg);
 }
-html, body {
+
+/* ===============================
+   DARK MODE — SERVICES SECTION
+================================ */
+
+/* Section background */
+body.dark-mode .services,
+body.dark-mode #services,
+body.dark-mode .service-section {
+    background-color: #0f1117;
+}
+
+/* Section title (STRONG & CLEAR) */
+body.dark-mode .services h1,
+body.dark-mode .services h2,
+body.dark-mode .services h3,
+body.dark-mode #services h1,
+body.dark-mode #services h2,
+body.dark-mode #services h3 {
+    color: #ffffff !important;
+}
+
+/* Cards */
+body.dark-mode .service-item {
+    background: #151821;
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #e6e6e6;
+}
+
+/* Card text */
+body.dark-mode .service-item p {
+    color: #cfcfcf;
+}
+
+/* Hover in dark mode */
+body.dark-mode .service-item:hover {
+    background: #1a1f2b;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.65);
+}
+
+/* ===============================
+   GLOBAL SAFETY
+================================ */
+html,
+body {
     overflow-x: hidden !important;
     width: 100%;
     max-width: 100%;
 }
 
-/*** REMOVE ONLY THE DARK-MODE OVERRIDES THAT BROKE YOUR ICONS ***/
-@media (prefers-color-scheme: dark) {
-    .service-item {
-        background: #ffffff !important;
-        border-color: #ddd !important;
-    }
-    .bg-icon {
-        background: none !important;
-    }
-}
-
-/*** Button ***/
+/*** Buttons (UNCHANGED) ***/
 .btn {
     font-weight: 500;
     transition: .5s;
@@ -405,6 +455,7 @@ html, body {
     font-weight: normal;
 }
 
+
 /*** Navbar ***/
 .navbar.fixed-top {
     display: none;
@@ -433,7 +484,154 @@ html, body {
     font-size: 40px; /* adjust to your preferred size */
     line-height: 1;
 }
+/* ===============================
+   FLOATING CONTAINER
+================================ */
+.theme-toggle {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 9999;
 
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* Dark mode container */
+body.dark-mode .theme-toggle {
+  background: rgba(20, 20, 20, 0.85);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Hover feedback (desktop only) */
+@media (hover: hover) {
+  .theme-toggle:hover {
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
+  }
+}
+
+/* ===============================
+   UIVERSE SWITCH (UNCHANGED LOOK)
+================================ */
+
+/* The switch */
+.switch {
+  font-size: 16px;
+  position: relative;
+  display: inline-block;
+  width: 4em;
+  height: 2.2em;
+  border-radius: 30px;
+}
+
+/* Hide checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #2a2a2a;
+  transition: 0.4s;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+/* Moon */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.2em;
+  width: 1.2em;
+  border-radius: 20px;
+  left: 0.5em;
+  bottom: 0.5em;
+  transition: 0.4s;
+  transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
+  box-shadow: inset 8px -4px 0px 0px #fff;
+}
+
+/* Checked = Day */
+.switch input:checked + .slider {
+  background-color: #00a6ff;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(1.8em);
+  box-shadow: inset 15px -4px 0px 15px #ffcf48;
+}
+
+/* Stars */
+.star {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  transition: all 0.4s;
+}
+
+.star_1 {
+  left: 2.5em;
+  top: 0.5em;
+}
+
+.star_2 {
+  left: 2.2em;
+  top: 1.2em;
+}
+
+.star_3 {
+  left: 3em;
+  top: 0.9em;
+}
+
+.switch input:checked ~ .slider .star {
+  opacity: 0;
+}
+
+/* Cloud */
+.cloud {
+  width: 3.5em;
+  position: absolute;
+  bottom: -1.4em;
+  left: -1.1em;
+  opacity: 0;
+  transition: all 0.4s;
+}
+
+.switch input:checked ~ .slider .cloud {
+  opacity: 1;
+}
+
+/* ===============================
+   MOBILE OPTIMIZATION
+================================ */
+@media (max-width: 480px) {
+  .theme-toggle {
+    right: 14px;
+    bottom: 14px;
+    padding: 8px;
+  }
+
+  .switch {
+    transform: scale(0.9);
+  }
+}
 /*** Header ***/
 #home {
     margin-bottom: 6rem;
@@ -934,4 +1132,138 @@ html, body {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
     }
+}
+/* ===============================
+   DARK MODE — GLOBAL TEXT FIX
+================================ */
+body.dark-mode {
+  background-color: #0f1117;
+  color: #e6e6e6;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+  color: #ffffff;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode li,
+body.dark-mode strong {
+  color: #d6d6d6;
+}
+
+/* ===============================
+   DARK MODE — LANGUAGE SWITCHER
+================================ */
+body.dark-mode .lang-floating-btn {
+  background: #151821;
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+}
+
+body.dark-mode .lang-side:not(.active):hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Keep 3D circle bright (design preserved) */
+body.dark-mode .lang-side.active::after {
+  background: linear-gradient(#ffffff, #e5e5e5);
+}
+
+/* ===============================
+   DARK MODE — CARDS & BOXES
+================================ */
+body.dark-mode .innovation-card .card-content,
+body.dark-mode .service-item {
+  background: #151821;
+  border-color: rgba(255,255,255,0.08);
+}
+
+body.dark-mode .service-item:hover {
+  background: #1a1f2b;
+}
+
+/* Shadows adjusted for dark */
+body.dark-mode .innovation-card:hover,
+body.dark-mode .service-item:hover {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+}
+
+/* ===============================
+   DARK MODE — PROFESSIONAL TEXT
+================================ */
+body.dark-mode .professional-text {
+  color: #dcdcdc;
+}
+
+/* ===============================
+   DARK MODE — SPINNER
+================================ */
+body.dark-mode #spinner {
+  background-color: rgba(0,0,0,0.85);
+}
+/* ===============================
+   DARK MODE — HOME / HERO FIX
+================================ */
+
+/* Most common hero wrappers */
+body.dark-mode .hero,
+body.dark-mode .home,
+body.dark-mode #home,
+body.dark-mode .header,
+body.dark-mode .bg-white {
+  background-color: #0f1117 !important;
+}
+body.dark-mode #home,
+body.dark-mode .hero-section {
+  background-color: #0f1117;
+}
+/* ===============================
+   LOCK FLAGS & CAPITALS GAME
+   IGNORE DARK / LIGHT MODE
+================================ */
+
+/* Prevent ANY dark-mode inheritance */
+body.dark-mode #flagGameCard,
+body.dark-mode #flagGameCard * {
+  background-color: revert !important;
+  color: revert !important;
+  box-shadow: revert !important;
+  border-color: revert !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Force original text colors explicitly */
+#flagGameCard #countryName {
+  color: black !important;
+}
+
+#flagGameCard #scoreBox span,
+#flagGameCard #scoreBoxCap span,
+#flagGameCard #result,
+#flagGameCard #resultCap {
+  color: darkblue !important;
+}
+
+/* Ensure buttons stay original */
+#flagGameCard button {
+  color: inherit !important;
+}
+
+/* Prevent global section/background overrides */
+body.dark-mode #flagGameCard {
+  background: linear-gradient(
+    135deg,
+    #7a5c00,
+    #d4af37,
+    #fff2a8,
+    #d4af37,
+    #7a5c00
+  ) !important;
 }
