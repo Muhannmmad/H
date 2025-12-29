@@ -493,7 +493,7 @@ body {
   top: 60px;
   z-index: 9999;
 
-  padding: 4px;
+  
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
