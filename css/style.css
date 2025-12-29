@@ -489,8 +489,8 @@ body {
 ================================ */
 .theme-toggle {
   position: fixed;
-  left: 12px;
-  top: 12px;
+ right: 40px;
+  top: 60px;
   z-index: 9999;
 
   padding: 4px;
@@ -626,12 +626,16 @@ body.dark-mode .theme-toggle {
     right: 14px;
     bottom: 14px;
     padding: 8px;
+
+    width: auto;       /* prevent full-width stretching */
+    display: inline-flex; /* inline-flex instead of flex */
   }
 
   .switch {
     transform: scale(0.9);
   }
 }
+
 /*** Header ***/
 #home {
     margin-bottom: 6rem;
