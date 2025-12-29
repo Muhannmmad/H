@@ -435,10 +435,148 @@ html, body {
 }
 
 /*** Header ***/
-#home {
-    margin-bottom: 6rem;
-    background: url(../img/bg-header.png) left top no-repeat;
+/* Mini Sky wrapper to move it to top-left corner */
+.mini-sky {
+  position: absolute;
+  top: 10;    /* distance from top of header */
+  left: 10;   /* distance from left */
+  z-index: 1; /* behind header content */
 }
+
+/* Original Uiverse.io CSS (unchanged) */
+.mini-sky .container {
+  width: 250px;
+  height: 250px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini-sky .cloud {
+  width: 250px;
+}
+
+.mini-sky .front {
+  padding-top: 45px;
+  margin-left: 25px;
+  display: inline;
+  position: absolute;
+  z-index: 11;
+  animation: clouds 8s infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.mini-sky .back {
+  margin-top: -30px;
+  margin-left: 150px;
+  z-index: 12;
+  animation: clouds 12s infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.mini-sky .right-front {
+  width: 45px;
+  height: 45px;
+  border-radius: 50% 50% 50% 0%;
+  background-color: #4c9beb;
+  display: inline-block;
+  margin-left: -25px;
+  z-index: 5;
+}
+
+.mini-sky .left-front {
+  width: 65px;
+  height: 65px;
+  border-radius: 50% 50% 0% 50%;
+  background-color: #4c9beb;
+  display: inline-block;
+  z-index: 5;
+}
+
+.mini-sky .right-back {
+  width: 50px;
+  height: 50px;
+  border-radius: 50% 50% 50% 0%;
+  background-color: #4c9beb;
+  display: inline-block;
+  margin-left: -20px;
+  z-index: 5;
+}
+
+.mini-sky .left-back {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 0% 50%;
+  background-color: #4c9beb;
+  display: inline-block;
+  z-index: 5;
+}
+
+.mini-sky .sun {
+  width: 120px;
+  height: 120px;
+  background: -webkit-linear-gradient(to right, #fcbb04, #fffc00);
+  background: linear-gradient(to right, #fcbb04, #fffc00);
+  border-radius: 60px;
+  display: inline;
+  position: absolute;
+}
+
+.mini-sky .sunshine {
+  animation: sunshines 2s infinite;
+}
+
+/* Keyframes */
+@keyframes sunshines {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes clouds {
+  0% {
+    transform: translateX(15px);
+  }
+
+  50% {
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(15px);
+  }
+}
+
+/* Ensure header content is above mini-sky */
+#home > .container {
+  position: relative;
+  z-index: 2;
+}
+
+#home {
+    position: relative;
+    margin-bottom: 6rem;
+    overflow: hidden;
+    /* slightly bigger irregular top-left corner gradient */
+    background: linear-gradient(
+        135deg,
+        #87ceeb 0%,        /* top-left corner color */
+        #87ceeb 10%,       /* slightly bigger strong blue patch */
+        #bce7f9 20%,       /* lighter blue, irregular fade */
+        #dff7ff 30%,       /* very light blue */
+        #ffffff 35%,       /* transition to white */
+        #ffffff 100%       /* rest completely white */
+    );
+}
+
+
 
 .typed-cursor {
     font-size: 30px;
