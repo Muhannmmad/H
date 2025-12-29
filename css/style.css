@@ -493,7 +493,7 @@ body {
   top: 60px;
   z-index: 9999;
 
-  
+  padding: 5px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
@@ -625,16 +625,26 @@ body.dark-mode .theme-toggle {
   .theme-toggle {
     right: 14px;
     bottom: 14px;
-    padding: 8px;
 
-    width: auto;       /* prevent full-width stretching */
-    display: inline-flex; /* inline-flex instead of flex */
+    width: 48px;         /* fixed width */
+    height: 48px;        /* fixed height */
+    padding: 0;          /* remove padding */
+    
+    background: transparent; /* remove white/black background */
+    box-shadow: none;        /* remove shadow */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;      /* keep circular shape */
   }
 
   .switch {
-    transform: scale(0.9);
+    transform: scale(0.8);   /* scale down switch to fit */
   }
 }
+
 
 /*** Header ***/
 #home {
