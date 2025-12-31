@@ -197,6 +197,81 @@
      // Run once on page load
      initSkillWaypoint();
 
+     
+     (function () {
+
+         const form = document.getElementById("contact-form");
+         const thankYou = document.getElementById("thank-you-message");
+
+         form.addEventListener("submit", async function (e) {
+             e.preventDefault();
+
+             const name = document.getElementById("name-field");
+             const email = document.getElementById("email-field");
+             const phone = document.getElementById("telephone-field");
+             const subject = document.getElementById("subject-field");
+             const message = document.getElementById("message-field");
+
+             let valid = true;
+
+             // Reset validation
+             [name, email, phone, subject, message].forEach(f => f.classList.remove("is-invalid"));
+
+             // Required fields
+             if (!name.value.trim()) { name.classList.add("is-invalid"); valid = false; }
+             if (!subject.value.trim()) { subject.classList.add("is-invalid"); valid = false; }
+             if (!message.value.trim()) { message.classList.add("is-invalid"); valid = false; }
+
+             // Email OR phone required
+             if (!email.value.trim() && !phone.value.trim()) {
+                 email.classList.add("is-invalid");
+                 phone.classList.add("is-invalid");
+                 valid = false;
+             }
+
+             if (!valid) return;
+
+             try {
+                 const response = await fetch(form.action, {
+                     method: form.method,
+                     body: new FormData(form),
+                     headers: { "Accept": "application/json" }
+                 });
+
+                 if (response.ok) {
+                     form.reset();
+                     form.style.display = "none";
+                     thankYou.style.display = "block";
+                 } else {
+                     alert("Something went wrong. Please try again.");
+                 }
+             } catch {
+                 alert("Network error. Please try again.");
+             }
+         });
+
+         // 🔥 MUST be global for onclick to work
+         window.resetForm = function (e) {
+             e.preventDefault();
+
+             // Hide thank you
+             thankYou.style.display = "none";
+
+             // Show form again
+             form.style.display = "block";
+
+             // Clear validation styles
+             form.querySelectorAll(".is-invalid").forEach(el => {
+                 el.classList.remove("is-invalid");
+             });
+
+             // Scroll nicely back to form
+             form.scrollIntoView({ behavior: "smooth", block: "start" });
+         };
+
+     })();
+     
+
      // -----------------------------------
      // LANGUAGE SWITCHING
      // -----------------------------------
