@@ -1171,6 +1171,7 @@ body.dark-mode .navbar .navbar-toggler-icon {
 }
 /* ===============================
    DARK MODE — GLOBAL TEXT FIX
+   (EXCLUDES FLAGS GAME)
 ================================ */
 body.dark-mode {
   background-color: #0f1117;
@@ -1186,10 +1187,11 @@ body.dark-mode h6 {
   color: #ffffff;
 }
 
-body.dark-mode p,
-body.dark-mode span,
-body.dark-mode li,
-body.dark-mode strong {
+/* Exclude game card from global text dimming */
+body.dark-mode p:not(#flagGameCard p),
+body.dark-mode span:not(#flagGameCard span),
+body.dark-mode li:not(#flagGameCard li),
+body.dark-mode strong:not(#flagGameCard strong) {
   color: #d6d6d6;
 }
 
@@ -1264,42 +1266,3 @@ body.dark-mode .hero-section {
    IGNORE DARK / LIGHT MODE
 ================================ */
 
-/* Prevent ANY dark-mode inheritance */
-body.dark-mode #flagGameCard,
-body.dark-mode #flagGameCard * {
-  background-color: revert !important;
-  color: revert !important;
-  box-shadow: revert !important;
-  border-color: revert !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-}
-
-/* Force original text colors explicitly */
-#flagGameCard #countryName {
-  color: black !important;
-}
-
-#flagGameCard #scoreBox span,
-#flagGameCard #scoreBoxCap span,
-#flagGameCard #result,
-#flagGameCard #resultCap {
-  color: darkblue !important;
-}
-
-/* Ensure buttons stay original */
-#flagGameCard button {
-  color: inherit !important;
-}
-
-/* Prevent global section/background overrides */
-body.dark-mode #flagGameCard {
-  background: linear-gradient(
-    135deg,
-    #7a5c00,
-    #d4af37,
-    #fff2a8,
-    #d4af37,
-    #7a5c00
-  ) !important;
-}
