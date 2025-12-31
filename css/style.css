@@ -1266,3 +1266,10 @@ body.dark-mode .hero-section {
    IGNORE DARK / LIGHT MODE
 ================================ */
 
+.progress-bar.flutter { background-color: #6F42C1; }   /* Flutter blue */
+.progress-bar.figma   { background-color: #FF0000; }   /* Figma red */
+.progress-bar.html    { background-color: #FFFF00; }   /* HTML orange */
+.progress-bar.css     { background-color: #264DE4; }   /* CSS blue */
+.progress-bar.js      { background-color: #00FF00; }   /* JS purple */
+.progress-bar.php     { background-color: #00FFFF; }   /* PHP blue-gray */
+.progress-bar.wp      { background-color: #008000; }   /* WordPress blue */
