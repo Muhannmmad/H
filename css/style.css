@@ -1261,6 +1261,12 @@ body.dark-mode #home,
 body.dark-mode .hero-section {
   background-color: #0f1117;
 }
+/* Keep CV button text fully visible in dark mode */
+body.dark-mode .uiverse-launch #button #to-launch,
+body.dark-mode .uiverse-launch #button #to-hover {
+    color: #0155ff !important; /* original bright blue */
+}
+
 /* ===============================
    LOCK FLAGS & CAPITALS GAME
    IGNORE DARK / LIGHT MODE
@@ -1360,4 +1366,248 @@ body.dark-mode .hero-section {
     left: 20%;
     top: 50%;
   }
+}
+
+
+/* ================================
+   UIVERSE LAUNCH BUTTON — SCOPED
+   ================================ */
+
+.uiverse-launch .container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  color: rgb(131, 131, 131);
+  transition: 400ms ease-in-out;
+  transform: translateY(20px);
+}
+
+.uiverse-launch #shuttle-wrapper {
+  position: absolute;
+  opacity: 0;
+  transition: 200ms ease-in;
+  z-index: 200;
+}
+
+.uiverse-launch #b {
+  width: 80px;
+  height: auto;
+  z-index: 200;
+}
+
+.uiverse-launch #shadow {
+  position: absolute;
+  width: 100px;
+  height: 80px;
+  transform: rotateX(45deg) rotateZ(45deg);
+  bottom: -10px;
+  z-index: -1;
+  background: radial-gradient(rgba(0,0,0,.38) 0%, rgba(0,0,0,0) 70%);
+}
+
+.uiverse-launch #clickHandler {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  cursor: pointer;
+}
+
+.uiverse-launch .container:hover #shuttle-wrapper {
+  opacity: 1;
+  transform: translateY(-100px) translateZ(140px);
+  transition: 400ms ease-in-out;
+}
+
+.uiverse-launch #checkbox {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+}
+
+/* ===== CHECKED STATE ===== */
+
+.uiverse-launch #checkbox:checked ~ #shuttle-wrapper #b {
+  animation: launch_31 6s ease-in-out;
+}
+
+.uiverse-launch #checkbox:checked ~ #shuttle-wrapper #shadow {
+  animation: shadow-launch 6s ease-in-out;
+}
+
+.uiverse-launch #checkbox:checked ~ #to-hover,
+.uiverse-launch #checkbox:checked ~ #button #to-launch {
+  animation: fadeout_010 6s;
+}
+
+/* ===== HOVER ===== */
+
+.uiverse-launch #clickHandler:hover ~ #button {
+  width: 200px;
+  height: 200px;
+  transform: translate3d(0,-16px,0) rotateX(51deg) rotateZ(43deg);
+  box-shadow:
+    2px 2px 0 2px #b2b2b2,
+    -1px 0 28px rgba(255,250,225,.5),
+    28px 28px 28px rgba(28,27,88,.3);
+}
+
+.uiverse-launch .container:hover {
+  transform: translateY(30%);
+}
+
+/* ===== BUTTON ===== */
+
+.uiverse-launch #button {
+  width: 200px;
+  height: 80px;
+  border: none;
+  border-radius: 1.8rem;
+  box-shadow: 5px 5px 8px rgba(28,27,88,.3);
+  background: linear-gradient(125deg,#fff 50%,#f5f5ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .4s ease-in-out;
+}
+
+/* ===== PLATFORM ===== */
+
+.uiverse-launch #platform {
+  position: absolute;
+  width: 70%;
+  height: 0;
+  border-radius: 16px;
+  background: #eaeaea;
+  transition: .3s ease-in-out;
+}
+
+.uiverse-launch #clickHandler:hover ~ #button #platform {
+  height: 70%;
+  border: 4px solid #2a2a2a;
+  outline: 4px dashed #ffad39;
+  outline-offset: -4px;
+  animation: shake_010 80ms infinite;
+}
+
+/* ===== CAUTION ===== */
+
+.uiverse-launch .caution {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.uiverse-launch #clickHandler:hover ~ #button .caution * {
+  opacity: 1;
+  animation: glow_010 1.2s infinite;
+}
+
+/* ===== ANIMATIONS (UNCHANGED) ===== */
+
+@keyframes launch_31 {
+  15%,90% { transform: translateY(-200px); opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes shadow-launch {
+  10%,90% { opacity: 0; }
+}
+
+@keyframes fadeout_010 {
+  0%,20%,90% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes shake_010 {
+  0%,50% { transform: translate(1px,0); }
+  100% { transform: translate(0,1px); }
+}
+
+@keyframes glow_010 {
+  0%,100% {
+    filter: drop-shadow(0 0 .75rem #ffd65a);
+  }
+}
+
+@keyframes tag-transition {
+  20%,80% { opacity: 1; }
+}
+
+/* ===== NO SELECT ===== */
+
+.uiverse-launch .noselect {
+  user-select: none;
+}
+/* ===============================
+   MOBILE BUTTON SIZE FIX
+================================ */
+
+@media (max-width: 768px) {
+
+  /* Button container */
+  .cv-button-wrapper {
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  /* Scale whole animated button */
+  .cv-button-wrapper .uiverse-launch {
+    transform: scale(0.72);
+    transform-origin: center top;
+  }
+
+  /* Prevent lightning going under button */
+  .cv-button-wrapper .wave {
+    top: -12px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .cv-button-wrapper .uiverse-launch {
+    transform: scale(0.65);
+  }
+
+  .cv-button-wrapper .wave {
+    top: -10px;
+  }
+}
+#cvHiddenLink {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+/* Make text inside the CV download button unaffected by dark mode */
+.uiverse-launch #to-launch,
+.uiverse-launch #to-hover {
+    color: #0155ff !important; /* force normal blue color */
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* make it fill button height */
+    margin: 0;
+}
+
+/* Center text vertically in button */
+.uiverse-launch #button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+/* Dark mode global overrides should not affect this CV button */
+body.dark-mode .uiverse-launch,
+body.dark-mode .uiverse-launch * {
+    color: inherit !important;       /* Keep original colors */
+  
+   
 }
