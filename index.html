@@ -872,6 +872,7 @@
                                 <span data-lang="de">Dienstleistungen</span>
                                 <span data-lang="en">Services</span>
                             </h1>
+                            
                         </div>
                         
                         <div class="col-lg-6 text-lg-end">
@@ -2171,7 +2172,11 @@
             document.getElementById("fullscreenBtn").addEventListener("click", () => {
                 umami.track("Fullscreen Button Click");
             });
-            
+            // --- DOWNLOAD CV BUTTON ---
+            document.getElementById("button").addEventListener("click", () => {
+                umami.track("Clicked Download CV Button");
+            });
+
             // --- DYNAMIC QUIZ CHOICE BUTTONS ---
             function trackChoiceClicks(containerId, gameName) {
                 const container = document.getElementById(containerId);
