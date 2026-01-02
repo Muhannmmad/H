@@ -2461,58 +2461,60 @@
         let direction = 1; // 1 = down, -1 = up
         let rafId = null;
         let lastTime = null;
-        const SPEED = 120; // pixels per second (smooth)
-        const PAUSE_DURATION = 5000; // 5 seconds pause at top/bottom
-        let pause = false;
+        let waiting = false; // track pause at top/bottom
 
-        // Auto scroll function
+        // --- Adjust speed based on screen width ---
+        const SPEED_DESKTOP = 120; // px/sec
+        const SPEED_MOBILE = 220;  // faster on mobile
+
+        function getSpeed() {
+          return window.innerWidth <= 768 ? SPEED_MOBILE : SPEED_DESKTOP;
+        }
+
+        // --- Auto scroll function ---
         function autoScroll(time) {
-          if (!scrolling) return;
-
-          if (pause) {
-            rafId = requestAnimationFrame(autoScroll);
-            return;
-          }
+          if (!scrolling || waiting) return;
 
           if (!lastTime) lastTime = time;
-          const delta = time - lastTime;
+          const delta = (time - lastTime) / 1000; // convert ms to seconds
           lastTime = time;
 
           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-          const move = (SPEED * delta) / 1000 * direction;
-
+          const move = getSpeed() * delta * direction;
           window.scrollTo(0, window.scrollY + move);
 
-          // Check for top/bottom
+          // Pause at top or bottom
           if (window.scrollY >= maxScroll && direction === 1) {
-            direction = -1;
-            pause = true;
-            setTimeout(() => { pause = false; lastTime = null; }, PAUSE_DURATION);
+            waiting = true;
+            umami.track("Scroll Button reached bottom"); // tracking
+            setTimeout(() => { waiting = false; direction = -1; lastTime = null; autoScroll(); }, 5000);
+            return;
           }
-
           if (window.scrollY <= 0 && direction === -1) {
-            direction = 1;
-            pause = true;
-            setTimeout(() => { pause = false; lastTime = null; }, PAUSE_DURATION);
+            waiting = true;
+            umami.track("Scroll Button reached top"); // tracking
+            setTimeout(() => { waiting = false; direction = 1; lastTime = null; autoScroll(); }, 5000);
+            return;
           }
 
           rafId = requestAnimationFrame(autoScroll);
         }
 
-        // Start/stop scroll and track clicks
+        // --- Toggle scroll on button click ---
         toggle.addEventListener("change", () => {
-          umami.track("Clicked Scroll Button"); // Umami tracking
-
           if (!toggle.checked) {
             scrolling = true;
             lastTime = null;
+            umami.track("Scroll Button started"); // tracking
             autoScroll();
           } else {
             scrolling = false;
             cancelAnimationFrame(rafId);
+            umami.track("Scroll Button stopped"); // tracking
           }
         });
         </script>
+
 
 
         <script>
