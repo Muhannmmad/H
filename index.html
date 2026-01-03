@@ -2595,14 +2595,14 @@
           // Add a temporary class to simulate hover
           launch.classList.add('auto-hover');
           
-          // Remove it after 3 seconds
+          // Remove it after 5 seconds
           setTimeout(() => {
             launch.classList.remove('auto-hover');
-          }, 3000); // hover lasts 3 seconds
+          }, 5000); // hover lasts 3 seconds
         }
 
-        // Repeat every 10 seconds
-        setInterval(autoHover, 10000);
+        // Repeat every 15 seconds
+        setInterval(autoHover, 15000);
 
         // Start immediately
         autoHover();
