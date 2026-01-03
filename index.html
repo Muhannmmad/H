@@ -2475,13 +2475,35 @@
         let intervalId = null;
         let lastTime = null;
         let waiting = false; // track pause at top/bottom
+        let wakeLock = null; // for mobile screen wake lock
 
         // --- Adjust speed based on screen width ---
         const SPEED_DESKTOP = 100; // px/sec
-        const SPEED_MOBILE = 200;  // faster on mobile
+        const SPEED_MOBILE = 400;  // faster on mobile
 
         function getSpeed() {
           return window.innerWidth <= 768 ? SPEED_MOBILE : SPEED_DESKTOP;
+        }
+
+        // --- Request mobile wake lock ---
+        async function requestWakeLock() {
+          if ('wakeLock' in navigator && window.innerWidth <= 768) {
+            try {
+              wakeLock = await navigator.wakeLock.request('screen');
+              wakeLock.addEventListener('release', () => {
+                wakeLock = null;
+              });
+            } catch (err) {
+              console.warn("Wake Lock request failed:", err);
+            }
+          }
+        }
+
+        // --- Release wake lock ---
+        function releaseWakeLock() {
+          if (wakeLock) {
+            wakeLock.release().then(() => wakeLock = null);
+          }
         }
 
         // --- Desktop auto scroll ---
@@ -2518,8 +2540,10 @@
         function autoScrollMobile() {
           if (!scrolling || waiting || window.innerWidth > 768) return; // skip on desktop
 
-          const fps = 60;
-          const movePerFrame = getSpeed() / fps; // px per frame
+          requestWakeLock(); // keep mobile screen awake
+
+          const intervalMs = 16; // ~60fps
+          const movePerFrame = getSpeed() / 60; // px per frame
           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
 
           intervalId = setInterval(() => {
@@ -2540,7 +2564,7 @@
               clearInterval(intervalId);
               setTimeout(() => { waiting = false; direction = 1; autoScrollMobile(); }, 5000);
             }
-          }, 1000 / fps);
+          }, intervalMs);
         }
 
         // --- Toggle scroll on button click ---
@@ -2559,6 +2583,7 @@
             scrolling = false;
             cancelAnimationFrame(rafId);
             clearInterval(intervalId);
+            releaseWakeLock(); // allow screen to sleep again
             umami.track("Scroll Button stopped");
           }
         });
