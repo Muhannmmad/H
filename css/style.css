@@ -1696,21 +1696,19 @@ body.dark-mode .uiverse-launch #button #to-hover {
 
 @keyframes glow_010 {
   0% {
-    color: rgb(94, 94, 94);
-    -webkit-filter: drop-shadow(0 0 0.75rem rgb(255, 214, 90));
-    filter: drop-shadow(0 0 0.75rem rgb(255, 214, 90));
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgb(255, 200, 50));
   }
-
-  70% {
-    color: rgba(255, 255, 255, 0);
+  50% {
+    opacity: 0;
+    filter: drop-shadow(0 0 0 rgb(255, 200, 50));
   }
-
   100% {
-    color: rgb(94, 94, 94);
-    -webkit-filter: drop-shadow(0 0 0.75rem rgb(255, 214, 90));
-    filter: drop-shadow(0 0 0.75rem rgb(255, 214, 90));
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgb(255, 200, 50));
   }
 }
+
 
 @keyframes tag-transition {
   0%, 100% {
@@ -2463,6 +2461,7 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
     transform: scale(0.65);
   }
 }
+
 
 
 
