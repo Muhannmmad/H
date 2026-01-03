@@ -2472,6 +2472,7 @@
         let scrolling = false;
         let direction = 1; // 1 = down, -1 = up
         let rafId = null;
+        let intervalId = null;
         let lastTime = null;
         let waiting = false; // track pause at top/bottom
 
@@ -2483,32 +2484,29 @@
           return window.innerWidth <= 768 ? SPEED_MOBILE : SPEED_DESKTOP;
         }
 
-        // --- Auto scroll function ---
+        // --- Desktop auto scroll ---
         function autoScroll(time) {
-          if (!scrolling || waiting) return;
+          if (!scrolling || waiting || window.innerWidth <= 768) return; // skip on mobile
 
           if (!lastTime) lastTime = time;
-          const delta = (time - lastTime) / 1000; // convert ms to seconds
+          const delta = (time - lastTime) / 1000; // seconds
           lastTime = time;
 
           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-
-          // --- Adjust move for mobile using devicePixelRatio ---
-          const dpr = window.devicePixelRatio || 1;
-          const move = getSpeed() * delta * direction * (window.innerWidth <= 768 ? dpr : 1);
+          const move = getSpeed() * delta * direction;
 
           window.scrollTo(0, window.scrollY + move);
 
           // Pause at top or bottom
           if (window.scrollY >= maxScroll && direction === 1) {
             waiting = true;
-            umami.track("Scroll Button reached bottom"); // tracking
+            umami.track("Scroll Button reached bottom");
             setTimeout(() => { waiting = false; direction = -1; lastTime = null; autoScroll(); }, 5000);
             return;
           }
           if (window.scrollY <= 0 && direction === -1) {
             waiting = true;
-            umami.track("Scroll Button reached top"); // tracking
+            umami.track("Scroll Button reached top");
             setTimeout(() => { waiting = false; direction = 1; lastTime = null; autoScroll(); }, 5000);
             return;
           }
@@ -2516,17 +2514,52 @@
           rafId = requestAnimationFrame(autoScroll);
         }
 
+        // --- Mobile auto scroll using setInterval ---
+        function autoScrollMobile() {
+          if (!scrolling || waiting || window.innerWidth > 768) return; // skip on desktop
+
+          const fps = 60;
+          const movePerFrame = getSpeed() / fps; // px per frame
+          const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+          intervalId = setInterval(() => {
+            if (!scrolling || waiting) return;
+
+            window.scrollTo(0, window.scrollY + movePerFrame * direction);
+
+            if (window.scrollY >= maxScroll && direction === 1) {
+              waiting = true;
+              umami.track("Scroll Button reached bottom");
+              clearInterval(intervalId);
+              setTimeout(() => { waiting = false; direction = -1; autoScrollMobile(); }, 5000);
+            }
+
+            if (window.scrollY <= 0 && direction === -1) {
+              waiting = true;
+              umami.track("Scroll Button reached top");
+              clearInterval(intervalId);
+              setTimeout(() => { waiting = false; direction = 1; autoScrollMobile(); }, 5000);
+            }
+          }, 1000 / fps);
+        }
+
         // --- Toggle scroll on button click ---
         toggle.addEventListener("change", () => {
           if (!toggle.checked) {
             scrolling = true;
             lastTime = null;
-            umami.track("Scroll Button started"); // tracking
-            autoScroll();
+            umami.track("Scroll Button started");
+
+            if (window.innerWidth <= 768) {
+              autoScrollMobile(); // mobile version
+            } else {
+              autoScroll(); // desktop version
+            }
           } else {
             scrolling = false;
             cancelAnimationFrame(rafId);
-            umami.track("Scroll Button stopped"); // tracking
+            clearInterval(intervalId);
+            umami.track("Scroll Button stopped");
           }
         });
         </script>
