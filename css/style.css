@@ -1861,10 +1861,14 @@ body.dark-mode .uiverse-launch #button #to-hover {
     align-items: center;
     text-align: center;
 }
+
 /* Dark mode global overrides should not affect this CV button */
 body.dark-mode .uiverse-launch,
 body.dark-mode .uiverse-launch * {
     color: inherit !important;       /* Keep original colors */
+}
+body.dark-mode .uiverse-launch {
+  color: initial !important;
 }
 /* From Uiverse.io by marcelodolza */
 .area {
@@ -2459,3 +2463,6 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
     transform: scale(0.65);
   }
 }
+
+
+
