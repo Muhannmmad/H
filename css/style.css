@@ -1373,22 +1373,38 @@ body.dark-mode .uiverse-launch #button #to-hover {
    UIVERSE LAUNCH BUTTON — SCOPED
    ================================ */
 
+/* container wraps everything together, applies general styles and does nothing else*/
 .uiverse-launch .container {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 200px;
   height: 200px;
   color: rgb(131, 131, 131);
+  -webkit-transition: 400ms ease-in-out;
   transition: 400ms ease-in-out;
   transform: translateY(20px);
 }
-
+  
+  /* clickHandler, as the name suggests, handles clicks.
+     Its a label for invisible checkbox, positioned absolutely and taking whole container space.
+     Comes with insane z-index. Stays above .container
+     When clicked, will change input state to checked */
 .uiverse-launch #shuttle-wrapper {
   position: absolute;
   opacity: 0;
+  -webkit-transition: 200ms ease-in;
   transition: 200ms ease-in;
   z-index: 200;
 }
@@ -1403,10 +1419,11 @@ body.dark-mode .uiverse-launch #button #to-hover {
   position: absolute;
   width: 100px;
   height: 80px;
+  -webkit-transform: rotateX(45deg) rotateZ(45deg);
   transform: rotateX(45deg) rotateZ(45deg);
   bottom: -10px;
   z-index: -1;
-  background: radial-gradient(rgba(0,0,0,.38) 0%, rgba(0,0,0,0) 70%);
+  background: radial-gradient(rgba(0, 0, 0, 0.382) 0%, rgba(0, 0, 0, 0) 70%);
 }
 
 .uiverse-launch #clickHandler {
@@ -1414,135 +1431,310 @@ body.dark-mode .uiverse-launch #button #to-hover {
   position: absolute;
   inset: 0;
   z-index: 999;
+}
+
+.uiverse-launch #clickHandler:hover {
   cursor: pointer;
 }
 
 .uiverse-launch .container:hover #shuttle-wrapper {
   opacity: 1;
+  -webkit-transform: translateY(-100px) translateZ(140px);
+  -ms-transform: translateY(-100px) translateZ(140px);
   transform: translateY(-100px) translateZ(140px);
+  -webkit-transition: 400ms ease-in-out;
   transition: 400ms ease-in-out;
 }
 
 .uiverse-launch #checkbox {
+    /* comment out to actually see the checkbox state */
   display: none;
+    /*  */
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
   width: 200px;
 }
-
-/* ===== CHECKED STATE ===== */
-
+  
+  /* this pseudo-selectors will fire animations when
+     clickHandler changes checkbox state to checked */
 .uiverse-launch #checkbox:checked ~ #shuttle-wrapper #b {
-  animation: launch_31 6s ease-in-out;
+  -webkit-animation-name: launch_31;
+  animation-name: launch_31;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-duration: 6s;
+  animation-duration: 6s;
 }
 
 .uiverse-launch #checkbox:checked ~ #shuttle-wrapper #shadow {
+  -webkit-animation: shadow-launch 6s ease-in-out;
   animation: shadow-launch 6s ease-in-out;
 }
 
-.uiverse-launch #checkbox:checked ~ #to-hover,
-.uiverse-launch #checkbox:checked ~ #button #to-launch {
-  animation: fadeout_010 6s;
+.uiverse-launch #checkbox:checked ~ #to-hover {
+  -webkit-animation-name: fadeout_010;
+  animation-name: fadeout_010;
+  -webkit-animation-duration: 6s;
+  animation-duration: 6s;
 }
 
-/* ===== HOVER ===== */
-
+.uiverse-launch #checkbox:checked ~ #button #to-launch {
+  -webkit-animation-name: fadeout_010;
+  animation-name: fadeout_010;
+  -webkit-animation-duration: 6s;
+  animation-duration: 6s;
+}
+  /* and this will take care of hover */
 .uiverse-launch #clickHandler:hover ~ #button {
   width: 200px;
   height: 200px;
-  transform: translate3d(0,-16px,0) rotateX(51deg) rotateZ(43deg);
-  box-shadow:
-    2px 2px 0 2px #b2b2b2,
-    -1px 0 28px rgba(255,250,225,.5),
-    28px 28px 28px rgba(28,27,88,.3);
+  -webkit-transform: translate3d(0px, -16px, 0px) rotateX(51deg) rotateZ(43deg);
+  transform: translate3d(0px, -16px, 0px) rotateX(51deg) rotateZ(43deg);
+  -webkit-box-shadow: 2px 2px 0 2px #b2b2b2, -1px 0 28px 0 rgba(255, 250, 225, 0.512),
+  28px 28px 28px 0 rgba(28, 27, 88, 0.315);
+  box-shadow: 2px 2px 0 2px #b2b2b2, -1px 0 28px 0 rgba(255, 250, 225, 0.512),
+  28px 28px 28px 0 rgba(28, 27, 88, 0.315);
+  -webkit-transition-delay: 0ms;
+  transition-delay: 0ms;
 }
 
 .uiverse-launch .container:hover {
+  -webkit-transform: translateY(30%);
+  -ms-transform: translateY(30%);
   transform: translateY(30%);
 }
 
-/* ===== BUTTON ===== */
-
-.uiverse-launch #button {
-  width: 200px;
-  height: 80px;
-  border: none;
-  border-radius: 1.8rem;
-  box-shadow: 5px 5px 8px rgba(28,27,88,.3);
-  background: linear-gradient(125deg,#fff 50%,#f5f5ff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: .4s ease-in-out;
+.uiverse-launch #to-launch {
+  color: rgb(1, 85, 255);
+  font-size: large;
+  font-weight: bold;
+  -webkit-transition: ease-out 200ms;
+  transition: ease-out 200ms;
 }
 
-/* ===== PLATFORM ===== */
+.uiverse-launch #to-hover {
+  margin-top: 1em;
+  text-align: center;
+  -webkit-transition: ease-out 200ms;
+  transition: ease-out 200ms;
+}
+
+.uiverse-launch #tag {
+  opacity: 0;
+  color: rgb(43, 43, 43);
+  position: absolute;
+}
 
 .uiverse-launch #platform {
   position: absolute;
   width: 70%;
   height: 0;
   border-radius: 16px;
-  background: #eaeaea;
-  transition: .3s ease-in-out;
+  background-color: rgb(234, 234, 234);
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+  -webkit-transition-delay: 150ms;
+  transition-delay: 150ms;
+  border: solid 0px rgba(42, 42, 42, 0);
+  outline: dashed rgba(255, 173, 57, 0);
+  -moz-outline-radius: 16px;
+  outline-width: 0px;
+  outline-offset: 0px;
 }
 
 .uiverse-launch #clickHandler:hover ~ #button #platform {
   height: 70%;
-  border: 4px solid #2a2a2a;
-  outline: 4px dashed #ffad39;
+  background: rgb(244, 244, 244);
+  border: solid 4px rgb(42, 42, 42);
+  outline: dashed rgb(255, 172, 57);
+  outline-width: 4px;
   outline-offset: -4px;
+  -webkit-animation: shake_010 80ms infinite;
   animation: shake_010 80ms infinite;
 }
 
-/* ===== CAUTION ===== */
-
 .uiverse-launch .caution {
+  -webkit-transform: translateY(-200);
+  -ms-transform: translateY(-200);
+  transform: translateY(-200);
   position: absolute;
   width: 100%;
   text-align: center;
 }
 
-.uiverse-launch #clickHandler:hover ~ #button .caution * {
+.uiverse-launch #checkbox:checked ~ .caution {
+  -webkit-animation-name: fadeout_010;
+  animation-name: fadeout_010;
+  -webkit-animation-duration: 6s;
+  animation-duration: 6s;
+}
+
+.uiverse-launch #caution-left {
+  -webkit-transition: 200ms ease;
+  transition: 200ms ease;
+  opacity: 0;
+  -webkit-transform: translate3d(83px, 0px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(-90deg);
+  transform: translate3d(83px, 0px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(-90deg);
+}
+
+.uiverse-launch #caution-right {
+  -webkit-transition: 200ms ease;
+  transition: 200ms ease;
+  opacity: 0;
+  -webkit-transform: translate3d(0px, 62px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  transform: translate3d(0px, 62px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+}
+
+.uiverse-launch #clickHandler:hover ~ #button .caution #caution-left {
   opacity: 1;
+  -webkit-transition: 400ms ease-in;
+  transition: 400ms ease-in;
   animation: glow_010 1.2s infinite;
 }
 
-/* ===== ANIMATIONS (UNCHANGED) ===== */
+.uiverse-launch #clickHandler:hover ~ #button .caution #caution-right {
+  opacity: 1;
+  -webkit-transition: 400ms ease-in;
+  transition: 400ms ease-in;
+  animation: glow_010 1.2s infinite;
+}
+
+.uiverse-launch #button {
+  width: 200px;
+  height: 80px;
+  border: none;
+  border-radius: 1.8rem;
+  -webkit-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
+  -webkit-box-shadow: 5px 5px 8px 0 rgba(28, 27, 88, 0.315);
+  box-shadow: 5px 5px 8px 0 rgba(28, 27, 88, 0.315);
+  background: -webkit-gradient(linear, left top, right top, from(#ffffff), to(#ececec));
+  background: linear-gradient(125deg, #ffffff 50%, #f5f5ff);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: inherit;
+  -webkit-transition-delay: 100ms;
+  transition-delay: 100ms;
+}
+
+.uiverse-launch #clickHandler:hover ~ #button #to-launch {
+  opacity: 0;
+}
+
+.uiverse-launch #clickHandler:hover ~ #to-hover {
+  opacity: 0;
+}
+
+.uiverse-launch #checkbox:checked ~ #button #tag {
+  -webkit-animation: tag-transition 5s ease-in-out;
+  animation: tag-transition 5s ease-in-out;
+}
+  
+  /* launch sequence, takes only 20% of duration to completely fade out,
+     and stays there til 90% */
 
 @keyframes launch_31 {
-  15%,90% { transform: translateY(-200px); opacity: 0; }
-  100% { opacity: 1; }
+  5% {
+    opacity: 1;
+  }
+
+  15%, 90% {
+    -webkit-transform: translateY(-200px);
+    transform: translateY(-200px);
+    -webkit-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes shadow-launch {
-  10%,90% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+
+  10%, 90% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeout_010 {
-  0%,20%,90% { opacity: 0; }
-  100% { opacity: 1; }
+  100% {
+    opacity: 1;
+  }
+
+  0%, 20%, 90% {
+    opacity: 0;
+  }
 }
 
 @keyframes shake_010 {
-  0%,50% { transform: translate(1px,0); }
-  100% { transform: translate(0,1px); }
+  0%, 50% {
+    -webkit-transform: translate3d(1px, 0px, 0px);
+    transform: translate3d(1px, 0px, 0px);
+  }
+
+  100% {
+    -webkit-transform: translate3d(0px, 1px, 0px);
+    transform: translate3d(0px, 1px, 0px);
+  }
 }
 
 @keyframes glow_010 {
-  0%,100% {
-    filter: drop-shadow(0 0 .75rem #ffd65a);
+  0% {
+    color: rgb(94, 94, 94);
+    -webkit-filter: drop-shadow(0 0 0.75rem rgb(255, 214, 90));
+    filter: drop-shadow(0 0 0.75rem rgb(255, 214, 90));
+  }
+
+  70% {
+    color: rgba(255, 255, 255, 0);
+  }
+
+  100% {
+    color: rgb(94, 94, 94);
+    -webkit-filter: drop-shadow(0 0 0.75rem rgb(255, 214, 90));
+    filter: drop-shadow(0 0 0.75rem rgb(255, 214, 90));
   }
 }
 
 @keyframes tag-transition {
-  20%,80% { opacity: 1; }
+  0%, 100% {
+    opacity: 0;
+  }
+
+  20%, 80% {
+    opacity: 1;
+  }
 }
 
-/* ===== NO SELECT ===== */
-
-.uiverse-launch .noselect {
+.noselect {
+  -webkit-touch-callout: none;
+   /* iOS Safari */
+  -webkit-user-select: none;
+   /* Safari */
+   /* Konqueror HTML */
+  -moz-user-select: none;
+   /* Old versions of Firefox */
+  -ms-user-select: none;
+   /* Internet Explorer/Edge */
   user-select: none;
+   /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
 }
 /* ===============================
    MOBILE BUTTON SIZE FIX
