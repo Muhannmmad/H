@@ -2105,9 +2105,22 @@ body.dark-mode .uiverse-launch * {
   color: transparent;
   position: relative;
 }
-.text.state-1 span:nth-child(3) {
-  margin-right: 10px;
+.text {
+  display: flex;
+  gap: 0px; /* 👈 THIS controls spacing uniformly */
 }
+.text span {
+  width: auto;                 /* IMPORTANT */
+  min-width: 0;
+  display: block;
+}
+.text span[data-label=" "] {
+  width: 0;        /* spacing now comes from gap */
+}
+.text span[data-label=" "] {
+  width: 12px; /* adjust if needed */
+}
+
 
 .text span::before,
 .text span::after {
@@ -2216,6 +2229,9 @@ body.dark-mode .uiverse-launch * {
     filter: blur(13px);
     transform: scaleX(0.95);
   }
+}
+html[lang="en"] .text.state-1 span:nth-child(n+12) {
+  display: none;
 }
 
 .sparks {
