@@ -1736,6 +1736,71 @@ body.dark-mode .uiverse-launch #button #to-hover {
    /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
 }
+/* Rocket appears when container is hovered or auto-hovered */
+.uiverse-launch .container:hover #shuttle-wrapper,
+.uiverse-launch.auto-hover .container #shuttle-wrapper {
+  opacity: 1;
+  transform: translateY(-100px) translateZ(140px);
+  transition: 400ms ease-in-out;
+}
+
+/* Platform shake animation on hover or auto-hover */
+.uiverse-launch #clickHandler:hover ~ #button #platform,
+.uiverse-launch.auto-hover #clickHandler ~ #button #platform {
+  height: 70%;
+  background: rgb(244, 244, 244);
+  border: solid 4px rgb(42, 42, 42);
+  outline: dashed rgb(255, 172, 57);
+  outline-width: 4px;
+  outline-offset: -4px;
+  animation: shake_010 80ms infinite;
+}
+
+/* Caution lights glow on hover or auto-hover */
+.uiverse-launch #clickHandler:hover ~ #button .caution #caution-left,
+.uiverse-launch.auto-hover #clickHandler ~ #button .caution #caution-left,
+.uiverse-launch #clickHandler:hover ~ #button .caution #caution-right,
+.uiverse-launch.auto-hover #clickHandler ~ #button .caution #caution-right {
+  opacity: 1;
+  transition: 400ms ease-in;
+  animation: glow_010 1.2s infinite;
+}
+
+/* Button transform on hover or auto-hover */
+.uiverse-launch #clickHandler:hover ~ #button,
+.uiverse-launch.auto-hover #clickHandler ~ #button {
+  width: 200px;
+  height: 200px;
+  transform: translate3d(0px, -16px, 0px) rotateX(51deg) rotateZ(43deg);
+  box-shadow: 2px 2px 0 2px #b2b2b2, -1px 0 28px 0 rgba(255, 250, 225, 0.512),
+              28px 28px 28px 0 rgba(28, 27, 88, 0.315);
+  transition-delay: 0ms;
+}
+
+/* Container transform on hover or auto-hover */
+.uiverse-launch .container:hover,
+.uiverse-launch.auto-hover .container {
+  transform: translateY(30%);
+}
+/* Idle shake up and down for the button */
+.uiverse-launch #button {
+  /* existing styles... */
+  animation: idle-shake 1.5s ease-in-out infinite alternate;
+}
+
+/* Stop the shake when hovering or auto-hovering */
+.uiverse-launch #clickHandler:hover ~ #button,
+.uiverse-launch.auto-hover #button {
+  animation: none; /* stop shaking when hovered */
+}
+
+/* Keyframes for idle shake */
+@keyframes idle-shake {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-30px); } /* moves 10px up */
+  100% { transform: translateY(0); }
+}
+
 /* ===============================
    MOBILE BUTTON SIZE FIX
 ================================ */
