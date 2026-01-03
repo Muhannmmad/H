@@ -2588,6 +2588,25 @@
           }
         });
         </script>
+        <script>
+        const launch = document.querySelector('.uiverse-launch');
+
+        function autoHover() {
+          // Add a temporary class to simulate hover
+          launch.classList.add('auto-hover');
+          
+          // Remove it after 3 seconds
+          setTimeout(() => {
+            launch.classList.remove('auto-hover');
+          }, 3000); // hover lasts 3 seconds
+        }
+
+        // Repeat every 10 seconds
+        setInterval(autoHover, 10000);
+
+        // Start immediately
+        autoHover();
+        </script>
 
 
         <script>
