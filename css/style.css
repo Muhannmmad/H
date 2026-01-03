@@ -1573,16 +1573,16 @@ body.dark-mode .uiverse-launch #button #to-hover {
   -webkit-transition: 200ms ease;
   transition: 200ms ease;
   opacity: 0;
-  -webkit-transform: translate3d(83px, 0px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(-90deg);
-  transform: translate3d(83px, 0px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(-90deg);
+  -webkit-transform: translate3d(83px, 10px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(-90deg);
+  transform: translate3d(83px, 10px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(-90deg);
 }
 
 .uiverse-launch #caution-right {
   -webkit-transition: 200ms ease;
   transition: 200ms ease;
   opacity: 0;
-  -webkit-transform: translate3d(0px, 62px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-  transform: translate3d(0px, 62px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  -webkit-transform: translate3d(0px, 72px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  transform: translate3d(0px, 72px, 0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
 }
 
 .uiverse-launch #clickHandler:hover ~ #button .caution #caution-left {
@@ -1682,32 +1682,39 @@ body.dark-mode .uiverse-launch #button #to-hover {
   }
 }
 
-@keyframes shake_010 {
-  0%, 50% {
-    -webkit-transform: translate3d(1px, 0px, 0px);
-    transform: translate3d(1px, 0px, 0px);
-  }
-
-  100% {
-    -webkit-transform: translate3d(0px, 1px, 0px);
-    transform: translate3d(0px, 1px, 0px);
-  }
-}
-
 @keyframes glow_010 {
-  0% {
-    opacity: 1;
-    filter: drop-shadow(0 0 12px rgb(255, 200, 50));
-  }
-  50% {
+  0% {                   /* start invisible */
     opacity: 0;
     filter: drop-shadow(0 0 0 rgb(255, 200, 50));
   }
-  100% {
+
+  25% {                  /* stay hidden first */
+    opacity: 0;
+    filter: drop-shadow(0 0 0 rgb(255, 200, 50));
+  }
+
+  45% {                  /* flash in */
     opacity: 1;
     filter: drop-shadow(0 0 12px rgb(255, 200, 50));
   }
+
+  65% {                  /* stay visible */
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgb(255, 200, 50));
+  }
+
+  85% {                  /* fade out again */
+    opacity: 0;
+    filter: drop-shadow(0 0 0 rgb(255, 200, 50));
+  }
+
+  100% {                 /* ready for loop */
+    opacity: 0;
+    filter: drop-shadow(0 0 0 rgb(255, 200, 50));
+  }
 }
+
+
 
 
 @keyframes tag-transition {
