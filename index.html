@@ -406,7 +406,7 @@
               <button id="button" id="cvDownloadBtn">
                 <p id="to-launch"><span data-lang="de">Lebenslauf herunterladen</span>
                 <span data-lang="en">Download CV</span></p>
-                <p id="tag"> Muhammad Hassan &lt;3</p>
+                <p id="tag"> Muhammad Hassan </p>
                 <div id="platform"></div>
               <div class="caution">
                   <div id="caution-left"><span data-lang="de"> herunterladen </span>
@@ -2476,8 +2476,8 @@
         let waiting = false; // track pause at top/bottom
 
         // --- Adjust speed based on screen width ---
-        const SPEED_DESKTOP = 220; // px/sec
-        const SPEED_MOBILE = 550;  // faster on mobile
+        const SPEED_DESKTOP = 100; // px/sec
+        const SPEED_MOBILE = 200;  // faster on mobile
 
         function getSpeed() {
           return window.innerWidth <= 768 ? SPEED_MOBILE : SPEED_DESKTOP;
@@ -2492,7 +2492,11 @@
           lastTime = time;
 
           const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-          const move = getSpeed() * delta * direction;
+
+          // --- Adjust move for mobile using devicePixelRatio ---
+          const dpr = window.devicePixelRatio || 1;
+          const move = getSpeed() * delta * direction * (window.innerWidth <= 768 ? dpr : 1);
+
           window.scrollTo(0, window.scrollY + move);
 
           // Pause at top or bottom
@@ -2526,7 +2530,6 @@
           }
         });
         </script>
-
 
 
         <script>
