@@ -2498,5 +2498,24 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
 }
 
 
+/* Launch button with realistic bottom-right orange shadow */
+.uiverse-launch #button {
+  width: 200px;
+  height: 80px;
+  border: none;
+  border-radius: 1.8rem;
+  background: linear-gradient(125deg, #ffffff 50%, #f5f5ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: inherit;
+  transition: 0.4s ease-in-out;
+
+  /* Shadow simulating light from top-left */
+  box-shadow:
+    8px 8px 20px rgba(200, 140, 0, 0.8),   /* strong orange shadow down-right */
+    2px 2px 6px rgba(200, 165, 0, 0.6);    /* softer secondary shadow for depth */
+}
+
 
 
