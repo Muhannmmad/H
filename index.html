@@ -2594,21 +2594,38 @@
         <script>
         const launch = document.querySelector('.uiverse-launch');
 
+        // Select the button using the first id "button"
+        const downloadBtn = document.querySelector('button#button');
+
+        let autoHoverInterval = null;
+
         function autoHover() {
-          // Add a temporary class to simulate hover
           launch.classList.add('auto-hover');
-          
-          // Remove it after 5 seconds
+
           setTimeout(() => {
             launch.classList.remove('auto-hover');
-          }, 5000); // hover lasts 3 seconds
+          }, 5000);
         }
 
-        // Repeat every 15 seconds
-        setInterval(autoHover, 15000);
+        function startAutoHover() {
+          if (autoHoverInterval) return; // prevent duplicates
+          autoHover(); // run immediately
+          autoHoverInterval = setInterval(autoHover, 15000); // repeat every 15s
+        }
 
-        // Start immediately
-        autoHover();
+        function stopAutoHover() {
+          clearInterval(autoHoverInterval);
+          autoHoverInterval = null;
+          launch.classList.remove('auto-hover');
+        }
+
+        // Stop auto-hover permanently after clicking the button
+        if (downloadBtn) {
+          downloadBtn.addEventListener('click', stopAutoHover, { once: true });
+        }
+
+        // Start auto-hover on page load
+        startAutoHover();
         </script>
 
 
