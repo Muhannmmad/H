@@ -1726,6 +1726,34 @@ body.dark-mode .uiverse-launch #button #to-hover {
     opacity: 1;
   }
 }
+.uiverse-launch #tag {
+    opacity: 0;
+      color: #1fa84f !important;      /* force green */
+      font-weight: 700; 
+  position: absolute;
+
+  /* center text */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+}
+
+.uiverse-launch #checkbox:checked ~ #button #tag {
+  -webkit-animation: tag-transition 5s ease-in-out;
+  animation: tag-transition 5s ease-in-out;
+}
+
+@keyframes tag-transition {
+  0%, 100% {
+    opacity: 0;
+  }
+
+  20%, 80% {
+    opacity: 1;
+  }
+}
 
 .noselect {
   -webkit-touch-callout: none;
