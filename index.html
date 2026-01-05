@@ -2430,8 +2430,20 @@
                 umami.track("Fullscreen Button Click");
             });
             // --- DOWNLOAD CV BUTTON ---
-            document.getElementById("button").addEventListener("click", () => {
-                umami.track("Clicked Download CV Button");
+            // --- CV DOWNLOAD BUTTON TRACKING ONLY ---
+            document.addEventListener("DOMContentLoaded", () => {
+                // Find the button by its inner text for safety
+                const cvButton = Array.from(document.querySelectorAll("button")).find(btn => {
+                    // Check if it contains "Download CV" text (English) inside <p>
+                    return btn.querySelector("#to-launch span[data-lang='en']")?.textContent.includes("Download CV");
+                });
+
+                if (!cvButton) return;
+
+                // Only this button triggers CV download tracking
+                cvButton.addEventListener("click", () => {
+                    umami.track("Clicked Download CV Button");
+                });
             });
 
             // --- DYNAMIC QUIZ CHOICE BUTTONS ---
