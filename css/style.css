@@ -2742,15 +2742,17 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
 /* Floating social cards - top left */
 
 
-/* Desktop only */
+/* ===============================
+   DESKTOP (default)
+   =============================== */
+
+/* Hero text */
 .hero-content {
-  padding-left: 100px; /* push text to the right */
+  padding-top: 100px;
+  padding-left: 100px;
 }
 
-
-/* ===============================
-   Desktop (default)
-   =============================== */
+/* Social icons container */
 .main {
   position: absolute;
   top: 20px;
@@ -2764,99 +2766,82 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
 }
 
 /* ===============================
-   Small laptops & tablets
+   SMALL LAPTOPS & TABLETS
    =============================== */
 @media (max-width: 1024px) {
+
   .main {
     position: relative;
     transform: scale(0.85);
   }
-}
 
-/* ===============================
-   Mobile
-   =============================== */
-@media (max-width: 768px) {
-  .main {
-    transform: scale(0.7);
-    margin-bottom: 0px;
-  }
-}
-
-/* ===============================
-   Extra small phones
-   =============================== */
-@media (max-width: 480px) {
-  .main {
-    transform: scale(0.6);
-    margin-bottom: 2px;
-  }
-}
-/* Desktop */
-.hero-content {
-  padding-top: 140px;
-  padding-left: 140px;
-}
-
-/* Tablets */
-@media (max-width: 1024px) {
+  /* 🔑 hero text padding for tablets */
   .hero-content {
-    padding-top: 8px;!important;
-    padding-left: 0;
+    padding-top: 8px;
+    padding-left: 20px;
   }
 }
 
-/* Mobile */
 /* ===============================
-   MOBILE FIX – REMOVE TOP SPACE
+   MOBILE
    =============================== */
 @media (max-width: 768px) {
 
-  /* Social icons container */
   .main {
     position: relative;
-    top: 8px;          /* small space from top */
-    left: 8px;         /* 🔑 force top-left */
-    margin: 0 0 6px 0; /* small gap before text */
+    top: 8px;
+    left: 8px;
+    margin: 0 0 6px 0;
     padding: 0;
-
-    transform: scale(0.80);
-  
+    transform: scale(0.7);
   }
+  #home {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
 
-  /* Keep rows aligned left */
   .up,
   .down {
     justify-content: flex-start;
   }
 
-  /* Scale icons naturally (no transform gap issues) */
-  .main img {
-    width: clamp(34px, 6vw, 42px);
-    height: clamp(34px, 6vw, 42px);
-  }
-
-  /* Reduce button padding if any */
   .main button {
-    padding: 4px;
+    padding: 2px;
   }
 
-  /* Text comes immediately after socials */
+  /* 🔑 hero text padding for mobile */
   .hero-content {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+      padding-top: 0 !important;
+          margin-top: 0 !important;
+    padding-left: 20px;
+    margin-top: 0;
   }
 
   .hero-content h1,
   .hero-content h2,
   .hero-content h3 {
-    margin-top: 4px !important;
+    margin-top: 1px;
   }
 
-  /* Remove section spacing */
   #home {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+    padding-top: 0;
+    margin-top: 0;
+  }
+}
+
+/* ===============================
+   EXTRA SMALL PHONES
+   =============================== */
+@media (max-width: 480px) {
+
+  .main {
+    transform: scale(0.6);
+    margin-bottom: 2px;
+  }
+
+  /* slightly tighter left padding */
+  .hero-content {
+    padding-left: 12px;
   }
 }
 
