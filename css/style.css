@@ -2739,3 +2739,129 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
   border-color: rgba(255, 102, 255, 0.7);
   box-shadow: 0 0 20px rgba(255, 102, 255, 0.5);
 }
+/* Floating social cards - top left */
+.social {
+  position: relative;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+}
+
+/* ===============================
+   From Uiverse.io by 889super
+   =============================== */
+
+/* Desktop / large screens */
+.main {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+/* ===============================
+   Tablet & small laptops
+   =============================== */
+@media (max-width: 1024px) {
+  .main {
+    position: relative;
+    top: auto;
+    left: auto;
+
+    margin-bottom: 8px;   /* reduced */
+    transform: scale(0.9);
+  }
+}
+
+/* ===============================
+   Mobile
+   =============================== */
+@media (max-width: 768px) {
+  .main {
+    position: relative;
+    top: auto;
+    left: auto;
+
+    margin-bottom: 6px;   /* text comes right under */
+    transform: scale(0.8);
+    transform-origin: left top;
+  }
+}
+
+/* ===============================
+   Extra small phones
+   =============================== */
+@media (max-width: 480px) {
+  .main {
+    margin-bottom: 4px;    /* minimal gap */
+    transform: scale(0.75);
+  }
+}
+
+.up {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.down {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+/* common card styles */
+.card1,
+.card2,
+.card3,
+.card4 {
+  width: 90px;
+  height: 90px;
+  outline: none;
+  border: none;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.2s ease-in-out;
+}
+
+/* rounded corners */
+.card1 { border-radius: 90px 5px 5px 5px; }
+.card2 { border-radius: 5px 90px 5px 5px; }
+.card3 { border-radius: 5px 5px 5px 90px; }
+.card4 { border-radius: 5px 5px 90px 5px; }
+
+/* images base */
+
+/* 🔹 visual centering offsets */
+.card1 img { transform: translate(10px, 10px); }    /* right + down */
+.card2 img { transform: translate(-10px, 10px); }   /* left + down */
+.card3 img { transform: translate(10px, -10px); }   /* right + up */
+.card4 img { transform: translate(-10px, -10px); }  /* left + up */
+
+/* hover effects */
+.card1:hover {
+  scale: 1.1;
+  background-color: #6eea6e; /* light WhatsApp green */
+}
+
+.card2:hover {
+  scale: 1.1;
+  background-color: #7fcfff; /* light Telegram blue */
+}
+
+.card3:hover {
+  scale: 1.1;
+  background-color: #8bbcff; /* light Facebook blue */
+}
+
+.card4:hover {
+  scale: 1.1;
+  background-color: #f3a1c6; /* light Instagram pink */
+}
