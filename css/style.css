@@ -2748,7 +2748,7 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
 
 /* Hero text */
 .hero-content {
-  padding-top: 60px;
+  padding-top: 60px; !important;
   padding-left: 180px;
 }
 
