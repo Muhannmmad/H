@@ -2861,6 +2861,82 @@
             }
           }, 300);
         </script>
+        <script>
+        /* --- FLOATING SOCIAL CARD BUTTONS --- */
+        document.addEventListener("DOMContentLoaded", () => {
+
+          document.querySelector('.card1')?.addEventListener("click", () => {
+            umami.track("Social Card Click: WhatsApp (Floating)");
+          });
+
+          document.querySelector('.card2')?.addEventListener("click", () => {
+            umami.track("Social Card Click: Telegram (Floating)");
+          });
+
+          document.querySelector('.card3')?.addEventListener("click", () => {
+            umami.track("Social Card Click: Facebook (Floating)");
+          });
+
+          document.querySelector('.card4')?.addEventListener("click", () => {
+            umami.track("Social Card Click: Instagram (Floating)");
+          });
+
+        });
+        </script>
+        <script>
+        /* --- CONTACT INFO TRACKING --- */
+        document.addEventListener("DOMContentLoaded", () => {
+
+          document.querySelector('a[href^="tel:"]')?.addEventListener("click", () => {
+            umami.track("Contact Click: Phone Call");
+          });
+
+        });
+        </script>
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+          document.querySelector('a[href*="wa.me"] img')?.closest("a")
+            ?.addEventListener("click", () => {
+              umami.track("Contact Click: WhatsApp (Contact Section)");
+            });
+
+        });
+        </script>
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+          document.querySelector('a[href^="mailto:"]')?.addEventListener("click", () => {
+            umami.track("Contact Click: Email");
+          });
+
+        });
+        </script>
+        <script>
+        /* --- FOLLOW ME SOCIAL ICONS --- */
+        document.addEventListener("DOMContentLoaded", () => {
+
+          document.querySelectorAll('.social-container a').forEach(link => {
+            link.addEventListener("click", () => {
+
+              if (link.href.includes("facebook.com")) {
+                umami.track("Follow Click: Facebook");
+              }
+              else if (link.href.includes("instagram.com")) {
+                umami.track("Follow Click: Instagram");
+              }
+              else if (link.href.includes("tiktok.com")) {
+                umami.track("Follow Click: TikTok");
+              }
+              else if (link.href.includes("linkedin.com")) {
+                umami.track("Follow Click: LinkedIn");
+              }
+
+            });
+          });
+
+        });
+        </script>
 
         <script>
         document.addEventListener("DOMContentLoaded", () => {
