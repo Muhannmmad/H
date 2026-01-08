@@ -449,11 +449,12 @@
                          <span data-lang="en"> Download </span></div>
               </div>
               <a
-                       id="cvHiddenLink"
-                       href="files/Muhammad_Hassan_CV.pdf"
-                       download="Muhammad_Hassan_CV.pdf"
-                       aria-hidden="true"
-                     ></a>
+                id="cvHiddenLink"
+                href="files/Muhammad_Hassan_CV_DE.pdf"
+                download="Muhammad_Hassan_CV_DE.pdf"
+                aria-hidden="true"
+              ></a>
+
               </button>
               
 
@@ -2830,6 +2831,36 @@
         startAutoHover();
         </script>
 
+        <script>
+          function detectLanguage() {
+            // Use your language system
+            if (localStorage.getItem("lang")) {
+              return localStorage.getItem("lang");
+            }
+
+            // Fallback: visible text
+            const visible = [...document.querySelectorAll('[data-lang]')]
+              .find(el => el.offsetParent !== null);
+
+            return visible?.getAttribute("data-lang") || "de";
+          }
+
+          // Update CV link continuously (safe for UIverse buttons)
+          setInterval(() => {
+            const lang = detectLanguage();
+            const link = document.getElementById("cvHiddenLink");
+
+            if (!link) return;
+
+            if (lang === "en") {
+              link.href = "files/Muhammad_Hassan_CV_EN.pdf";
+              link.download = "Muhammad_Hassan_CV_EN.pdf";
+            } else {
+              link.href = "files/Muhammad_Hassan_CV_DE.pdf";
+              link.download = "Muhammad_Hassan_CV_DE.pdf";
+            }
+          }, 300);
+        </script>
 
         <script>
         document.addEventListener("DOMContentLoaded", () => {
