@@ -2778,7 +2778,7 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
   /* 🔑 hero text padding for tablets */
   .hero-content {
     padding-top: 8px;
-    padding-left: 80px;
+    padding-left: 20px;
   }
 }
 
@@ -2787,18 +2787,23 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
    =============================== */
 @media (max-width: 768px) {
 
-  .main {
+  /* Home section */
+  #home {
     position: relative;
+    padding-top: 2 !important;
+    margin-top: 2 !important;
+  }
+
+  /* Social icons – FLOAT, no layout space */
+  .main {
+    position: absolute;   /* 🔥 CRITICAL FIX */
     top: 8px;
     left: 8px;
-    margin: 0 0 6px 0;
+    margin: 0;
     padding: 0;
     transform: scale(0.7);
+    z-index: 10;
   }
-  #home {
-      padding-top: 0 !important;
-      margin-top: 0 !important;
-    }
 
   .up,
   .down {
@@ -2809,24 +2814,15 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
     padding: 2px;
   }
 
-  /* 🔑 hero text padding for mobile */
   .hero-content {
-      padding-top: 0 !important;
-          margin-top: 0 !important;
-    padding-left: 20px;
-    margin-top: 0;
+    padding-top: 50px !important;
+    margin-top: 50px !important;
+    padding-left: 30px;
   }
 
-  .hero-content h1,
-  .hero-content h2,
-  .hero-content h3 {
-    margin-top: 1px;
+
   }
 
-  #home {
-    padding-top: 0;
-    margin-top: 0;
-  }
 }
 
 /* ===============================
