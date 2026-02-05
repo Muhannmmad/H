@@ -2984,3 +2984,24 @@ body[dir="rtl"] .phone-row {
   width: 60px;
   height: 60px;
 }
+/* Space between service icon and text */
+.service-item .bg-icon {
+  margin-right: 42px;
+}
+
+/* Arabic: space on the LEFT instead */
+[dir="rtl"] .service-item .bg-icon {
+  margin-right: 0;
+  margin-left: 42px;
+}
+
+/* Extra breathing room on larger screens */
+@media (min-width: 992px) {
+  .service-item .bg-icon {
+    margin-right: 32px;
+  }
+
+  [dir="rtl"] .service-item .bg-icon {
+    margin-left: 32px;
+  }
+}
