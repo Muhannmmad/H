@@ -2942,3 +2942,45 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
     }
 }
 
+/* Arabic spacing fix */
+body[dir="rtl"] .hero-content {
+  padding-right: 150px;   /* distance from the right */
+  padding-left: 0;
+  text-align: right;
+}
+.phone-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+/* Alignment by language */
+body[dir="ltr"] .phone-row {
+  justify-content: flex-start;
+}
+
+body[dir="rtl"] .phone-row {
+  justify-content: flex-end;
+}
+
+/* 🔥 THIS IS THE CRITICAL PART */
+.phone-link {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.phone-number {
+  direction: ltr;
+  unicode-bidi: bidi-override; /* ← forces correct digit order */
+  display: inline-block;
+}
+
+.phone-link:hover {
+  text-decoration: underline;
+}
+
+.whatsapp-link img {
+  width: 60px;
+  height: 60px;
+}
