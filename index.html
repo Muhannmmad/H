@@ -2014,7 +2014,8 @@
           { code:"ir", nameEn:"Iran",                        nameDe:"Iran",                          nameAr:"إيران" },
           { code:"iq", nameEn:"Iraq",                        nameDe:"Irak",                          nameAr:"العراق" },
           { code:"ie", nameEn:"Ireland",                     nameDe:"Irland",                        nameAr:"أيرلندا" },
-          { code:"il", nameEn:"Israel",                      nameDe:"Israel",                        nameAr:"إسرائيل" },
+         { code:"ps", nameEn:"Palestine", nameDe:"Palästina", nameAr:"فلسطين" },
+
           { code:"it", nameEn:"Italy",                       nameDe:"Italien",                       nameAr:"إيطاليا" },
           { code:"jm", nameEn:"Jamaica",                     nameDe:"Jamaika",                       nameAr:"جامايكا" },
           { code:"jp", nameEn:"Japan",                       nameDe:"Japan",                         nameAr:"اليابان" },
@@ -2216,7 +2217,8 @@
                                         { code:"ir", nameEn:"Iran", nameDe:"Iran", nameAr:"إيران", capitalEn:"Tehran", capitalDe:"Teheran", capitalAr:"طهران" },
                                         { code:"iq", nameEn:"Iraq", nameDe:"Irak", nameAr:"العراق", capitalEn:"Baghdad", capitalDe:"Bagdad", capitalAr:"بغداد" },
                                         { code:"ie", nameEn:"Ireland", nameDe:"Irland", nameAr:"أيرلندا", capitalEn:"Dublin", capitalDe:"Dublin", capitalAr:"دبلن" },
-                                        { code:"il", nameEn:"Israel", nameDe:"Israel", nameAr:"إسرائيل", capitalEn:"Jerusalem", capitalDe:"Jerusalem", capitalAr:"القدس" },
+                                        { code:"ps", nameEn:"Palestine", nameDe:"Palästina", nameAr:"فلسطين", capitalEn:"Jerusalem", capitalDe:"Jerusalem", capitalAr:"القدس" },
+                                            
                                         { code:"it", nameEn:"Italy", nameDe:"Italien", nameAr:"إيطاليا", capitalEn:"Rome", capitalDe:"Rom", capitalAr:"روما" },
                                         { code:"jm", nameEn:"Jamaica", nameDe:"Jamaika", nameAr:"جامايكا", capitalEn:"Kingston", capitalDe:"Kingston", capitalAr:"كينغستون" },
                                         { code:"jp", nameEn:"Japan", nameDe:"Japan", nameAr:"اليابان", capitalEn:"Tokyo", capitalDe:"Tokio", capitalAr:"طوكيو" },
@@ -2274,7 +2276,7 @@
                                         { code:"om", nameEn:"Oman", nameDe:"Oman", nameAr:"عمان", capitalEn:"Muscat", capitalDe:"Maskat", capitalAr:"مسقط" },
                                         { code:"pk", nameEn:"Pakistan", nameDe:"Pakistan", nameAr:"باكستان", capitalEn:"Islamabad", capitalDe:"Islamabad", capitalAr:"إسلام آباد" },
                                         { code:"pw", nameEn:"Palau", nameDe:"Palau", nameAr:"بالاو", capitalEn:"Ngerulmud", capitalDe:"Ngerulmud", capitalAr:"نغيرولمود" },
-                                        { code:"ps", nameEn:"Palestine", nameDe:"Palästina", nameAr:"فلسطين", capitalEn:"Ramallah", capitalDe:"Ramallah", capitalAr:"رام الله" },
+                                       
                                         { code:"pa", nameEn:"Panama", nameDe:"Panama", nameAr:"بنما", capitalEn:"Panama City", capitalDe:"Panama-Stadt", capitalAr:"مدينة بنما" },
                                         { code:"pg", nameEn:"Papua New Guinea", nameDe:"Papua-Neuguinea", nameAr:"بابوا غينيا الجديدة", capitalEn:"Port Moresby", capitalDe:"Port Moresby", capitalAr:"بورت موريسبي" },
                                         { code:"py", nameEn:"Paraguay", nameDe:"Paraguay", nameAr:"باراغواي", capitalEn:"Asunción", capitalDe:"Asunción", capitalAr:"أسونسيون" },
@@ -2369,60 +2371,109 @@
           document.getElementById(wrongId).textContent = wrongFlagCount;
         }
 
-        function generateFlagButtons() {
-          if (!correctFlag) return;
-          updateDirection();
-          const optionsDiv = document.getElementById("options");
-          optionsDiv.innerHTML = "";
+            function generateFlagButtons() {
+              if (!correctFlag) return;
+              updateDirection();
+              const optionsDiv = document.getElementById("options");
+              optionsDiv.innerHTML = "";
 
-          const others = shuffle(flags.filter(f => f.code !== correctFlag.code)).slice(0,3);
-          const choices = shuffle([correctFlag, ...others]);
+              const others = shuffle(flags.filter(f => f.code !== correctFlag.code)).slice(0,3);
+              const choices = shuffle([correctFlag, ...others]);
 
-          choices.forEach(choice => {
-            const btn = document.createElement("button");
-            btn.dataset.code = choice.code;
+              choices.forEach(choice => {
+                const btn = document.createElement("button");
+                btn.dataset.code = choice.code;
 
-            // set text in current language
-            btn.innerHTML = currentLang === "de" ? choice.nameDe : currentLang === "ar" ? choice.nameAr : choice.nameEn;
+                // set text in current language
+                btn.innerHTML = currentLang === "de" ? choice.nameDe : currentLang === "ar" ? choice.nameAr : choice.nameEn;
 
-            // keep previous state if this was already answered
-            if (choice.code === correctFlag.code && correctFlag._answered === "correct") btn.classList.add("correct");
-            if (choice.code === correctFlag.code && correctFlag._answered === "wrong") btn.classList.add("correct");
-            if (choice._answered === "wrong") btn.classList.add("wrong");
+                // Remove pre-answer coloring
+                btn.classList.remove("correct", "wrong");
 
-            btn.onclick = () => {
-              [...optionsDiv.children].forEach(b => b.disabled = true);
-              const result = document.getElementById("result");
+                btn.onclick = () => {
+                  [...optionsDiv.children].forEach(b => b.disabled = true);
+                  const result = document.getElementById("result");
 
-              if (btn.dataset.code === correctFlag.code) {
-                btn.classList.add("correct");
-                correctFlag._answered = "correct";
-                result.style.color = "green";
-                result.textContent = messages.correct[currentLang];
-                correctFlagCount++;
-              } else {
-                btn.classList.add("wrong");
-                choice._answered = "wrong";
-                result.style.color = "red";
-                result.textContent = messages.wrong[currentLang];
-                wrongFlagCount++;
+                  if (btn.dataset.code === correctFlag.code) {
+                    btn.classList.add("correct");
+                    result.style.color = "green";
+                    result.textContent = messages.correct[currentLang];
+                    correctFlagCount++;
+                  } else {
+                    btn.classList.add("wrong");
+                    result.style.color = "red";
+                    result.textContent = messages.wrong[currentLang];
 
-                [...optionsDiv.children].forEach(b => {
-                  if (b.dataset.code === correctFlag.code) b.classList.add("correct");
-                });
-              }
+                    // show correct answer
+                    [...optionsDiv.children].forEach(b => {
+                      if (b.dataset.code === correctFlag.code) b.classList.add("correct");
+                    });
 
-              updateFlagScores();
+                    wrongFlagCount++;
+                  }
 
-              setTimeout(() => {
-                result.textContent = "";
-                nextFlag();
-              }, 1000);
-            };
+                  updateFlagScores();
 
-            optionsDiv.appendChild(btn);
-          });
-        }
+                  setTimeout(() => {
+                    result.textContent = "";
+                    nextFlag();
+                  }, 1000);
+                };
+
+                optionsDiv.appendChild(btn);
+              });
+            }
+
+            function generateCapitalButtons() {
+              if (!correctCapital) return;
+              updateDirection();
+              const optionsDiv = document.getElementById("optionsCap");
+              optionsDiv.innerHTML = "";
+
+              const others = shuffle(countries.filter(c => c.code !== correctCapital.code)).slice(0,3);
+              const choices = shuffle([correctCapital, ...others]);
+
+              choices.forEach(choice => {
+                const btn = document.createElement("button");
+                btn.dataset.code = choice.code;
+                btn.textContent = currentLang === "de" ? choice.capitalDe : currentLang === "ar" ? choice.capitalAr : choice.capitalEn;
+
+                // Remove pre-answer coloring
+                btn.classList.remove("correct", "wrong");
+
+                btn.onclick = () => {
+                  [...optionsDiv.children].forEach(b => b.disabled = true);
+                  const result = document.getElementById("resultCap");
+
+                  if (btn.dataset.code === correctCapital.code) {
+                    btn.classList.add("correct");
+                    result.style.color = "green";
+                    result.textContent = messages.correct[currentLang];
+                    correctCapitalCount++;
+                  } else {
+                    btn.classList.add("wrong");
+                    result.style.color = "red";
+                    result.textContent = messages.wrong[currentLang];
+
+                    // show correct answer
+                    [...optionsDiv.children].forEach(b => {
+                      if (b.dataset.code === correctCapital.code) b.classList.add("correct");
+                    });
+
+                    wrongCapitalCount++;
+                  }
+
+                  updateCapitalScores();
+
+                  setTimeout(() => {
+                    result.textContent = "";
+                    nextCapital();
+                  }, 1000);
+                };
+
+                optionsDiv.appendChild(btn);
+              });
+            }
 
         function nextFlag() {
           if (remainingFlags.length === 0) {
@@ -2457,58 +2508,7 @@
           document.getElementById(wrongId).textContent = wrongCapitalCount;
         }
 
-        function generateCapitalButtons() {
-          if (!correctCapital) return;
-          updateDirection();
-          const optionsDiv = document.getElementById("optionsCap");
-          optionsDiv.innerHTML = "";
-
-          const others = shuffle(countries.filter(c => c.code !== correctCapital.code)).slice(0,3);
-          const choices = shuffle([correctCapital, ...others]);
-
-          choices.forEach(choice => {
-            const btn = document.createElement("button");
-            btn.dataset.code = choice.code;
-            btn.textContent = currentLang === "de" ? choice.capitalDe : currentLang === "ar" ? choice.capitalAr : choice.capitalEn;
-
-            if (choice.code === correctCapital.code && correctCapital._answered === "correct") btn.classList.add("correct");
-            if (choice.code === correctCapital.code && correctCapital._answered === "wrong") btn.classList.add("correct");
-            if (choice._answered === "wrong") btn.classList.add("wrong");
-
-            btn.onclick = () => {
-              [...optionsDiv.children].forEach(b => b.disabled = true);
-              const result = document.getElementById("resultCap");
-
-              if (btn.dataset.code === correctCapital.code) {
-                btn.classList.add("correct");
-                correctCapital._answered = "correct";
-                result.style.color = "green";
-                result.textContent = messages.correct[currentLang];
-                correctCapitalCount++;
-              } else {
-                btn.classList.add("wrong");
-                choice._answered = "wrong";
-                result.style.color = "red";
-                result.textContent = messages.wrong[currentLang];
-                wrongCapitalCount++;
-
-                [...optionsDiv.children].forEach(b => {
-                  if (b.dataset.code === correctCapital.code) b.classList.add("correct");
-                });
-              }
-
-              updateCapitalScores();
-
-              setTimeout(() => {
-                result.textContent = "";
-                nextCapital();
-              }, 1000);
-            };
-
-            optionsDiv.appendChild(btn);
-          });
-        }
-
+        
         function nextCapital() {
           if (remainingCapitals.length === 0) {
             alert(currentLang === "de" ? "Spiel beendet!" : currentLang === "ar" ? "انتهت اللعبة!" : "Game finished!");
