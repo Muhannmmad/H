@@ -1,7 +1,7 @@
  (function ($) {
      "use strict";
 
-     // Spinner
+     // ---------------- SPINNER ----------------
      var spinner = function () {
          setTimeout(function () {
              if ($('#spinner').length > 0) {
@@ -11,43 +11,40 @@
      };
      spinner();
 
-     // WOW.js
+     // ---------------- WOW.JS ----------------
      new WOW().init();
+
+     // ---------------- THEME TOGGLE ----------------
      const themeToggle = document.getElementById("themeToggle");
 
-     // Load saved theme
      if (localStorage.getItem("theme") === "dark") {
          document.body.classList.add("dark-mode");
-         themeToggle.checked = true;
+         if (themeToggle) themeToggle.checked = true;
      }
 
-     themeToggle.addEventListener("change", () => {
-         document.body.classList.toggle("dark-mode");
+     if (themeToggle) {
+         themeToggle.addEventListener("change", () => {
+             document.body.classList.toggle("dark-mode");
 
-         if (document.body.classList.contains("dark-mode")) {
-             localStorage.setItem("theme", "dark");
-         } else {
-             localStorage.setItem("theme", "light");
-         }
-     });
+             if (document.body.classList.contains("dark-mode")) {
+                 localStorage.setItem("theme", "dark");
+             } else {
+                 localStorage.setItem("theme", "light");
+             }
+         });
+     }
 
-     /* --------------------------------------------------
-        NAVBAR: Smooth Scroll + Active Link Highlighting
-     -------------------------------------------------- */
-
+     // ---------------- NAVBAR LOGIC ----------------
      $(function () {
-
          const $window = $(window);
          const $navbar = $('.navbar');
          const $links = $('.navbar-nav .nav-link');
+
          const $sections = $links.map(function () {
              const s = $($(this).attr('href'));
              return s.length ? s : null;
          });
 
-         /* --------------------------------------
-            A) NAVBAR SHOW / HIDE (same as yours)
-         -------------------------------------- */
          $window.on('scroll', function () {
              if ($window.scrollTop() > 300) {
                  $navbar.fadeIn('slow').css('display', 'flex');
@@ -56,9 +53,6 @@
              }
          });
 
-         /* --------------------------------------
-            B) SMOOTH SCROLL (simple & reliable)
-         -------------------------------------- */
          $links.on('click', function (e) {
              const target = $(this).attr('href');
              if (!target.startsWith('#')) return;
@@ -67,7 +61,6 @@
              const $target = $(target);
              if (!$target.length) return;
 
-             // offset: navbar height or fallback
              const offset = ($navbar.is(':visible') ? $navbar.outerHeight() : 70) + 10;
 
              $('html, body').stop().animate({
@@ -75,11 +68,8 @@
              }, 700, 'easeInOutExpo');
          });
 
-         /* --------------------------------------
-            C) ACTIVE LINK ON SCROLL (bulletproof)
-         -------------------------------------- */
          function updateActive() {
-             const scrollPos = $window.scrollTop() + 120; // sensor offset
+             const scrollPos = $window.scrollTop() + 120;
              let current = null;
 
              $sections.each(function () {
@@ -96,95 +86,162 @@
              $links.filter('[href="#' + id + '"]').addClass('active');
          }
 
-         updateActive();          // run once
+         updateActive();
          $window.on('scroll', updateActive);
          $window.on('resize', updateActive);
-
      });
 
-     // ---------------------------
-     // ---------------------------
-     // ---------------------------
-     // LANGUAGE + TYPED
-     // ---------------------------
+     // ====================================================
+     //              LANGUAGE SYSTEM (FIXED)
+     // ====================================================
+
      let typed = null;
 
-     // Load saved language, fall back to German for first-time visitors
+     // -------- DETERMINE INITIAL LANGUAGE --------
+
      let savedLang = localStorage.getItem("lang");
-     let currentLang = savedLang ? savedLang : "de";
+
+     let currentLang;
+
+     if (savedLang) {
+         currentLang = savedLang;
+     } else {
+         const browserLang = navigator.language || navigator.userLanguage;
+
+         if (browserLang.startsWith("ar")) {
+             currentLang = "ar";
+         } else if (browserLang.startsWith("en")) {
+             currentLang = "en";
+         } else {
+             currentLang = "de";
+         }
+
+         localStorage.setItem("lang", currentLang);
+     }
+
+     // -------- BUTTON REFERENCES --------
 
      const deBtn = document.getElementById("lang-de");
      const enBtn = document.getElementById("lang-en");
+     const arBtn = document.getElementById("lang-ar");
 
-     // Start typed.js
+     // -------- TYPED.JS FUNCTION --------
+
      function startTyped(lang) {
-         if (typed) typed.destroy();
-
-         const selector = lang === "de" ? ".typed-de" : ".typed-en";
-         const element = document.querySelector(selector);
-
-         if (!element) {
-             console.warn("Typed.js element missing:", selector);
-             return;
-         }
-
          const output = document.querySelector(".typed-text-output");
-         if (!output) {
-             console.warn("Typed output element missing!");
-             return;
+         if (!output) return;
+
+         output.innerHTML = "";
+         output.style.textAlign = lang === "ar" ? "right" : "left";
+         output.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+
+         if (typed) {
+             typed.destroy();
+             typed = null;
          }
 
-         const words = element.textContent.trim().split(", ");
+         let selector = ".typed-de";
+         if (lang === "en") selector = ".typed-en";
+         if (lang === "ar") selector = ".typed-ar";
+
+         const element = document.querySelector(selector);
+         if (!element) return;
+
+         document.querySelectorAll(".typed-text").forEach(el => el.style.display = 'none');
+         element.style.display = 'block';
+
+         const words = element.textContent.trim().split(/\s*,\s*|\s*،\s*/);
 
          typed = new Typed(".typed-text-output", {
              strings: words,
              typeSpeed: 100,
-             backSpeed: 20,
-             loop: true
+             backSpeed: 50,
+             backDelay: 1000,
+             loop: true,
+             smartBackspace: true
          });
      }
 
-     // Show correct language elements
+     // -------- UPDATE TEXT ELEMENTS --------
+
      function updateTextElements(lang) {
+         // Show/hide language-specific content
          document.querySelectorAll('[data-lang]').forEach(el => {
              el.style.display = (el.getAttribute('data-lang') === lang) ? '' : 'none';
          });
+
+         // Apply RTL only to main content
+         if (lang === "ar") {
+             document.documentElement.setAttribute("dir", "rtl");
+             document.body.classList.add("rtl");
+         } else {
+             document.documentElement.setAttribute("dir", "ltr");
+             document.body.classList.remove("rtl");
+         }
+
+         // Ensure language switcher always stays LTR
+         const switcher = document.querySelector(".lang-floating-btn");
+         if (switcher) {
+             switcher.style.direction = "ltr";
+             switcher.style.textAlign = "left";
+         }
      }
 
-     // Update language switcher UI
+     // -------- UPDATE SWITCHER UI --------
+
      function updateSwitcher(lang) {
-         if (lang === "de") {
+         [deBtn, enBtn, arBtn].forEach(btn => {
+             if (!btn) return;
+
+             btn.classList.remove("active");
+             btn.classList.add("inactive");
+             btn.disabled = false;
+         });
+
+         if (lang === "de" && deBtn) {
              deBtn.classList.add("active");
              deBtn.classList.remove("inactive");
              deBtn.disabled = true;
-
-             enBtn.classList.remove("active");
-             enBtn.classList.add("inactive");
-             enBtn.disabled = false;
-         } else {
+         } else if (lang === "en" && enBtn) {
              enBtn.classList.add("active");
              enBtn.classList.remove("inactive");
              enBtn.disabled = true;
-
-             deBtn.classList.remove("active");
-             deBtn.classList.add("inactive");
-             deBtn.disabled = false;
+         } else if (lang === "ar" && arBtn) {
+             arBtn.classList.add("active");
+             arBtn.classList.remove("inactive");
+             arBtn.disabled = true;
          }
 
-         // Save last selected language
          localStorage.setItem("lang", lang);
      }
 
-     // When the page loads, enable correct language
+     // -------- MAIN CHANGE FUNCTION --------
+
+     function changeLanguage(lang) {
+         currentLang = lang;
+
+         updateTextElements(lang);
+         updateSwitcher(lang);
+         startTyped(lang);
+
+         localStorage.setItem("lang", lang);
+     }
+
+     // -------- BUTTON EVENTS --------
+
+     if (deBtn) deBtn.addEventListener("click", () => changeLanguage("de"));
+     if (enBtn) enBtn.addEventListener("click", () => changeLanguage("en"));
+     if (arBtn) arBtn.addEventListener("click", () => changeLanguage("ar"));
+
+     // -------- INITIAL PAGE LOAD --------
+
      document.addEventListener("DOMContentLoaded", () => {
-         updateSwitcher(currentLang);
-         updateTextElements(currentLang);
-         startTyped(currentLang);
+         changeLanguage(currentLang);
      });
 
-     // -----------------------------------
-     // SKILL BAR WAYPOINT RE-INITIALIZATION
-     // -----------------------------------
+     // ====================================================
+     //              SKILL BARS
+     // ====================================================
 
      function initSkillWaypoint() {
          $('.skill').waypoint(function () {
@@ -193,15 +250,17 @@
              });
          }, { offset: '80%' });
      }
-
-     // Run once on page load
      initSkillWaypoint();
 
-     
-     (function () {
+     // ====================================================
+     //              CONTACT FORM
+     // ====================================================
 
+     (function () {
          const form = document.getElementById("contact-form");
          const thankYou = document.getElementById("thank-you-message");
+
+         if (!form) return;
 
          form.addEventListener("submit", async function (e) {
              e.preventDefault();
@@ -214,15 +273,12 @@
 
              let valid = true;
 
-             // Reset validation
              [name, email, phone, subject, message].forEach(f => f.classList.remove("is-invalid"));
 
-             // Required fields
              if (!name.value.trim()) { name.classList.add("is-invalid"); valid = false; }
              if (!subject.value.trim()) { subject.classList.add("is-invalid"); valid = false; }
              if (!message.value.trim()) { message.classList.add("is-invalid"); valid = false; }
 
-             // Email OR phone required
              if (!email.value.trim() && !phone.value.trim()) {
                  email.classList.add("is-invalid");
                  phone.classList.add("is-invalid");
@@ -250,61 +306,13 @@
              }
          });
 
-         // 🔥 MUST be global for onclick to work
          window.resetForm = function (e) {
              e.preventDefault();
-
-             // Hide thank you
              thankYou.style.display = "none";
-
-             // Show form again
              form.style.display = "block";
-
-             // Clear validation styles
-             form.querySelectorAll(".is-invalid").forEach(el => {
-                 el.classList.remove("is-invalid");
-             });
-
-             // Scroll nicely back to form
+             form.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
              form.scrollIntoView({ behavior: "smooth", block: "start" });
          };
-
      })();
-     
-
-     // -----------------------------------
-     // LANGUAGE SWITCHING
-     // -----------------------------------
-
-     function setLanguage(lang) {
-         currentLang = lang;
-         document.documentElement.lang = lang;
-
-         updateTextElements(lang);
-         updateSwitcher(lang);
-         startTyped(lang);
-
-         // Reset all bars to zero before the next scroll
-         document.querySelectorAll('.progress-bar').forEach(bar => {
-             bar.style.width = '0%';
-         });
-
-         // Reinitialize waypoint AFTER language visibility changes
-         setTimeout(() => {
-             initSkillWaypoint();
-         }, 200);
-     }
-
-     // Initialize page on load
-     setLanguage(currentLang);
-
-     // Button click events
-     deBtn.addEventListener("click", () => {
-         if (currentLang !== "de") setLanguage("de");
-     });
-
-     enBtn.addEventListener("click", () => {
-         if (currentLang !== "en") setLanguage("en");
-     });
 
  })(jQuery);

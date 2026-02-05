@@ -24,45 +24,39 @@
   right: 15px;
   z-index: 9999;
   display: flex;
-  overflow: hidden;
   border-radius: 26px;
   border: 1px solid var(--bs-primary);
   background: var(--bs-body-bg);
   box-shadow: 0 4px 10px rgba(0,0,0,0.20);
+  overflow: hidden;
 }
 
-/* Each language half */
+/* Each language button */
 .lang-side {
   width: 70px;
   height: 40px;
-  background: transparent;
   border: none;
+  background: transparent;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  transition: all 0.25s ease;
 }
-/* Flag image support (replace emoji flags) */
+
+/* Flag inside button */
 .lang-floating-btn .flag {
-    display: inline-flex;
-    align-items: center;
+  display: inline-flex;
+  align-items: center;
 }
 
 .lang-floating-btn .flag img {
-    width: 22px;
-    height: 16px;
-    display: block;
-    object-fit: cover;
-    border-radius: 2px;
+  width: 22px;
+  height: 16px;
+  display: block;
+  object-fit: cover;
+  border-radius: 2px;
 }
 
-/* Optional: ensure text and flag stay aligned */
-.lang-floating-btn .lang-inner {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Inner content stays CENTERED always */
+/* Text + flag container */
 .lang-inner {
   position: absolute;
   top: 50%;
@@ -71,17 +65,16 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: opacity 0.25s ease;
   z-index: 3;
 }
 
-/* Remove text and small flag when active */
+/* Active button hides small flag + text */
 .lang-side.active .flag,
 .lang-side.active strong {
   display: none;
 }
 
-/* 3D BUTTON CIRCLE */
+/* Active button circle */
 .lang-side.active::after {
   content: "";
   position: absolute;
@@ -90,60 +83,51 @@
   border-radius: 50%;
   background: linear-gradient(#ffffff, #e5e5e5);
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 4;
-  transition: all 0.25s ease;
-
-  /* 3D embossed effect */
   box-shadow:
     0 4px 8px rgba(0,0,0,0.25),
     inset 0 2px 3px rgba(255,255,255,0.6),
     inset 0 -2px 4px rgba(0,0,0,0.20);
+  pointer-events: none;
 }
 
-/* BUTTON POSITIONING LEFT / RIGHT */
-#lang-de.active::after { left: 7px; }
-#lang-en.active::after { right: 7px; }
-
-/* ACTIVE FLAG BACKGROUND */
+/* Active button background */
 .lang-side.active::before {
   content: "";
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.92;
+  opacity: 0.95;
   z-index: 1;
+  pointer-events: none; /* allow clicks to other buttons */
 }
 
+/* Flags for active buttons */
 #lang-de.active::before { background-image: url("https://flagcdn.com/w320/de.png"); }
 #lang-en.active::before { background-image: url("https://flagcdn.com/w320/gb.png"); }
+#lang-ar.active::before { background-image: url("https://flagcdn.com/w320/eg.png"); }
 
-/* INACTIVE LOOK — centered and slightly dim */
+/* Inactive buttons style */
 .lang-side.inactive {
   opacity: 0.55;
 }
 
-.lang-side:not(.active):hover {
-  background: rgba(0,0,0,0.06);
-  opacity: 1;
-}
-/* POP-OUT BUTTON EFFECT ON INACTIVE HOVER */
 .lang-side.inactive:hover {
-  transform: scale(1.07);                /* pops out */
-  z-index: 5;                            /* above neighbor */
-  background: white;                     /* button surface */
-  
+  transform: scale(1.07);
+  z-index: 5;
+  background: white;
   box-shadow:
-    0 4px 10px rgba(0,0,0,0.22),         /* outer shadow */
-    inset 0 2px 3px rgba(255,255,255,0.75), /* inner highlight */
-    inset 0 -2px 4px rgba(0,0,0,0.22);       /* inner depth */
-  transition: all 0.25s ease;
+    0 4px 10px rgba(0,0,0,0.22),
+    inset 0 2px 3px rgba(255,255,255,0.75),
+    inset 0 -2px 4px rgba(0,0,0,0.22);
 }
 
-/* smooth transform for all states */
-.lang-side {
-  transition: all 0.25s ease !important;
+/* Ensure active button is always on top */
+.lang-side.active {
+  z-index: 10;
 }
 
   /* Remove extra padding in collapse menu */
@@ -489,7 +473,7 @@ body {
 ================================ */
 .theme-toggle {
   position: fixed;
- right: 40px;
+ right: 16px;
   top: 60px;
   z-index: 9999;
 
@@ -667,7 +651,23 @@ body.dark-mode .navbar .navbar-toggler-icon {
   }
 }
 
+/* Keep social buttons fixed LTR */
+#home .main {
+    direction: ltr;        /* Force left-to-right layout */
+    text-align: center;    /* Center the buttons */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
+/* Optional: keep the two rows spaced nicely */
+#home .main .up,
+#home .main .down {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
 /*** Header ***/
 #home {
     margin-bottom: 6rem;
@@ -2907,3 +2907,38 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
   scale: 1.1;
   background-color: #f3a1c6; /* light Instagram pink */
 }
+/* Language switcher stays left-to-right even in Arabic */
+.lang-floating-btn {
+    direction: ltr !important;
+    text-align: left !important;
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+
+/* Keep flags and text aligned properly */
+.lang-floating-btn .lang-inner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+/* Force navbar toggler (hamburger) always on left */
+.navbar-toggler {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+/* Only for Arabic, large screens */
+@media (min-width: 992px) {
+    html[lang="ar"] .navbar-expand-lg .navbar-collapse {
+        display: flex !important;          /* make it flex */
+        justify-content: center !important; /* center links horizontally */
+    }
+
+    /* Remove extra margins from left/right navbar-nav */
+    html[lang="ar"] .navbar-expand-lg .navbar-nav.ms-auto,
+    html[lang="ar"] .navbar-expand-lg .navbar-nav.me-auto {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
