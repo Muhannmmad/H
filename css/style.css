@@ -3005,3 +3005,29 @@ body[dir="rtl"] .phone-row {
     margin-left: 32px;
   }
 }
+/* Hero name size adjustment */
+.hero-name span[data-lang="en"],
+.hero-name span[data-lang="de"] {
+    font-size: 3rem !important;   /* bigger, fits one line */
+    font-weight: 700;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/* Arabic name stays larger if needed */
+.hero-name span[data-lang="ar"] {
+    font-size: 3rem !important;
+    font-weight: 700;
+    white-space: normal;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+    .hero-name span[data-lang="en"],
+    .hero-name span[data-lang="de"] {
+        font-size: 2rem !important;   /* shrinks on mobile */
+    }
+    .hero-name span[data-lang="ar"] {
+        font-size: 2.5rem !important;
+    }
+}
