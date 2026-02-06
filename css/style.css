@@ -3008,14 +3008,14 @@ body[dir="rtl"] .phone-row {
 /* Mobile-first (default) */
 .hero-name span[data-lang="en"],
 .hero-name span[data-lang="de"] {
-    font-size: 1.8rem;  /* small enough to fit mobile */
+    font-size: 1.5rem;  /* smaller on mobile */
     font-weight: 700;
-    white-space: normal; /* allow wrapping on small screens */
+    white-space: normal; /* allow wrapping if needed */
 }
 
 /* Arabic name */
 .hero-name span[data-lang="ar"] {
-    font-size: 2rem;
+    font-size: 1.8rem;  /* slightly bigger for Arabic */
     font-weight: 700;
     white-space: normal;
 }
@@ -3025,7 +3025,7 @@ body[dir="rtl"] .phone-row {
     .hero-name span[data-lang="en"],
     .hero-name span[data-lang="de"] {
         font-size: 3rem; /* bigger on desktop */
-        white-space: nowrap; /* stay in one line on desktop */
+        white-space: nowrap; /* keep in one line */
     }
 
     .hero-name span[data-lang="ar"] {
