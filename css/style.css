@@ -3005,15 +3005,15 @@ body[dir="rtl"] .phone-row {
     margin-left: 32px;
   }
 }
-/* Default (mobile-first) font size */
+/* Mobile-first (default) */
 .hero-name span[data-lang="en"],
 .hero-name span[data-lang="de"] {
-    font-size: 1.8rem; /* mobile/tablet default */
+    font-size: 1.8rem;  /* small enough to fit mobile */
     font-weight: 700;
-    white-space: nowrap; /* stay on one line */
+    white-space: normal; /* allow wrapping on small screens */
 }
 
-/* Arabic name (flexible) */
+/* Arabic name */
 .hero-name span[data-lang="ar"] {
     font-size: 2rem;
     font-weight: 700;
@@ -3021,12 +3021,14 @@ body[dir="rtl"] .phone-row {
 }
 
 /* Desktop screens only */
-@media (min-width: 992px) { /* Bootstrap lg breakpoint */
+@media (min-width: 992px) { /* lg and up */
     .hero-name span[data-lang="en"],
     .hero-name span[data-lang="de"] {
         font-size: 3rem; /* bigger on desktop */
+        white-space: nowrap; /* stay in one line on desktop */
     }
+
     .hero-name span[data-lang="ar"] {
-        font-size: 3rem; /* optional bigger Arabic on desktop */
+        font-size: 3rem; /* optional bigger Arabic */
     }
 }
