@@ -2944,7 +2944,7 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
 
 /* Arabic spacing fix */
 body[dir="rtl"] .hero-content {
-  padding-right: 150px;   /* distance from the right */
+  padding-right: 80px;   /* distance from the right */
   padding-left: 0;
   text-align: right;
 }
