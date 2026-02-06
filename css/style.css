@@ -1376,7 +1376,7 @@ body.dark-mode .uiverse-launch #button #to-hover {
 /* container wraps everything together, applies general styles and does nothing else*/
 .uiverse-launch .container {
   position: relative;
-  margin-top: 16px;
+  margin-top: 30px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3005,29 +3005,28 @@ body[dir="rtl"] .phone-row {
     margin-left: 32px;
   }
 }
-/* Hero name size adjustment */
+/* Default (mobile-first) font size */
 .hero-name span[data-lang="en"],
 .hero-name span[data-lang="de"] {
-    font-size: 3rem !important;   /* bigger, fits one line */
+    font-size: 1.8rem; /* mobile/tablet default */
     font-weight: 700;
-    white-space: nowrap;
-    display: inline-block;
+    white-space: nowrap; /* stay on one line */
 }
 
-/* Arabic name stays larger if needed */
+/* Arabic name (flexible) */
 .hero-name span[data-lang="ar"] {
-    font-size: 3rem !important;
+    font-size: 2rem;
     font-weight: 700;
     white-space: normal;
 }
 
-/* Responsive for smaller screens */
-@media (max-width: 768px) {
+/* Desktop screens only */
+@media (min-width: 992px) { /* Bootstrap lg breakpoint */
     .hero-name span[data-lang="en"],
     .hero-name span[data-lang="de"] {
-        font-size: 2rem !important;   /* shrinks on mobile */
+        font-size: 3rem; /* bigger on desktop */
     }
     .hero-name span[data-lang="ar"] {
-        font-size: 2.5rem !important;
+        font-size: 3rem; /* optional bigger Arabic on desktop */
     }
 }
