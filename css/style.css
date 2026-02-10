@@ -15,120 +15,7 @@
 }
 
 
-/* -------------------------
-   Switcher container
--------------------------- */
-.lang-floating-btn {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 9999;
-  display: flex;
-  border-radius: 26px;
-  border: 1px solid var(--bs-primary);
-  background: var(--bs-body-bg);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.20);
-  overflow: hidden;
-}
 
-/* Each language button */
-.lang-side {
-  width: 70px;
-  height: 40px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.25s ease;
-}
-
-/* Flag inside button */
-.lang-floating-btn .flag {
-  display: inline-flex;
-  align-items: center;
-}
-
-.lang-floating-btn .flag img {
-  width: 22px;
-  height: 16px;
-  display: block;
-  object-fit: cover;
-  border-radius: 2px;
-}
-
-/* Text + flag container */
-.lang-inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  z-index: 3;
-}
-
-/* Active button hides small flag + text */
-.lang-side.active .flag,
-.lang-side.active strong {
-  display: none;
-}
-
-/* Active button circle */
-.lang-side.active::after {
-  content: "";
-  position: absolute;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: linear-gradient(#ffffff, #e5e5e5);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 4;
-  box-shadow:
-    0 4px 8px rgba(0,0,0,0.25),
-    inset 0 2px 3px rgba(255,255,255,0.6),
-    inset 0 -2px 4px rgba(0,0,0,0.20);
-  pointer-events: none;
-}
-
-/* Active button background */
-.lang-side.active::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.95;
-  z-index: 1;
-  pointer-events: none; /* allow clicks to other buttons */
-}
-
-/* Flags for active buttons */
-#lang-de.active::before { background-image: url("https://flagcdn.com/w320/de.png"); }
-#lang-en.active::before { background-image: url("https://flagcdn.com/w320/gb.png"); }
-#lang-ar.active::before { background-image: url("https://flagcdn.com/w320/eg.png"); }
-
-/* Inactive buttons style */
-.lang-side.inactive {
-  opacity: 0.55;
-}
-
-.lang-side.inactive:hover {
-  transform: scale(1.07);
-  z-index: 5;
-  background: white;
-  box-shadow:
-    0 4px 10px rgba(0,0,0,0.22),
-    inset 0 2px 3px rgba(255,255,255,0.75),
-    inset 0 -2px 4px rgba(0,0,0,0.22);
-}
-
-/* Ensure active button is always on top */
-.lang-side.active {
-  z-index: 10;
-}
 
   /* Remove extra padding in collapse menu */
   .navbar .collapse {
@@ -3031,4 +2918,133 @@ body[dir="rtl"] .phone-row {
     .hero-name span[data-lang="ar"] {
         font-size: 3rem; /* optional bigger Arabic */
     }
+}
+/* -------------------------
+   Switcher container
+-------------------------- */
+.lang-floating-btn {
+  position: fixed;
+  top: 15px;
+  right: 18px;
+  z-index: 9999;
+  display: flex;
+  border-radius: 26px;
+  border: 1px solid var(--bs-primary);
+  background: var(--bs-body-bg);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.20);
+  overflow: hidden;
+}
+
+/* Each language button */
+.lang-side {
+  width: 70px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+/* Flag inside button */
+.lang-floating-btn .flag {
+  display: inline-flex;
+  align-items: center;
+}
+
+.lang-floating-btn .flag img {
+  width: 22px;
+  height: 16px;
+  display: block;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+/* Text + flag container */
+.lang-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 3;
+}
+
+/* Active button hides small flag + text */
+.lang-side.active .flag,
+.lang-side.active strong {
+  display: none;
+}
+
+/* Active button circle */
+.lang-side.active::after {
+  content: "";
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(#ffffff, #e5e5e5);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.25),
+    inset 0 2px 3px rgba(255,255,255,0.6),
+    inset 0 -2px 4px rgba(0,0,0,0.20);
+  pointer-events: none;
+}
+
+/* Active button background */
+.lang-side.active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.95;
+  z-index: 1;
+  pointer-events: none; /* allow clicks to other buttons */
+}
+
+/* Flags for active buttons */
+#lang-de.active::before { background-image: url("https://flagcdn.com/w320/de.png"); }
+#lang-en.active::before { background-image: url("https://flagcdn.com/w320/gb.png"); }
+#lang-ar.active::before { background-image: url("https://flagcdn.com/w320/eg.png"); }
+
+/* Inactive buttons style */
+.lang-side.inactive {
+  opacity: 0.55;
+}
+
+/* Hover effect for inactive buttons */
+.lang-side.inactive:hover {
+  transform: scale(1.07);
+  z-index: 5;
+  background: white;
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.22),
+    inset 0 2px 3px rgba(255,255,255,0.75),
+    inset 0 -2px 4px rgba(0,0,0,0.22);
+}
+
+/* Ensure active button is always on top */
+.lang-side.active {
+  z-index: 10;
+}
+
+/* -------------------------
+   COLLAPSE FUNCTIONALITY
+-------------------------- */
+
+/* Hide all buttons except active by default */
+.lang-floating-btn .lang-side:not(.active) {
+  display: none;
+}
+
+/* Optional: expand to show all on hover */
+.lang-floating-btn:hover .lang-side {
+  display: flex;
 }
