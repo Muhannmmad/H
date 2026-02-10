@@ -360,52 +360,56 @@ body {
 ================================ */
 .theme-toggle {
   position: fixed;
- right: 16px;
+  right: 16px;
   top: 60px;
   z-index: 9999;
 
+  /* Keep original size */
   padding: 6px;
+  width: auto;        /* automatic width to fit content */
+  height: 40px;       /* original height */
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+
+  /* Remove background but keep size */
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  transition: background 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s;
 }
 
-/* Dark mode container */
+/* Dark mode transparent */
 body.dark-mode .theme-toggle {
-  background: rgba(20, 20, 20, 0.85);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  background: transparent;
+  box-shadow: none;
 }
 
 /* Hover feedback (desktop only) */
 @media (hover: hover) {
   .theme-toggle:hover {
-    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
+    transform: scale(1.05);
   }
 }
+
 /* Hamburger menu / toggler default */
 .navbar .navbar-toggler {
-    border-color: var(--dark); /* black border in light mode */
+  border-color: var(--dark);
 }
 
-/* Hamburger lines (default: black) */
 .navbar .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%2312141D' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%2312141D' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-/* Dark mode override: lines + border */
 body.dark-mode .navbar .navbar-toggler {
-    border-color: #ffffff; /* white border */
+  border-color: #ffffff;
 }
 
 body.dark-mode .navbar .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
 /* ===============================
@@ -3048,3 +3052,4 @@ body[dir="rtl"] .phone-row {
 .lang-floating-btn:hover .lang-side {
   display: flex;
 }
+
