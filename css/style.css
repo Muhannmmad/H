@@ -31,7 +31,6 @@
     visibility: visible !important;
     animation-name: none !important;
   }
-}
 /* Heartbeat animation */
 @keyframes heartbeat {
     0% {
@@ -107,9 +106,7 @@
 .logo-img {
     width: 120px;
     height: auto;
-        margin-bottom: 15px !important;
-    }
-
+    margin-bottom: 15px !important;
 }
 
 /* MOBILE FIX – stack and center */
@@ -1085,7 +1082,6 @@ body.dark-mode li:not(#flagGameCard li),
 body.dark-mode strong:not(#flagGameCard strong) {
   color: #d6d6d6;
 }
-}
 /* ===============================
    DARK MODE — LANGUAGE SWITCHER
 ================================ */
@@ -1411,12 +1407,6 @@ body.dark-mode .uiverse-launch #button #to-hover {
   transition: ease-out 200ms;
 }
 
-.uiverse-launch #tag {
-  opacity: 0;
-  color: rgb(43, 43, 43);
-  position: absolute;
-}
-
 .uiverse-launch #platform {
   position: absolute;
   width: 70%;
@@ -1534,11 +1524,6 @@ body.dark-mode .uiverse-launch #button #to-hover {
   opacity: 0;
 }
 
-.uiverse-launch #checkbox:checked ~ #button #tag {
-  -webkit-animation: tag-transition 5s ease-in-out;
-  animation: tag-transition 5s ease-in-out;
-}
-  
   /* launch sequence, takes only 20% of duration to completely fade out,
      and stays there til 90% */
 
@@ -1619,19 +1604,10 @@ body.dark-mode .uiverse-launch #button #to-hover {
 
 
 
-@keyframes tag-transition {
-  0%, 100% {
-    opacity: 0;
-  }
-
-  20%, 80% {
-    opacity: 1;
-  }
-}
 .uiverse-launch #tag {
     opacity: 0;
       color: #1fa84f !important;      /* force green */
-      font-weight: 700; 
+      font-weight: 700;
   position: absolute;
 
   /* center text */
@@ -1650,10 +1626,51 @@ body.dark-mode .uiverse-launch #button #to-hover {
 @keyframes tag-transition {
   0%, 100% {
     opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
   }
 
-  20%, 80% {
+  20% {
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+
+  30%, 70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+/* "Smiling" emoji pops and gently bounces alongside the thank-you text */
+.uiverse-launch #tag .tag-smile {
+  display: inline-block;
+  -webkit-animation: tag-smile-bounce 5s ease-in-out;
+  animation: tag-smile-bounce 5s ease-in-out;
+}
+
+@keyframes tag-smile-bounce {
+  0%, 15%, 100% {
+    transform: scale(0) rotate(0deg);
+  }
+
+  25% {
+    transform: scale(1.3) rotate(-10deg);
+  }
+
+  35% {
+    transform: scale(1) rotate(8deg);
+  }
+
+  45%, 75% {
+    transform: scale(1.1) rotate(0deg);
+  }
+
+  85% {
+    transform: scale(0.9) rotate(0deg);
   }
 }
 
@@ -2487,7 +2504,7 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
 .box > span {
     position: absolute;
     inset: 2px;
-    background: transparent; 
+    background: transparent;
     border-radius: 18px;
     z-index: 1;
 }
@@ -2708,9 +2725,6 @@ html[lang="en"] .text.state-1 span:nth-child(n+12) {
     padding-top: 50px !important;
     margin-top: 50px !important;
     padding-left: 30px;
-  }
-
-
   }
 
 }
@@ -3098,4 +3112,332 @@ body[dir="rtl"] .phone-row {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Sitemap footer links */
+.container-fluid.bg-dark a.text-white:hover {
+    color: var(--secondary) !important;
+}
+
+/* Keep the "Auto Scroll" toggle button readable in dark mode.
+   It has its own light surface + dark navy text by design, but the
+   global dark-mode text-color rule was overriding the label color,
+   making it invisible against its own light background. */
+body.dark-mode .area .text span {
+  color: transparent !important;
+}
+body.dark-mode .area .text span::before,
+body.dark-mode .area .text span::after {
+  color: #3c5d7d !important;
+}
+body.dark-mode .area .content::before {
+  background: linear-gradient(to bottom, #dde0e1 30%, #aeb2b8 90%) !important;
+}
+body.dark-mode .area .button {
+  background: var(--primary) !important;
+}
+
+/* The Arabic label has no per-letter child spans (it's plain text,
+   unlike the EN/DE versions), so it never picks up the dark navy
+   color from the rules above — it was inheriting the page's light
+   dark-mode text color directly. Give it the same dark, readable
+   color as the other languages, in both light and dark mode. */
+.area .text[data-lang="ar"] {
+  color: #3c5d7d;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+body.dark-mode .area .text[data-lang="ar"] {
+  color: #3c5d7d !important;
+}
+
+/* ===============================
+   SITEMAP — ROADMAP STYLE
+   (distinct from the Services cards:
+   a connected path of glowing stops)
+================================ */
+.sitemap-section {
+    background: linear-gradient(135deg, #1b1330 0%, #2b1f52 50%, #1b1330 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.sitemap-subtitle {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.sitemap-track {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2.5rem 1rem;
+    padding: 1rem 0 0.5rem;
+}
+
+/* Connecting line behind the nodes (desktop) */
+.sitemap-line {
+    position: absolute;
+    top: 40px;
+    left: 8%;
+    right: 8%;
+    height: 3px;
+    background: linear-gradient(90deg, #45f8f8, #6244C5, #FFC448, #e0577c, #2ecc71, #ff8c42, #0dcaf0);
+    opacity: 0.55;
+    z-index: 0;
+    border-radius: 3px;
+}
+
+.sitemap-node {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 140px;
+    text-decoration: none;
+    color: #fff;
+    text-align: center;
+}
+
+.sitemap-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #12141D;
+    background: var(--node-color, #45f8f8);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.06), 0 10px 25px rgba(0, 0, 0, 0.45);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.sitemap-node:hover .sitemap-circle {
+    transform: translateY(-8px) scale(1.08);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.12), 0 0 30px var(--node-color, #45f8f8), 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.sitemap-label {
+    margin-top: 14px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #ffffff !important;
+    transition: color 0.3s ease;
+}
+
+.sitemap-node:hover .sitemap-label {
+    color: var(--node-color, #45f8f8) !important;
+}
+
+/* Mobile: stack vertically, hide the horizontal line */
+@media (max-width: 767px) {
+    .sitemap-line {
+        display: none;
+    }
+    .sitemap-track {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.75rem;
+    }
+    .sitemap-node {
+        width: 100%;
+    }
+}
+
+/* This section always keeps its own dark, colorful look regardless of site-wide light/dark mode.
+   (h1 already uses .text-white, subtitle/labels already set their own color explicitly above,
+   so no extra dark-mode override is needed here.) */
+
+/* ===============================
+   MY WRITINGS — BOOK CARDS
+================================ */
+.writings-section .book-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.writings-section .book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.18);
+}
+
+.book-cover-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: #eee;
+}
+
+.book-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.writings-section .book-card:hover .book-cover {
+    transform: scale(1.06);
+}
+
+.book-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1.25rem;
+}
+
+.book-tagline {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #666;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.book-btn {
+    margin-top: auto;
+    width: 100%;
+}
+
+.book-soon-ribbon {
+    position: absolute;
+    top: 14px;
+    right: -34px;
+    transform: rotate(35deg);
+    background: linear-gradient(135deg, var(--secondary), #d9a02f);
+    color: #12141D;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 5px 42px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+    z-index: 2;
+}
+
+.book-card-soon .book-cover {
+    filter: grayscale(65%) brightness(0.85);
+}
+
+.book-card-soon:hover .book-cover {
+    transform: none;
+}
+
+.book-card-soon .book-btn:disabled {
+    opacity: 0.85;
+    cursor: not-allowed;
+}
+
+/* Dark mode support for book cards */
+body.dark-mode .writings-section .book-card {
+    background: #151821;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .writings-section .book-card:hover {
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .book-tagline {
+    color: #b8b8b8;
+}
+
+@media (max-width: 767px) {
+    .book-soon-ribbon {
+        right: -38px;
+        top: 16px;
+        font-size: 0.7rem;
+        padding: 4px 40px;
+    }
+}
+
+/* ============================================
+   Global "Thank you" toast — shown after ANY
+   download (CV button + book PDF downloads)
+   ============================================ */
+.download-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: #ffffff;
+    border: 2px solid #1fa84f;
+    color: #1fa84f !important;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 12px 22px;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 400ms ease, transform 400ms ease;
+}
+
+.download-toast span[data-lang] {
+    color: #1fa84f !important;
+}
+
+body.dark-mode .download-toast {
+    background: #151821;
+}
+
+.download-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.download-toast-smile {
+    display: inline-block;
+    font-size: 1.3rem;
+    transform: scale(0);
+}
+
+.download-toast.show .download-toast-smile {
+    -webkit-animation: download-toast-smile-pop 3s ease-in-out;
+    animation: download-toast-smile-pop 3s ease-in-out;
+}
+
+@keyframes download-toast-smile-pop {
+    0% {
+        transform: scale(0) rotate(0deg);
+    }
+    15% {
+        transform: scale(1.3) rotate(-10deg);
+    }
+    30% {
+        transform: scale(1) rotate(8deg);
+    }
+    50%, 80% {
+        transform: scale(1.05) rotate(0deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@media (max-width: 576px) {
+    .download-toast {
+        bottom: 20px;
+        font-size: 0.9rem;
+        padding: 10px 16px;
+        max-width: 90%;
+        text-align: center;
+    }
 }
