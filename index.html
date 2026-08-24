@@ -4,7 +4,7 @@
     <head>
         
         <script>
-        (function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const body = document.body;
             const savedTheme = localStorage.getItem('theme');
 
@@ -15,7 +15,7 @@
             if (savedTheme === 'dark') {
                 body.classList.add('dark-mode');
             }
-        })();
+        });
         </script>
 
 
@@ -29,7 +29,7 @@
         <title>Muhammad Hassan</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="keywords" content="">
-        <meta name="description" content="">
+        <meta name="description" content="Welcome to my personal website.">
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" href="img/logo.png">
@@ -39,8 +39,7 @@
 
         <!-- Social Media Preview -->
         <meta property="og:title" content="Muhammad Hassan">
-        <meta property="og:description" content="Welcome to my personal website.">
-            <meta property="og:description" content="Web Designer • Web Developer • Front End Developer • Apps Developer • Photographer">
+        <meta property="og:description" content="Web Designer • Web Developer • Front End Developer • Apps Developer • Photographer">
         <meta property="og:image" content="https://muhammadhassan.eu/img/profi.png">
         <meta property="og:image:url" content="https://muhammadhassan.eu/img/profi.png">
         <meta property="og:image:secure_url" content="https://muhammadhassan.eu/img/profi.png">
@@ -79,18 +78,36 @@
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
-        <!-- Social Media Preview (Facebook, Messenger, WhatsApp) -->
-        <meta property="og:title" content="Muhammad Hassan">
-        <meta property="og:description" content="Welcome to my personal website.">
-        <meta property="og:image" content="https://muhammadhassan.eu/img/profi.png">
-            <meta property="og:image:width" content="679">
-            <meta property="og:image:height" content="952">
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="https://muhammadhassan.eu">
-
-        <!-- WhatsApp & Twitter Preview -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="https://muhammadhassan.eu/img/profi.png">
+        <!-- Structured Data for Search Engines -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Muhammad Hassan",
+          "url": "https://muhammadhassan.eu/",
+          "sameAs": [
+            "https://www.facebook.com/mohammad.fetouh",
+            "https://www.instagram.com/muhammad.fetouh/",
+            "https://www.linkedin.com/in/muhammad-hassan-84a700348/",
+            "https://www.tiktok.com/@muhammnnad"
+          ]
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "SiteNavigationElement",
+          "name": ["Home", "About", "CV", "Skills", "Services", "Contact"],
+          "url": [
+            "https://muhammadhassan.eu/#home",
+            "https://muhammadhassan.eu/#about",
+            "https://muhammadhassan.eu/#cv",
+            "https://muhammadhassan.eu/#skill",
+            "https://muhammadhassan.eu/#service",
+            "https://muhammadhassan.eu/#contact"
+          ]
+        }
+        </script>
 
 </head>
     <!-- Floating Light / Dark Mode Toggle -->
@@ -115,6 +132,13 @@
 
    
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="51">
+    <!-- Download Thank-You Toast (shows after any download) -->
+    <div id="download-toast" class="download-toast" role="status" aria-live="polite">
+        <span class="download-toast-smile">😊</span>
+        <span data-lang="de">Vielen Dank!</span>
+        <span data-lang="en">Thank you!</span>
+        <span data-lang="ar">شكراً جزيلاً!</span>
+    </div>
     <!-- Spinner Start -->
     <div id="spinner" class="show">
         <div class="loader">
@@ -146,6 +170,11 @@
                     <span data-lang="en">My CV</span>
                     <span data-lang="ar">السيرة الذاتية</span>
                 </a>
+                <a href="#writings" class="nav-item nav-link">
+                    <span data-lang="de">Meine Schriften</span>
+                    <span data-lang="en">My Writings</span>
+                    <span data-lang="ar">أعمالي الأدبية</span>
+                </a>
             </div>
             <a href="Innovation/" class="navbar-brand bg-secondary py-3 px-4 mx-3 d-none d-lg-block">
                 <h1 class="text-primary fw-bold m-0">Innovation</h1>
@@ -160,6 +189,11 @@
                     <span data-lang="de">Dienstleistungen</span>
                     <span data-lang="en">Services</span>
                     <span data-lang="ar">الخدمات</span>
+                </a>
+                <a href="#sitemap" class="nav-item nav-link">
+                    <span data-lang="de">Seitenübersicht</span>
+                    <span data-lang="en">Sitemap</span>
+                    <span data-lang="ar">خريطة الموقع</span>
                 </a>
                 <a href="#contact" class="nav-item nav-link">
                     <span data-lang="de">Kontakt</span>
@@ -527,9 +561,9 @@
                   </p>
 
                   <p id="tag">
-                    <span data-lang="de">Vielen Dank</span>
-                    <span data-lang="en">Thanks a lot</span>
-                    <span data-lang="ar">شكراً جزيلاً</span>
+                    <span data-lang="de">Vielen Dank <span class="tag-smile">😊</span></span>
+                    <span data-lang="en">Thanks a lot <span class="tag-smile">😊</span></span>
+                    <span data-lang="ar">شكراً جزيلاً <span class="tag-smile">😊</span></span>
                   </p>
 
                 <div id="platform"></div>
@@ -864,9 +898,9 @@
                             <hr>
                             <h4 class="fw-bold mb-3">Sprachen</h4>
                             <ul class="list-unstyled">
-                                <li>• Arabisch</li>
-                                <li>• Deutsch</li>
-                                <li>• Englisch</li>
+                                <li>• العربية</li>
+                                <li>• الألمانية</li>
+                                <li>• الإنجليزية</li>
                             </ul>
                             <hr>
                            
@@ -1125,6 +1159,149 @@
             </div>
         </section>
         <!-- CV Section End -->
+
+        <!-- Writings Start -->
+        <section id="writings" class="container-xxl py-6 my-5 writings-section">
+            <div class="container">
+                <div class="row g-5 mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="col-lg-6">
+                        <h1 class="display-5 mb-0">
+                            <span data-lang="de">Meine Schriften</span>
+                            <span data-lang="en">My Writings</span>
+                            <span data-lang="ar" dir="rtl" style="display:none;">أعمالي الأدبية</span>
+                        </h1>
+                    </div>
+                </div>
+                <p class="mb-5">
+                    <span data-lang="de">Romane und Erzählungen, geschrieben in stillen Momenten. Lernen Sie die Geschichte kennen und laden Sie anschließend das vollständige PDF herunter.</span>
+                    <span data-lang="en">Novels and stories written in quiet moments. Get to know the story, then download the full book as a PDF.</span>
+                    <span data-lang="ar" dir="rtl" style="display:none;">روايات وقصص ُكتبت في لحظات الصمت. تعرّف على القصة، ثم حمّل النسخة الكاملة بصيغة PDF.</span>
+                </p>
+
+                <div class="row g-4">
+
+                    <!-- Book 1: What Remains of Me -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="book-card h-100">
+                            <div class="book-cover-wrap">
+                                <img src="img/books/what-remains-of-me.jpg" alt="ما تبقى مني / What Remains of Me" class="book-cover">
+                            </div>
+                            <div class="book-info">
+                                <h5 class="mb-1">
+                                    <span data-lang="de">Was von mir bleibt</span>
+                                    <span data-lang="en">What Remains of Me</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">ما تبقى مني</span>
+                                </h5>
+                                <p class="book-tagline">
+                                    <span data-lang="de">„Wenn du allen alles gibst... und niemand für dich übrig bleibt.“</span>
+                                    <span data-lang="en">"When you give everyone everything... and no one remains for you."</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">«حين تعطي الجميع... ولا يتبقى لك أحد.»</span>
+                                </p>
+                                <a href="files/books/what-remains-of-me.pdf" download class="btn btn-primary btn-sm book-btn">
+                                    <i class="fas fa-download me-2"></i>
+                                    <span data-lang="de">PDF herunterladen</span>
+                                    <span data-lang="en">Download PDF</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">تحميل PDF</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Book 2: Beyond the Silence -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="book-card h-100">
+                            <div class="book-cover-wrap">
+                                <img src="img/books/beyond-the-silence.jpg" alt="ما وراء الصمت / Beyond the Silence" class="book-cover">
+                            </div>
+                            <div class="book-info">
+                                <h5 class="mb-1">
+                                    <span data-lang="de">Jenseits des Schweigens</span>
+                                    <span data-lang="en">Beyond the Silence</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">ما وراء الصمت</span>
+                                </h5>
+                                <p class="book-tagline">
+                                    <span data-lang="de">„Es gibt eine Version von uns... die niemand sieht.“</span>
+                                    <span data-lang="en">"There's a version of us... that no one ever sees."</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">«هناك نسخة منا... لا يراها أحد.»</span>
+                                </p>
+                                <a href="files/books/beyond-the-silence.pdf" download class="btn btn-primary btn-sm book-btn">
+                                    <i class="fas fa-download me-2"></i>
+                                    <span data-lang="de">PDF herunterladen</span>
+                                    <span data-lang="en">Download PDF</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">تحميل PDF</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Book 3: I Am Not Innocent (Coming Soon) -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="book-card book-card-soon h-100">
+                            <div class="book-cover-wrap">
+                                <img src="img/books/i-am-not-innocent.jpg" alt="لست بريئاً / I Am Not Innocent" class="book-cover">
+                                <div class="book-soon-ribbon">
+                                    <span data-lang="de">Demnächst</span>
+                                    <span data-lang="en">Coming Soon</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">قريباً</span>
+                                </div>
+                            </div>
+                            <div class="book-info">
+                                <h5 class="mb-1">
+                                    <span data-lang="de">Ich bin nicht unschuldig</span>
+                                    <span data-lang="en">I Am Not Innocent</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">لست بريئاً</span>
+                                </h5>
+                                <p class="book-tagline">
+                                    <span data-lang="de">„Die Wahrheit ist nicht immer das, was sie scheint.“</span>
+                                    <span data-lang="en">"The truth is not always what it seems."</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">«الحقيقة ليست كما نراها.»</span>
+                                </p>
+                                <button class="btn btn-secondary btn-sm book-btn" disabled>
+                                    <i class="fas fa-clock me-2"></i>
+                                    <span data-lang="de">Demnächst verfügbar</span>
+                                    <span data-lang="en">Coming Soon</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">قريباً</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Book 4: Beyond Our Nature (Coming Soon) -->
+                    <div class="col-md-6 col-lg-3">
+                        <div class="book-card book-card-soon h-100">
+                            <div class="book-cover-wrap">
+                                <img src="img/books/beyond-our-nature.jpg" alt="Beyond Our Nature" class="book-cover">
+                                <div class="book-soon-ribbon">
+                                    <span data-lang="de">Demnächst</span>
+                                    <span data-lang="en">Coming Soon</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">قريباً</span>
+                                </div>
+                            </div>
+                            <div class="book-info">
+                                <h5 class="mb-1">
+                                    <span data-lang="de">Jenseits unserer Natur</span>
+                                    <span data-lang="en">Beyond Our Nature</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">أبعد من طبيعتنا</span>
+                                </h5>
+                                <p class="book-tagline">
+                                    <span data-lang="de">„Gerettet durch Mitgefühl. Versucht durch Macht. Definiert durch Wahl.“</span>
+                                    <span data-lang="en">"Saved by compassion. Tempted by power. Defined by choice."</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">«أنقذها التعاطف، أغرتها القوة، وحدد مصيرها الاختيار.»</span>
+                                </p>
+                                <button class="btn btn-secondary btn-sm book-btn" disabled>
+                                    <i class="fas fa-clock me-2"></i>
+                                    <span data-lang="de">Demnächst verfügbar</span>
+                                    <span data-lang="en">Coming Soon</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">قريباً</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- Writings End -->
 
 
         <!-- Expertise Start -->
@@ -1969,6 +2146,95 @@
                     
                 </div>
             </div>
+
+            <!-- Sitemap Start (roadmap style) -->
+            <section id="sitemap" class="sitemap-section py-6 mt-5">
+                <div class="container">
+                    <div class="row justify-content-center text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="col-lg-7">
+                            <h1 class="display-5 mb-3 text-white">
+                                <span data-lang="de">Seitenübersicht</span>
+                                <span data-lang="en">Sitemap</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">خريطة الموقع</span>
+                            </h1>
+                            <p class="mb-0 sitemap-subtitle">
+                                <span data-lang="de">Der Weg durch diese Website, Station für Station.</span>
+                                <span data-lang="en">Your journey through this site, stop by stop.</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">جولتك عبر هذا الموقع، محطة تلو الأخرى.</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="sitemap-track">
+                        <div class="sitemap-line"></div>
+
+                        <a href="#home" class="sitemap-node" style="--node-color:#45f8f8;">
+                            <span class="sitemap-circle"><i class="bi bi-house-door"></i></span>
+                            <span class="sitemap-label">
+                                <span data-lang="de">Startseite</span>
+                                <span data-lang="en">Home</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">الرئيسية</span>
+                            </span>
+                        </a>
+
+                        <a href="#about" class="sitemap-node" style="--node-color:#6244C5;">
+                            <span class="sitemap-circle"><i class="bi bi-person-badge"></i></span>
+                            <span class="sitemap-label">
+                                <span data-lang="de">Über mich</span>
+                                <span data-lang="en">About me</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">من أنا</span>
+                            </span>
+                        </a>
+
+                        <a href="#cv" class="sitemap-node" style="--node-color:#FFC448;">
+                            <span class="sitemap-circle"><i class="bi bi-file-earmark-person"></i></span>
+                            <span class="sitemap-label">
+                                <span data-lang="de">Lebenslauf</span>
+                                <span data-lang="en">My CV</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">السيرة الذاتية</span>
+                            </span>
+                        </a>
+
+                        <a href="#writings" class="sitemap-node" style="--node-color:#e0577c;">
+                            <span class="sitemap-circle"><i class="bi bi-book"></i></span>
+                            <span class="sitemap-label">
+                                <span data-lang="de">Meine Schriften</span>
+                                <span data-lang="en">My Writings</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">أعمالي الأدبية</span>
+                            </span>
+                        </a>
+
+                        <a href="#skill" class="sitemap-node" style="--node-color:#2ecc71;">
+                            <span class="sitemap-circle"><i class="bi bi-bar-chart-line"></i></span>
+                            <span class="sitemap-label">
+                                <span data-lang="de">Fähigkeiten</span>
+                                <span data-lang="en">Skills</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">المهارات</span>
+                            </span>
+                        </a>
+
+                        <a href="#service" class="sitemap-node" style="--node-color:#ff8c42;">
+                            <span class="sitemap-circle"><i class="bi bi-gear"></i></span>
+                            <span class="sitemap-label">
+                                <span data-lang="de">Dienstleistungen</span>
+                                <span data-lang="en">Services</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">الخدمات</span>
+                            </span>
+                        </a>
+
+                        <a href="#contact" class="sitemap-node" style="--node-color:#0dcaf0;">
+                            <span class="sitemap-circle"><i class="bi bi-envelope"></i></span>
+                            <span class="sitemap-label">
+                                <span data-lang="de">Kontakt</span>
+                                <span data-lang="en">Contact</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">تواصل معي</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <!-- Sitemap End -->
+
         </div>
         
         
@@ -2096,7 +2362,6 @@
           { code:"mg", nameEn:"Madagascar",                  nameDe:"Madagaskar",                    nameAr:"مدغشقر" },
           { code:"mw", nameEn:"Malawi",                      nameDe:"Malawi",                        nameAr:"مالاوي" },
           { code:"my", nameEn:"Malaysia",                    nameDe:"Malaysia",                      nameAr:"ماليزيا" },
-                       { code:"my", nameEn:"Malaysia",                    nameDe:"Malaysia",                       nameAr:"ماليزيا" },
                        { code:"mv", nameEn:"Maldives",                    nameDe:"Malediven",                     nameAr:"جزر المالديف" },
                        { code:"ml", nameEn:"Mali",                        nameDe:"Mali",                           nameAr:"مالي" },
                        { code:"mt", nameEn:"Malta",                       nameDe:"Malta",                          nameAr:"مالطا" },
@@ -2377,7 +2642,6 @@
                                         { code:"lk", nameEn:"Sri Lanka", nameDe:"Sri Lanka", nameAr:"سريلانكا", capitalEn:"Sri Jayawardenepura Kotte", capitalDe:"Sri Jayawardenepura Kotte", capitalAr:"سري جايوردنابورا كوتي" },
                                         { code:"sd", nameEn:"Sudan", nameDe:"Sudan", nameAr:"السودان", capitalEn:"Khartoum", capitalDe:"Khartum", capitalAr:"الخرطوم" },
                                         { code:"sr", nameEn:"Suriname", nameDe:"Suriname", nameAr:"سورينام", capitalEn:"Paramaribo", capitalDe:"Paramaribo", capitalAr:"باراماريبو" },
-                                        { code:"sz", nameEn:"Eswatini", nameDe:"Eswatini", nameAr:"إسواتيني", capitalEn:"Mbabane", capitalDe:"Mbabane", capitalAr:"مباباني" },
                                         { code:"se", nameEn:"Sweden", nameDe:"Schweden", nameAr:"السويد", capitalEn:"Stockholm", capitalDe:"Stockholm", capitalAr:"ستوكهولم" },
                                         { code:"ch", nameEn:"Switzerland", nameDe:"Schweiz", nameAr:"سويسرا", capitalEn:"Bern", capitalDe:"Bern", capitalAr:"برن" },
                                         { code:"sy", nameEn:"Syria", nameDe:"Syrien", nameAr:"سوريا", capitalEn:"Damascus", capitalDe:"Damaskus", capitalAr:"دمشق" },
@@ -2692,6 +2956,16 @@
                 });
             });
 
+            // --- BOOK PDF DOWNLOAD TRACKING ---
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll(".writings-section .book-card a[download]").forEach(link => {
+                    link.addEventListener("click", () => {
+                        const title = link.closest(".book-card")?.querySelector("h5 span[data-lang='en']")?.textContent || "Unknown";
+                        umami.track(`Book Download: ${title}`);
+                    });
+                });
+            });
+
             // --- DYNAMIC QUIZ CHOICE BUTTONS ---
             function trackChoiceClicks(containerId, gameName) {
                 const container = document.getElementById(containerId);
@@ -2791,8 +3065,10 @@
                     home: "Home",
                     about: "About",
                     cv: "CV",
+                    writings: "Writings",
                     skill: "Skills",
                     service: "Services",
+                    sitemap: "Sitemap",
                     contact: "Contact"
                 };
 
@@ -3234,6 +3510,43 @@
             });
           });
 
+        });
+        </script>
+
+        <script>
+        /* --- GLOBAL DOWNLOAD THANK-YOU TOAST --- */
+        document.addEventListener("DOMContentLoaded", () => {
+            const toast = document.getElementById("download-toast");
+            if (!toast) return;
+
+            let hideTimer = null;
+
+            function showDownloadToast() {
+                clearTimeout(hideTimer);
+                // restart the smile animation each time it's triggered
+                toast.classList.remove("show");
+                void toast.offsetWidth; // force reflow so animation restarts
+                toast.classList.add("show");
+
+                hideTimer = setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3000);
+            }
+
+            // Fires for the CV download (hidden link triggered by the rocket button)
+            document.getElementById("cvHiddenLink")?.addEventListener("click", showDownloadToast);
+
+            // Fires for the two book PDF download buttons
+            document.querySelectorAll(".writings-section .book-card a[download]").forEach(link => {
+                link.addEventListener("click", showDownloadToast);
+            });
+
+            // Catch-all: any other link with a "download" attribute added later
+            document.querySelectorAll("a[download]").forEach(link => {
+                if (link.id === "cvHiddenLink") return; // already handled above
+                if (link.closest(".writings-section .book-card")) return; // already handled above
+                link.addEventListener("click", showDownloadToast);
+            });
         });
         </script>
 
