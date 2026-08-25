@@ -3585,6 +3585,21 @@
         });
         </script>
         <script>
+        /* --- LEGAL LINKS TRACKING (Impressum / Datenschutz) --- */
+        document.addEventListener("DOMContentLoaded", () => {
+
+          document.querySelector('a[href="impressum.html"]')?.addEventListener("click", () => {
+            trackEvent("Footer Click: Impressum");
+          });
+
+          document.querySelector('a[href="datenschutz.html"]')?.addEventListener("click", () => {
+            trackEvent("Footer Click: Datenschutz");
+          });
+
+        });
+        </script>
+
+        <script>
         /* --- FOLLOW ME SOCIAL ICONS --- */
         document.addEventListener("DOMContentLoaded", () => {
 
