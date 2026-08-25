@@ -3491,6 +3491,7 @@ body.dark-mode .writings-intro {
     position: relative;
     border-radius: 16px;
     overflow: hidden;
+    background: #14161f;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
     transition: transform 350ms ease, box-shadow 350ms ease;
 }
@@ -3509,14 +3510,15 @@ body.dark-mode .writings-intro {
 .book-promo-img {
     display: block;
     width: 100%;
-    height: 340px;
-    object-fit: cover;
-    object-position: center 20%;
+    height: 440px;
+    object-fit: contain;
+    object-position: center;
+    background: #14161f;
     transition: transform 500ms ease;
 }
 
 .book-promo:hover .book-promo-img {
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .book-promo-overlay {
@@ -3526,7 +3528,7 @@ body.dark-mode .writings-intro {
     align-items: flex-end;
     justify-content: center;
     padding-bottom: 22px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 45%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 30%);
     opacity: 0;
     transition: opacity 350ms ease;
 }
@@ -3556,17 +3558,24 @@ body.dark-mode .writings-intro {
 
 @media (max-width: 767px) {
     .book-promo-img {
-        height: 260px;
+        height: 480px;
     }
 
     .book-promo-overlay {
         opacity: 1;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.05) 60%);
+        padding-bottom: 16px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 22%);
     }
 
     .book-promo-cta {
         transform: translateY(0);
         font-size: 0.85rem;
         padding: 8px 18px;
+    }
+}
+
+@media (max-width: 400px) {
+    .book-promo-img {
+        height: 400px;
     }
 }
