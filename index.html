@@ -23,6 +23,22 @@
              data-website-id="79c4049c-3b96-43b4-86e1-9fadc3512cf7">
      </script>
 
+     <!-- Safe tracking wrapper: prevents ad-blockers / slow loads from
+          breaking event tracking anywhere on the site -->
+     <script>
+        function trackEvent(name) {
+            try {
+                if (typeof umami !== "undefined" && umami && typeof umami.track === "function") {
+                    umami.track(name);
+                } else {
+                    console.warn("[tracking] umami not available yet, event skipped:", name);
+                }
+            } catch (e) {
+                console.warn("[tracking] error while tracking:", name, e);
+            }
+        }
+     </script>
+
 
 
         <meta charset="utf-8">
@@ -171,7 +187,7 @@
                     <span data-lang="ar">السيرة الذاتية</span>
                 </a>
                 <a href="#writings" class="nav-item nav-link">
-                    <span data-lang="de">Meine Schriften</span>
+                    <span data-lang="de">Meine Werke</span>
                     <span data-lang="en">My Writings</span>
                     <span data-lang="ar">أعمالي الأدبية</span>
                 </a>
@@ -634,7 +650,7 @@
                     <div class="wrapper-box d-flex align-items-center justify-content-center">
                         
                         <h3 class="lh-base mb-0 professional-text me-4">
-                            <span data-lang="de">App & Webdesigner und Entwickler</span>
+                            <span data-lang="de">App- & Web-Designer und -Entwickler</span>
                             <span data-lang="en">App & Web Designer and Developer</span>
                             <span data-lang="ar" dir="rtl" style="display: none; text-align: right;">مصمم ومطور تطبيقات ومواقع</span>
                         </h3>
@@ -687,7 +703,7 @@
                                 <span data-lang="ar" dir="rtl" style="display: none; text-align: right;">مهارات قوية في حل المشكلات</span>
                             </p>
                             <p class="mb-3"><i class="far fa-check-circle text-primary me-3"></i>
-                                <span data-lang="de">Praktisch & sehr organisiert</span>
+                                <span data-lang="de">Pragmatisch & sehr organisiert</span>
                                 <span data-lang="en">Hands-on & Very Organized</span>
                                 <span data-lang="ar" dir="rtl" style="display: none; text-align: right;">عملي ومنظم جدًا</span>
                             </p>
@@ -776,7 +792,7 @@
                     <!-- Programming Skills -->
                     <div class="d-flex align-items-center mb-3">
                         <h5 class="border-end pe-3 me-3 mb-0">
-                            <span data-lang="de">IT-Fähigkeiten</span>
+                            <span data-lang="de">Programmierkenntnisse</span>
                             <span data-lang="en">Programming Skills</span>
                             <span data-lang="ar" dir="rtl" style="display: none; text-align: right;">مهارات البرمجة</span>
                         </h5>
@@ -1171,7 +1187,7 @@
                             <span data-lang="ar" dir="rtl" style="display:none;">خارج عالم البرمجة</span>
                         </div>
                         <h1 class="display-5 mb-0">
-                            <span data-lang="de">Meine Schriften</span>
+                            <span data-lang="de">Meine Werke</span>
                             <span data-lang="en">My Writings</span>
                             <span data-lang="ar" dir="rtl" style="display:none;">أعمالي الأدبية</span>
                         </h1>
@@ -1502,7 +1518,7 @@
                                 <div class="row gy-4">
                                     <div class="col-md-6">
                                         <p>
-                                            <strong><span data-lang="de">Flutter Entwickler</span><span data-lang="en">Flutter Developer</span><span data-lang="ar" dir="rtl" style="display:none;">مطوّر Flutter</span></strong><br>
+                                            <strong><span data-lang="de">Flutter-Entwickler</span><span data-lang="en">Flutter Developer</span><span data-lang="ar" dir="rtl" style="display:none;">مطوّر Flutter</span></strong><br>
                                             <span data-lang="de">2024 – Heute · App Akademie Projekte</span>
                                             <span data-lang="en">2024 – Present · App Akademie Projects</span>
                                             <span data-lang="ar" dir="rtl" style="display:none;">2024 – حتى الآن · مشاريع App Akademie</span>
@@ -1553,7 +1569,7 @@
 
                                     <div class="col-md-6">
                                         <p>
-                                            <strong><span data-lang="de">Bachelor Englische Linguistik</span><span data-lang="en">Bachelor of English Linguistics</span><span data-lang="ar" dir="rtl" style="display:none;">بكالوريوس اللغويات الإنجليزية</span></strong><br>
+                                            <strong><span data-lang="de">Bachelor in Englischer Linguistik</span><span data-lang="en">Bachelor of English Linguistics</span><span data-lang="ar" dir="rtl" style="display:none;">بكالوريوس اللغويات الإنجليزية</span></strong><br>
                                             <span data-lang="de">1993 – 1997 · Banha Universität, Ägypten</span>
                                             <span data-lang="en">1993 – 1997 · Banha University, Egypt</span>
                                             <span data-lang="ar" dir="rtl" style="display:none;">1993 – 1997 · جامعة بنها، مصر</span>
@@ -1671,7 +1687,7 @@
                         </div>
                         <div class="col-lg-6 text-lg-end">
                             <a class="btn btn-primary py-3 px-5" href="#contact">
-                                <span data-lang="de">Mich engagieren</span>
+                                <span data-lang="de">Mich beauftragen</span>
                                 <span data-lang="en">Hire Me</span>
                                 <span data-lang="ar" dir="rtl" style="display:none;">توظيفي</span>
                             </a>
@@ -1876,7 +1892,7 @@
                                     </div>
                                     <div class="ms-sm-4">
                                         <h4>
-                                            <span data-lang="de">Professionelles Lebenslauf-/CV-Design & Schreiben</span>
+                                            <span data-lang="de">Professionelles Lebenslauf-Design & -Schreiben</span>
                                             <span data-lang="en">Professional CV / Resume Design & Writing</span>
                                             <span data-lang="ar" dir="rtl" style="display:none;">تصميم وكتابة السيرة الذاتية بشكل احترافي</span>
                                         </h4>
@@ -1968,7 +1984,7 @@
                         </div>
                         <div class="col-lg-6 text-lg-end">
                             <a class="btn btn-primary py-3 px-5" href="#contact-form">
-                                <span data-lang="de">Sag Hallo</span>
+                                <span data-lang="de">Sagen Sie Hallo</span>
                                 <span data-lang="en">Say Hello</span>
                                 <span data-lang="ar" dir="rtl" style="display:none;">قل مرحبا</span>
                             </a>
@@ -2246,7 +2262,7 @@
                         <a href="#writings" class="sitemap-node" style="--node-color:#e0577c;">
                             <span class="sitemap-circle"><i class="bi bi-book"></i></span>
                             <span class="sitemap-label">
-                                <span data-lang="de">Meine Schriften</span>
+                                <span data-lang="de">Meine Werke</span>
                                 <span data-lang="en">My Writings</span>
                                 <span data-lang="ar" dir="rtl" style="display:none;">أعمالي الأدبية</span>
                             </span>
@@ -2961,34 +2977,34 @@
         <script>
             // --- LANGUAGE SWITCH (DE / EN / AR) ---
             document.getElementById("lang-de")?.addEventListener("click", () => {
-                umami.track("Language Switch: DE");
+                trackEvent("Language Switch: DE");
             });
 
             document.getElementById("lang-en")?.addEventListener("click", () => {
-                umami.track("Language Switch: EN");
+                trackEvent("Language Switch: EN");
             });
 
             document.getElementById("lang-ar")?.addEventListener("click", () => {
-                umami.track("Language Switch: AR");
+                trackEvent("Language Switch: AR");
             });
 
             // --- INNOVATION BUTTON ---
             document.querySelector('a[href="Innovation/"]')?.addEventListener("click", () => {
-                umami.track("Clicked Innovation Button");
+                trackEvent("Clicked Innovation Button");
             });
 
             // --- QUIZ SWITCHER ---
             document.getElementById("btnFlags")?.addEventListener("click", () => {
-                umami.track("Game Switch: Flags Quiz");
+                trackEvent("Game Switch: Flags Quiz");
             });
 
             document.getElementById("btnCapitals")?.addEventListener("click", () => {
-                umami.track("Game Switch: Capitals Quiz");
+                trackEvent("Game Switch: Capitals Quiz");
             });
 
             // --- FULLSCREEN BUTTON ---
             document.getElementById("fullscreenBtn")?.addEventListener("click", () => {
-                umami.track("Fullscreen Button Click");
+                trackEvent("Fullscreen Button Click");
             });
 
             // --- CV DOWNLOAD BUTTON TRACKING ONLY ---
@@ -3000,7 +3016,7 @@
                 if (!cvButton) return;
 
                 cvButton.addEventListener("click", () => {
-                    umami.track("Clicked Download CV Button");
+                    trackEvent("Clicked Download CV Button");
                 });
             });
 
@@ -3009,7 +3025,7 @@
                 document.querySelectorAll(".writings-section .book-card a[download]").forEach(link => {
                     link.addEventListener("click", () => {
                         const title = link.closest(".book-card")?.querySelector("h5 span[data-lang='en']")?.textContent || "Unknown";
-                        umami.track(`Book Download: ${title}`);
+                        trackEvent(`Book Download: ${title}`);
                     });
                 });
             });
@@ -3019,7 +3035,7 @@
                 document.querySelectorAll(".writings-section .book-promo-link").forEach(link => {
                     link.addEventListener("click", () => {
                         const title = link.dataset.bookTitle || "Unknown";
-                        umami.track(`Book Promo Banner Click: ${title}`);
+                        trackEvent(`Book Promo Banner Click: ${title}`);
                     });
                 });
             });
@@ -3032,7 +3048,7 @@
                         if (tracked) return;
                         tracked = true;
                         const title = card.querySelector("h5 span[data-lang='en']")?.textContent || "Unknown";
-                        umami.track(`Coming Soon Book Hover: ${title}`);
+                        trackEvent(`Coming Soon Book Hover: ${title}`);
                     });
                 });
             });
@@ -3042,7 +3058,7 @@
                 document.querySelectorAll("#sitemap .sitemap-node").forEach(node => {
                     node.addEventListener("click", () => {
                         const label = node.querySelector(".sitemap-label span[data-lang='en']")?.textContent || node.getAttribute("href");
-                        umami.track(`Sitemap Click: ${label}`);
+                        trackEvent(`Sitemap Click: ${label}`);
                     });
                 });
             });
@@ -3055,7 +3071,7 @@
                 container.addEventListener("click", (e) => {
                     const btn = e.target.closest("button");
                     if (!btn) return;
-                    umami.track(`${gameName} Choice: ${btn.textContent.trim()}`);
+                    trackEvent(`${gameName} Choice: ${btn.textContent.trim()}`);
                 });
             }
 
@@ -3070,9 +3086,9 @@
             if (themeToggle) {
                 themeToggle.addEventListener("change", () => {
                     if (themeToggle.checked) {
-                        umami.track("Theme Switch: Dark Mode");
+                        trackEvent("Theme Switch: Dark Mode");
                     } else {
-                        umami.track("Theme Switch: Light Mode");
+                        trackEvent("Theme Switch: Light Mode");
                     }
                 });
             }
@@ -3162,7 +3178,7 @@
                                 const id = entry.target.id;
                                 if (!viewedSections.has(id) && sectionMap[id]) {
                                     viewedSections.add(id);
-                                    umami.track(`Viewed Section: ${sectionMap[id]}`);
+                                    trackEvent(`Viewed Section: ${sectionMap[id]}`);
                                 }
                             }
                         });
@@ -3245,7 +3261,7 @@
 
             if (window.scrollY >= maxScroll && direction === 1) {
               waiting = true;
-              umami.track("Scroll Button reached bottom");
+              trackEvent("Scroll Button reached bottom");
               setTimeout(() => {
                 waiting = false;
                 direction = -1;
@@ -3257,7 +3273,7 @@
 
             if (window.scrollY <= 0 && direction === -1) {
               waiting = true;
-              umami.track("Scroll Button reached top");
+              trackEvent("Scroll Button reached top");
               setTimeout(() => {
                 waiting = false;
                 direction = 1;
@@ -3292,7 +3308,7 @@
 
               if (window.scrollY >= maxScroll && direction === 1) {
                 waiting = true;
-                umami.track("Scroll Button reached bottom");
+                trackEvent("Scroll Button reached bottom");
                 clearInterval(intervalId);
                 setTimeout(() => {
                   waiting = false;
@@ -3303,7 +3319,7 @@
 
               if (window.scrollY <= 0 && direction === -1) {
                 waiting = true;
-                umami.track("Scroll Button reached top");
+                trackEvent("Scroll Button reached top");
                 clearInterval(intervalId);
                 setTimeout(() => {
                   waiting = false;
@@ -3373,7 +3389,7 @@
               manualScrolling = false;
               clickPaused = false;
               lastTime = null;
-              umami.track("Scroll Button started");
+              trackEvent("Scroll Button started");
 
               window.innerWidth <= 768
                 ? autoScrollMobile()
@@ -3383,7 +3399,7 @@
               cancelAnimationFrame(rafId);
               clearInterval(intervalId);
               releaseWakeLock();
-              umami.track("Scroll Button stopped");
+              trackEvent("Scroll Button stopped");
             }
           });
         </script>
@@ -3522,19 +3538,19 @@
         document.addEventListener("DOMContentLoaded", () => {
 
           document.querySelector('.card1')?.addEventListener("click", () => {
-            umami.track("Social Card Click: WhatsApp (Floating)");
+            trackEvent("Social Card Click: WhatsApp (Floating)");
           });
 
           document.querySelector('.card2')?.addEventListener("click", () => {
-            umami.track("Social Card Click: Telegram (Floating)");
+            trackEvent("Social Card Click: Telegram (Floating)");
           });
 
           document.querySelector('.card3')?.addEventListener("click", () => {
-            umami.track("Social Card Click: Facebook (Floating)");
+            trackEvent("Social Card Click: Facebook (Floating)");
           });
 
           document.querySelector('.card4')?.addEventListener("click", () => {
-            umami.track("Social Card Click: Instagram (Floating)");
+            trackEvent("Social Card Click: Instagram (Floating)");
           });
 
         });
@@ -3544,7 +3560,7 @@
         document.addEventListener("DOMContentLoaded", () => {
 
           document.querySelector('a[href^="tel:"]')?.addEventListener("click", () => {
-            umami.track("Contact Click: Phone Call");
+            trackEvent("Contact Click: Phone Call");
           });
 
         });
@@ -3554,7 +3570,7 @@
 
           document.querySelector('a[href*="wa.me"] img')?.closest("a")
             ?.addEventListener("click", () => {
-              umami.track("Contact Click: WhatsApp (Contact Section)");
+              trackEvent("Contact Click: WhatsApp (Contact Section)");
             });
 
         });
@@ -3563,7 +3579,7 @@
         document.addEventListener("DOMContentLoaded", () => {
 
           document.querySelector('a[href^="mailto:"]')?.addEventListener("click", () => {
-            umami.track("Contact Click: Email");
+            trackEvent("Contact Click: Email");
           });
 
         });
@@ -3576,16 +3592,16 @@
             link.addEventListener("click", () => {
 
               if (link.href.includes("facebook.com")) {
-                umami.track("Follow Click: Facebook");
+                trackEvent("Follow Click: Facebook");
               }
               else if (link.href.includes("instagram.com")) {
-                umami.track("Follow Click: Instagram");
+                trackEvent("Follow Click: Instagram");
               }
               else if (link.href.includes("tiktok.com")) {
-                umami.track("Follow Click: TikTok");
+                trackEvent("Follow Click: TikTok");
               }
               else if (link.href.includes("linkedin.com")) {
-                umami.track("Follow Click: LinkedIn");
+                trackEvent("Follow Click: LinkedIn");
               }
 
             });
