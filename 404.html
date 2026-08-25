@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Muhammad Hassan</title>
+    <script>
+        // GitHub Pages has no server-side routing, so a direct visit or a
+        // page refresh on a clean URL like /services returns this 404 page.
+        // We bounce the visitor back to index.html, passing the original
+        // path along as a query param. index.html's routing script reads
+        // that param, restores the clean URL, and scrolls to the right
+        // section — see the "CLEAN URL ROUTING" script near the end of
+        // index.html.
+        var path = window.location.pathname + window.location.search + window.location.hash;
+        window.location.replace('/?redirect=' + encodeURIComponent(path));
+    </script>
+</head>
+<body>
+    Redirecting…
+</body>
+</html>

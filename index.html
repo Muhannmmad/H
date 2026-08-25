@@ -115,12 +115,12 @@
           "@type": "SiteNavigationElement",
           "name": ["Home", "About", "CV", "Skills", "Services", "Contact"],
           "url": [
-            "https://muhammadhassan.eu/#home",
-            "https://muhammadhassan.eu/#about",
-            "https://muhammadhassan.eu/#cv",
-            "https://muhammadhassan.eu/#skill",
-            "https://muhammadhassan.eu/#service",
-            "https://muhammadhassan.eu/#contact"
+            "https://muhammadhassan.eu/",
+            "https://muhammadhassan.eu/about",
+            "https://muhammadhassan.eu/cv",
+            "https://muhammadhassan.eu/skills",
+            "https://muhammadhassan.eu/services",
+            "https://muhammadhassan.eu/contact"
           ]
         }
         </script>
@@ -3668,6 +3668,76 @@
                 }
             });
         });
+        </script>
+
+        <script>
+        /* --- CLEAN URL ROUTING ---
+           Turns the one-page anchors (#about, #service, ...) into real-looking
+           paths in the address bar (/about, /services, ...) without reloading
+           the page. Works together with 404.html, which is required on
+           GitHub Pages so a direct visit or refresh of e.g. /services
+           doesn't 404 (GitHub Pages has no server-side routing). */
+        (function () {
+            var sectionToPath = {
+                home: '/',
+                about: '/about',
+                cv: '/cv',
+                writings: '/writings',
+                skill: '/skills',
+                service: '/services',
+                sitemap: '/sitemap',
+                contact: '/contact'
+            };
+
+            var pathToSection = {};
+            Object.keys(sectionToPath).forEach(function (id) {
+                pathToSection[sectionToPath[id]] = id;
+            });
+
+            function scrollToSection(id, smooth) {
+                var target = document.getElementById(id);
+                if (!target) return;
+                target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+            }
+
+            // 1) Recover the real path after the 404.html redirect trick
+            var params = new URLSearchParams(window.location.search);
+            var redirected = params.get('redirect');
+            if (redirected) {
+                var cleanPath = redirected.split('#')[0].split('?')[0] || '/';
+                history.replaceState({ section: pathToSection[cleanPath] || 'home' }, '', cleanPath);
+            }
+
+            // 2) On first load, jump to whichever section matches the current clean path
+            window.addEventListener('load', function () {
+                var currentPath = window.location.pathname;
+                var id = pathToSection[currentPath];
+                if (id && id !== 'home') {
+                    setTimeout(function () { scrollToSection(id, false); }, 60);
+                }
+            });
+
+            // 3) Whenever a nav link is clicked, let the normal anchor jump happen,
+            //    then swap the "#service" the browser just added for "/services"
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.navbar-nav .nav-link[href^="#"]').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        var id = this.getAttribute('href').slice(1);
+                        var path = sectionToPath[id];
+                        if (!path) return;
+                        setTimeout(function () {
+                            history.replaceState({ section: id }, '', path);
+                        }, 0);
+                    });
+                });
+            });
+
+            // 4) Support the browser Back / Forward buttons
+            window.addEventListener('popstate', function (e) {
+                var id = (e.state && e.state.section) || pathToSection[window.location.pathname] || 'home';
+                scrollToSection(id, true);
+            });
+        })();
         </script>
 
 </body>
