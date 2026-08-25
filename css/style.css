@@ -3434,16 +3434,139 @@ body.dark-mode .download-toast {
 
 @media (max-width: 576px) {
     .download-toast {
-        bottom: 30px;
-        font-size: 1.2rem;
-        padding: 16px 24px;
-        max-width: 92%;
+        bottom: 20px;
+        font-size: 0.95rem;
+        padding: 10px 16px;
+        max-width: 88%;
         text-align: center;
-        border-radius: 40px;
-        gap: 10px;
+        border-radius: 30px;
+        gap: 8px;
+        border-width: 2px;
     }
 
     .download-toast-smile {
-        font-size: 1.7rem;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .download-toast {
+        font-size: 0.82rem;
+        padding: 8px 14px;
+        gap: 6px;
+    }
+
+    .download-toast-smile {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   Writings section — intro + eyebrow
+   ============================================ */
+.writings-eyebrow {
+    display: inline-block;
+    color: #e0577c;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.writings-intro {
+    max-width: 780px;
+    color: #6c757d;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+body.dark-mode .writings-intro {
+    color: #b8b8b8;
+}
+
+/* ============================================
+   Writings section — featured book promo banners
+   ============================================ */
+.book-promo {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    transition: transform 350ms ease, box-shadow 350ms ease;
+}
+
+.book-promo:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.book-promo-link {
+    display: block;
+    position: relative;
+    text-decoration: none;
+}
+
+.book-promo-img {
+    display: block;
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    object-position: center 20%;
+    transition: transform 500ms ease;
+}
+
+.book-promo:hover .book-promo-img {
+    transform: scale(1.05);
+}
+
+.book-promo-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 22px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 45%);
+    opacity: 0;
+    transition: opacity 350ms ease;
+}
+
+.book-promo:hover .book-promo-overlay,
+.book-promo:focus-within .book-promo-overlay {
+    opacity: 1;
+}
+
+.book-promo-cta {
+    display: inline-flex;
+    align-items: center;
+    background: #1fa84f;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 10px 22px;
+    border-radius: 50px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    transform: translateY(10px);
+    transition: transform 350ms ease;
+}
+
+.book-promo:hover .book-promo-cta {
+    transform: translateY(0);
+}
+
+@media (max-width: 767px) {
+    .book-promo-img {
+        height: 260px;
+    }
+
+    .book-promo-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.05) 60%);
+    }
+
+    .book-promo-cta {
+        transform: translateY(0);
+        font-size: 0.85rem;
+        padding: 8px 18px;
     }
 }
