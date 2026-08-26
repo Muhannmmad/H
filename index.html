@@ -3690,10 +3690,10 @@
            Turns the one-page anchors (#about, #service, ...) into real-looking
            paths in the address bar (/about, /services, ...) without reloading
            the page. Applies to EVERY link that points at a section (navbar,
-           sitemap, footer, anywhere), keeps the URL in sync while scrolling
-           (via Bootstrap's ScrollSpy), and works together with 404.html,
-           which is required on GitHub Pages so a direct visit or refresh of
-           e.g. /services doesn't 404 (GitHub Pages has no server-side routing). */
+           sitemap, footer, anywhere), keeps the URL in sync while scrolling,
+           and works together with 404.html, which is required on GitHub
+           Pages so a direct visit or refresh of e.g. /services doesn't 404
+           (GitHub Pages has no server-side routing). */
         (function () {
             var sectionToPath = {
                 home: '/',
@@ -3715,6 +3715,31 @@
             // below the fixed navbar instead of having it cover the heading.
             var NAV_OFFSET = 51;
 
+            // Browsers hard-limit how often history.pushState/replaceState
+            // can be called (Chrome throws "SecurityError: ... more than
+            // 100 times per 10 seconds" if you exceed it — that's the error
+            // you hit, caused by the scroll handler firing rapidly). This
+            // wrapper (a) never lets that throw break the page, and (b)
+            // enforces our own gap between calls so we never get close to
+            // the browser's limit in the first place.
+            var lastHistoryCallAt = 0;
+            var MIN_GAP_MS = 400;
+
+            function safeSetUrl(method, id, path) {
+                var now = Date.now();
+                if (now - lastHistoryCallAt < MIN_GAP_MS) return false;
+                try {
+                    history[method]({ section: id }, '', path);
+                    lastHistoryCallAt = now;
+                    return true;
+                } catch (err) {
+                    // Silently ignore — worst case the URL just doesn't
+                    // update for this one change; scrolling/navigation
+                    // itself is unaffected.
+                    return false;
+                }
+            }
+
             function scrollToSection(id, smooth) {
                 var target = document.getElementById(id);
                 if (!target) return;
@@ -3727,7 +3752,7 @@
             var redirected = params.get('redirect');
             if (redirected) {
                 var cleanPath = redirected.split('#')[0].split('?')[0] || '/';
-                history.replaceState({ section: pathToSection[cleanPath] || 'home' }, '', cleanPath);
+                safeSetUrl('replaceState', pathToSection[cleanPath] || 'home', cleanPath);
             }
 
             // 2) On first load, jump to whichever section matches the current clean path
@@ -3752,7 +3777,8 @@
                     link.addEventListener('click', function (e) {
                         e.preventDefault();
                         scrollToSection(id, true);
-                        history.pushState({ section: id }, '', path);
+                        lastHistoryCallAt = 0; // a deliberate click should always win, even mid-scroll cooldown
+                        safeSetUrl('pushState', id, path);
 
                         // close the mobile menu if it's open
                         var navbarCollapse = document.getElementById('navbarCollapse');
@@ -3765,20 +3791,45 @@
                 });
             });
 
-            // 4) Keep the URL in sync while the user scrolls: Bootstrap's
-            //    ScrollSpy (data-bs-spy="scroll" on <body>) already figures
-            //    out which section is active — we just mirror that into the
-            //    address bar with replaceState (no extra history entries).
-            document.body.addEventListener('activate.bs.scrollspy', function (e) {
-                var relatedLink = e.relatedTarget;
-                if (!relatedLink) return;
-                var href = relatedLink.getAttribute('href') || '';
-                var id = href.replace('#', '');
-                var path = sectionToPath[id];
-                if (path && window.location.pathname !== path) {
-                    history.replaceState({ section: id }, '', path);
+            // 4) Keep the URL in sync while the user scrolls. Watches scroll
+            //    position directly and mirrors it into the address bar,
+            //    throttled by requestAnimationFrame AND by safeSetUrl's own
+            //    minimum gap so rapid scrolling can never trip the browser's
+            //    history rate limit.
+            var sectionOrder = ['home', 'about', 'cv', 'writings', 'skill', 'service', 'sitemap', 'contact'];
+            var sectionEls = sectionOrder
+                .map(function (id) { return document.getElementById(id); })
+                .filter(Boolean);
+            var currentActiveId = null;
+            var ticking = false;
+
+            function updateUrlFromScroll() {
+                ticking = false;
+                var scrollPos = window.pageYOffset + NAV_OFFSET + 1;
+                var activeId = sectionEls.length ? sectionEls[0].id : null;
+                for (var i = 0; i < sectionEls.length; i++) {
+                    if (sectionEls[i].offsetTop <= scrollPos) {
+                        activeId = sectionEls[i].id;
+                    }
                 }
-            });
+                if (!activeId || activeId === currentActiveId) return;
+                var path = sectionToPath[activeId];
+                if (path && window.location.pathname !== path) {
+                    if (safeSetUrl('replaceState', activeId, path)) {
+                        currentActiveId = activeId;
+                    }
+                    // if throttled, leave currentActiveId as-is so we retry on the next scroll tick
+                }
+            }
+
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    ticking = true;
+                    window.requestAnimationFrame(updateUrlFromScroll);
+                }
+            }, { passive: true });
+
+            window.addEventListener('load', updateUrlFromScroll);
 
             // 5) Support the browser Back / Forward buttons
             window.addEventListener('popstate', function (e) {
