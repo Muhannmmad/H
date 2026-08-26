@@ -3689,9 +3689,11 @@
         /* --- CLEAN URL ROUTING ---
            Turns the one-page anchors (#about, #service, ...) into real-looking
            paths in the address bar (/about, /services, ...) without reloading
-           the page. Works together with 404.html, which is required on
-           GitHub Pages so a direct visit or refresh of e.g. /services
-           doesn't 404 (GitHub Pages has no server-side routing). */
+           the page. Applies to EVERY link that points at a section (navbar,
+           sitemap, footer, anywhere), keeps the URL in sync while scrolling
+           (via Bootstrap's ScrollSpy), and works together with 404.html,
+           which is required on GitHub Pages so a direct visit or refresh of
+           e.g. /services doesn't 404 (GitHub Pages has no server-side routing). */
         (function () {
             var sectionToPath = {
                 home: '/',
@@ -3709,10 +3711,15 @@
                 pathToSection[sectionToPath[id]] = id;
             });
 
+            // Same offset as data-bs-offset="51" on <body>, so we land just
+            // below the fixed navbar instead of having it cover the heading.
+            var NAV_OFFSET = 51;
+
             function scrollToSection(id, smooth) {
                 var target = document.getElementById(id);
                 if (!target) return;
-                target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+                var top = target.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET;
+                window.scrollTo({ top: top, behavior: smooth ? 'smooth' : 'auto' });
             }
 
             // 1) Recover the real path after the 404.html redirect trick
@@ -3732,22 +3739,48 @@
                 }
             });
 
-            // 3) Whenever a nav link is clicked, let the normal anchor jump happen,
-            //    then swap the "#service" the browser just added for "/services"
+            // 3) Every link that points at a known section — navbar, sitemap,
+            //    footer, anywhere — is handled the same way: we do the
+            //    scrolling ourselves and set the clean URL immediately, so
+            //    the result is identical no matter where the click came from.
             document.addEventListener('DOMContentLoaded', function () {
-                document.querySelectorAll('.navbar-nav .nav-link[href^="#"]').forEach(function (link) {
-                    link.addEventListener('click', function () {
-                        var id = this.getAttribute('href').slice(1);
-                        var path = sectionToPath[id];
-                        if (!path) return;
-                        setTimeout(function () {
-                            history.replaceState({ section: id }, '', path);
-                        }, 0);
+                document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+                    var id = link.getAttribute('href').slice(1);
+                    var path = sectionToPath[id];
+                    if (!path) return; // not one of our tracked sections (e.g. #exp / #edu pills) — leave alone
+
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        scrollToSection(id, true);
+                        history.pushState({ section: id }, '', path);
+
+                        // close the mobile menu if it's open
+                        var navbarCollapse = document.getElementById('navbarCollapse');
+                        if (navbarCollapse && navbarCollapse.classList.contains('show') && window.bootstrap) {
+                            var bsCollapse = window.bootstrap.Collapse.getInstance(navbarCollapse)
+                                || new window.bootstrap.Collapse(navbarCollapse);
+                            bsCollapse.hide();
+                        }
                     });
                 });
             });
 
-            // 4) Support the browser Back / Forward buttons
+            // 4) Keep the URL in sync while the user scrolls: Bootstrap's
+            //    ScrollSpy (data-bs-spy="scroll" on <body>) already figures
+            //    out which section is active — we just mirror that into the
+            //    address bar with replaceState (no extra history entries).
+            document.body.addEventListener('activate.bs.scrollspy', function (e) {
+                var relatedLink = e.relatedTarget;
+                if (!relatedLink) return;
+                var href = relatedLink.getAttribute('href') || '';
+                var id = href.replace('#', '');
+                var path = sectionToPath[id];
+                if (path && window.location.pathname !== path) {
+                    history.replaceState({ section: id }, '', path);
+                }
+            });
+
+            // 5) Support the browser Back / Forward buttons
             window.addEventListener('popstate', function (e) {
                 var id = (e.state && e.state.section) || pathToSection[window.location.pathname] || 'home';
                 scrollToSection(id, true);
