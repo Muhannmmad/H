@@ -3511,8 +3511,8 @@ body.dark-mode .writings-intro {
     display: block;
     width: 100%;
     height: 440px;
-    object-fit: contain;
-    object-position: center;
+    object-fit: cover;
+    object-position: center top;
     background: #14161f;
     transition: transform 500ms ease;
 }
