@@ -3474,7 +3474,6 @@ body.dark-mode .download-toast {
 }
 
 .writings-intro {
-    max-width: 780px;
     color: #6c757d;
     font-size: 1.05rem;
     line-height: 1.8;
@@ -3578,4 +3577,18 @@ body.dark-mode .writings-intro {
     .book-promo-img {
         height: 400px;
     }
+}
+
+/* ---- Coming Soon variant for a featured promo banner ---- */
+.book-promo-soon .book-promo-img {
+    filter: grayscale(30%) brightness(0.92);
+}
+
+.book-promo-soon:hover .book-promo-img {
+    transform: none;
+}
+
+.book-promo-soon .book-promo-cta-soon {
+    background: linear-gradient(135deg, var(--secondary), #d9a02f);
+    color: #12141D;
 }
