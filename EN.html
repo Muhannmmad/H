@@ -923,7 +923,7 @@
   var MONTH = 9;               // October (January = 0)
   var DAYS = [18, 19, 20];     // days the celebration is visible
   var FIREWORKS_SECONDS = 20;  // how long fireworks run after the page loads
-  var NAME = 'Muhammad';       // name shown in the greeting ('' to hide)
+  var PAYPAL_URL = 'https://www.paypal.me/Muhannmmad'; // "Buy me a coffee" link
   // --------------------------------------------
 
   var now = new Date();
@@ -931,12 +931,24 @@
   var active = now.getMonth() === MONTH && DAYS.indexOf(now.getDate()) !== -1;
   if (!active && !forced) return;
 
-  var lang = (document.documentElement.lang || 'en').toLowerCase();
-  if (/(^|\/)de(\.html)?(\/|$)/i.test(location.pathname)) lang = 'de';
-  var isDE = lang.indexOf('de') === 0;
-  var TXT = isDE
-    ? { title: 'Alles Gute zum Geburtstag', sub: 'Danke, dass Sie meine Webseite besuchen!', close: 'Schließen' }
-    : { title: 'Happy Birthday', sub: 'Thank you for visiting my website!', close: 'Close' };
+  var TXT = {
+    de: { title: 'Alles Gute zum Geburtstag, Muhammad! 🎂', sub: 'Danke, dass Sie meine Webseite besuchen!',
+          coffee: 'Spendiere mir einen Kaffee', close: 'Schließen' },
+    en: { title: 'Happy Birthday, Muhammad! 🎂', sub: 'Thank you for visiting my website!',
+          coffee: 'Buy me a coffee', close: 'Close' },
+    ar: { title: 'عيد ميلاد سعيد، محمد! 🎂', sub: 'شكراً لزيارتك موقعي!',
+          coffee: 'اشترِ لي قهوة', close: 'إغلاق' }
+  };
+
+  function getLang() {
+    var p = location.pathname.toLowerCase();
+    if (/\/en\.html$/.test(p)) return 'en';
+    if (/\/de\.html$/.test(p)) return 'de';
+    var l = null;
+    try { l = localStorage.getItem('lang'); } catch (e) {}
+    l = (l || document.documentElement.lang || 'de').toLowerCase().slice(0, 2);
+    return TXT[l] ? l : 'de';
+  }
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -956,6 +968,10 @@
       '#bday-banner .bday-s{font-size:.9rem;opacity:.95;margin-top:2px}' +
       '#bday-banner button{position:absolute;top:6px;right:8px;background:none;border:0;color:#fff;' +
       'font-size:22px;line-height:1;cursor:pointer;padding:4px 8px}' +
+      '#bday-banner .bday-coffee{display:inline-block;margin-top:10px;padding:8px 18px;border-radius:30px;background:#ffdd00;' +
+      'color:#222;font-weight:700;font-size:.95rem;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.25)}' +
+      '#bday-banner .bday-coffee:hover{background:#ffe94d;color:#000}' +
+      '#bday-banner[dir=rtl]{padding:14px 22px 14px 44px}#bday-banner[dir=rtl] button{right:auto;left:8px}' +
       '#bday-fx{position:fixed;inset:0;width:100%;height:100%;z-index:99999;pointer-events:none}' +
       '.bday-balloon{position:fixed;bottom:-120px;z-index:99998;pointer-events:none;font-size:42px;' +
       'animation:bdayRise linear forwards}' +
@@ -971,13 +987,29 @@
     var b = document.createElement('div');
     b.id = 'bday-banner';
     b.setAttribute('role', 'status');
-    var title = '🎉 ' + TXT.title + (NAME ? ', ' + NAME : '') + '! 🎂';
-    b.innerHTML = '<div class="bday-t"></div><div class="bday-s"></div>' +
-      '<button type="button" aria-label="' + TXT.close + '">&times;</button>';
-    b.querySelector('.bday-t').textContent = title;
-    b.querySelector('.bday-s').textContent = TXT.sub;
-    b.querySelector('button').onclick = function () { b.remove(); };
     document.body.appendChild(b);
+
+    function render() {
+      var l = getLang(), t = TXT[l];
+      b.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
+      b.innerHTML = '<div class="bday-t"></div><div class="bday-s"></div>' +
+        '<a class="bday-coffee" target="_blank" rel="noopener"></a>' +
+        '<button type="button"></button>';
+      b.querySelector('.bday-t').textContent = '🎉 ' + t.title;
+      b.querySelector('.bday-s').textContent = t.sub;
+      var a = b.querySelector('.bday-coffee');
+      a.href = PAYPAL_URL;
+      a.textContent = '☕ ' + t.coffee;
+      var x = b.querySelector('button');
+      x.innerHTML = '&times;';
+      x.setAttribute('aria-label', t.close);
+      x.onclick = function () { closed = true; obs.disconnect(); b.remove(); };
+    }
+    var closed = false;
+    render();
+    // re-translate when the visitor changes language on the page
+    var obs = new MutationObserver(function () { if (!closed) render(); });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 
     if (!reduceMotion) {
       var emojis = ['🎈', '🎈', '🎈', '🎉', '🎊'];
