@@ -931,6 +931,14 @@
           coffee: 'اشترِ لي قهوة', close: 'إغلاق' }
   };
 
+  // Safe tracking (uses your site's trackEvent / umami if present, never breaks the button)
+  function track(name) {
+    try {
+      if (typeof window.trackEvent === 'function') window.trackEvent(name);
+      else if (window.umami && typeof window.umami.track === 'function') window.umami.track(name);
+    } catch (e) {}
+  }
+
   function getLang() {
     var p = location.pathname.toLowerCase();
     if (/\/en\.html$/.test(p)) return 'en';
@@ -991,6 +999,7 @@
       var a = b.querySelector('.bday-coffee');
       a.href = PAYPAL_URL;
       a.textContent = '☕ ' + t.coffee;
+      a.onclick = function () { track('Clicked Buy Me a Coffee Button (Birthday)'); };
       var x = b.querySelector('button');
       x.innerHTML = '&times;';
       x.setAttribute('aria-label', t.close);

@@ -1195,7 +1195,7 @@
                             <a href="https://www.paypal.me/Muhannmmad" target="_blank" rel="noopener"
                                class="btn rounded-pill px-4 py-2 fw-bold"
                                style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
-                               onclick="try{trackEvent('buy-me-a-coffee')}catch(e){}">
+                               onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings)')}catch(e){}">
                                 ☕
                                 <span data-lang="de">Spendiere mir einen Kaffee</span>
                                 <span data-lang="en" style="display:none;">Buy me a coffee</span>
@@ -3918,6 +3918,14 @@
           coffee: 'اشترِ لي قهوة', close: 'إغلاق' }
   };
 
+  // Safe tracking (uses your site's trackEvent / umami if present, never breaks the button)
+  function track(name) {
+    try {
+      if (typeof window.trackEvent === 'function') window.trackEvent(name);
+      else if (window.umami && typeof window.umami.track === 'function') window.umami.track(name);
+    } catch (e) {}
+  }
+
   function getLang() {
     var p = location.pathname.toLowerCase();
     if (/\/en\.html$/.test(p)) return 'en';
@@ -3978,6 +3986,7 @@
       var a = b.querySelector('.bday-coffee');
       a.href = PAYPAL_URL;
       a.textContent = '☕ ' + t.coffee;
+      a.onclick = function () { track('Clicked Buy Me a Coffee Button (Birthday)'); };
       var x = b.querySelector('button');
       x.innerHTML = '&times;';
       x.setAttribute('aria-label', t.close);
