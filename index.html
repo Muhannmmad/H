@@ -1192,15 +1192,31 @@
                             <span data-lang="ar" dir="rtl" style="display:none;">أعمالي الأدبية</span>
                         </h1>
                         <div class="mt-3">
-                            <a href="https://www.paypal.me/Muhannmmad" target="_blank" rel="noopener"
-                               class="btn rounded-pill px-4 py-2 fw-bold"
-                               style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
-                               onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings)')}catch(e){}">
-                                ☕
+                            <div class="fw-bold mb-1">
                                 <span data-lang="de">Spendiere mir einen Kaffee</span>
                                 <span data-lang="en" style="display:none;">Buy me a coffee</span>
                                 <span data-lang="ar" dir="rtl" style="display:none;">اشترِ لي قهوة</span>
-                            </a>
+                            </div>
+                            <a href="https://www.paypal.me/Muhannmmad/5EUR" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
+                                   style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
+                                   onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) 5 EUR')}catch(e){}">
+                                    ☕ <span data-lang="de">5 €</span><span data-lang="en" style="display:none;">€5</span><span data-lang="ar" dir="rtl" style="display:none;">5 €</span>
+                                </a>
+                            <a href="https://www.paypal.me/Muhannmmad/10EUR" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
+                                   style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
+                                   onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) 10 EUR')}catch(e){}">
+                                    ☕ <span data-lang="de">10 €</span><span data-lang="en" style="display:none;">€10</span><span data-lang="ar" dir="rtl" style="display:none;">10 €</span>
+                                </a>
+                            <a href="https://www.paypal.me/Muhannmmad" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
+                                   style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
+                                   onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) Other')}catch(e){}">
+                                    ☕ <span data-lang="de">Anderer Betrag</span><span data-lang="en" style="display:none;">Other amount</span><span data-lang="ar" dir="rtl" style="display:none;">مبلغ آخر</span>
+                                </a>
+                            <div class="small mt-1" style="opacity:.8;">
+                                🔒 <span data-lang="de">Sichere Zahlung über PayPal</span>
+                                <span data-lang="en" style="display:none;">Secure payment via PayPal</span>
+                                <span data-lang="ar" dir="rtl" style="display:none;">الدفع الآمن عبر PayPal</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3901,7 +3917,8 @@
   var MONTH = 9;               // October (January = 0)
   var DAYS = [18, 19, 20];     // days the celebration is visible
   var FIREWORKS_SECONDS = 20;  // how long fireworks run after the page loads
-  var PAYPAL_URL = 'https://www.paypal.me/Muhannmmad'; // "Buy me a coffee" link
+  var PAYPAL_URL = 'https://www.paypal.me/Muhannmmad'; // your PayPal.me link
+  var AMOUNTS = [5, 10];       // coffee offers in EUR (a free "other amount" button is added automatically)
   // --------------------------------------------
 
   var now = new Date();
@@ -3911,11 +3928,11 @@
 
   var TXT = {
     de: { title: 'Alles Gute zum Geburtstag, Muhammad! 🎂', sub: 'Danke, dass Sie meine Webseite besuchen!',
-          coffee: 'Spendiere mir einen Kaffee', close: 'Schließen' },
+          coffee: 'Spendiere mir einen Kaffee', other: 'Anderer Betrag', pp: 'Sichere Zahlung über PayPal', close: 'Schließen' },
     en: { title: 'Happy Birthday, Muhammad! 🎂', sub: 'Thank you for visiting my website!',
-          coffee: 'Buy me a coffee', close: 'Close' },
+          coffee: 'Buy me a coffee', other: 'Other amount', pp: 'Secure payment via PayPal', close: 'Close' },
     ar: { title: 'عيد ميلاد سعيد، محمد! 🎂', sub: 'شكراً لزيارتك موقعي!',
-          coffee: 'اشترِ لي قهوة', close: 'إغلاق' }
+          coffee: 'اشترِ لي قهوة', other: 'مبلغ آخر', pp: 'الدفع الآمن عبر PayPal', close: 'إغلاق' }
   };
 
   // Safe tracking (uses your site's trackEvent / umami if present, never breaks the button)
@@ -3924,6 +3941,16 @@
       if (typeof window.trackEvent === 'function') window.trackEvent(name);
       else if (window.umami && typeof window.umami.track === 'function') window.umami.track(name);
     } catch (e) {}
+  }
+
+  function fmt(n, l) { return l === 'en' ? '€' + n : n + ' €'; }
+  function addLink(box, label, url, tag) {
+    var a = document.createElement('a');
+    a.className = 'bday-coffee';
+    a.target = '_blank'; a.rel = 'noopener';
+    a.href = url; a.textContent = label;
+    a.onclick = function () { track('Clicked Buy Me a Coffee Button (Birthday) ' + tag); };
+    box.appendChild(a);
   }
 
   function getLang() {
@@ -3954,8 +3981,11 @@
       '#bday-banner .bday-s{font-size:.9rem;opacity:.95;margin-top:2px}' +
       '#bday-banner button{position:absolute;top:6px;right:8px;background:none;border:0;color:#fff;' +
       'font-size:22px;line-height:1;cursor:pointer;padding:4px 8px}' +
-      '#bday-banner .bday-coffee{display:inline-block;margin-top:10px;padding:8px 18px;border-radius:30px;background:#ffdd00;' +
-      'color:#222;font-weight:700;font-size:.95rem;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.25)}' +
+      '#bday-banner .bday-ask{margin-top:10px;font-weight:700}' +
+      '#bday-banner .bday-coffees{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}' +
+      '#bday-banner .bday-pp{font-size:.75rem;opacity:.9;margin-top:6px}' +
+      '#bday-banner .bday-coffee{display:inline-block;padding:7px 16px;border-radius:30px;background:#ffdd00;' +
+      'color:#222;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.25)}' +
       '#bday-banner .bday-coffee:hover{background:#ffe94d;color:#000}' +
       '#bday-banner[dir=rtl]{padding:14px 22px 14px 44px}#bday-banner[dir=rtl] button{right:auto;left:8px}' +
       '#bday-fx{position:fixed;inset:0;width:100%;height:100%;z-index:99999;pointer-events:none}' +
@@ -3979,14 +4009,15 @@
       var l = getLang(), t = TXT[l];
       b.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
       b.innerHTML = '<div class="bday-t"></div><div class="bday-s"></div>' +
-        '<a class="bday-coffee" target="_blank" rel="noopener"></a>' +
+        '<div class="bday-ask"></div><div class="bday-coffees"></div><div class="bday-pp"></div>' +
         '<button type="button"></button>';
       b.querySelector('.bday-t').textContent = '🎉 ' + t.title;
       b.querySelector('.bday-s').textContent = t.sub;
-      var a = b.querySelector('.bday-coffee');
-      a.href = PAYPAL_URL;
-      a.textContent = '☕ ' + t.coffee;
-      a.onclick = function () { track('Clicked Buy Me a Coffee Button (Birthday)'); };
+      b.querySelector('.bday-ask').textContent = '☕ ' + t.coffee;
+      b.querySelector('.bday-pp').textContent = '🔒 ' + t.pp;
+      var box = b.querySelector('.bday-coffees');
+      AMOUNTS.forEach(function (n) { addLink(box, fmt(n, l), PAYPAL_URL + '/' + n + 'EUR', n + ' EUR'); });
+      addLink(box, t.other, PAYPAL_URL, 'Other');
       var x = b.querySelector('button');
       x.innerHTML = '&times;';
       x.setAttribute('aria-label', t.close);
