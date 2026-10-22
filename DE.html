@@ -1144,6 +1144,299 @@
 })();
 
     </script>
+    <!-- Wise saying bar (every visit, closable) -->
+    <script>
+/*
+ * Wise-saying bar: on EVERY page load a wide bar appears at the bottom of the
+ * screen with a different wise saying (German / English / Arabic, following the
+ * site language). The visitor closes it manually with the × button.
+ *
+ * To add your own sayings, add a line to SAYINGS below:
+ *   { en: "...", de: "...", ar: "..." },
+ */
+(function () {
+  'use strict';
+
+  var SAYINGS = [
+ {
+  "en": "A journey of a thousand miles begins with a single step.",
+  "de": "Eine Reise von tausend Meilen beginnt mit einem einzigen Schritt.",
+  "ar": "رحلة الألف ميل تبدأ بخطوة."
+ },
+ {
+  "en": "Patience is bitter, but its fruit is sweet.",
+  "de": "Geduld ist bitter, aber ihre Frucht ist süß.",
+  "ar": "الصبر مرّ لكن ثمره حلو."
+ },
+ {
+  "en": "He who asks is a fool for five minutes; he who never asks is a fool forever.",
+  "de": "Wer fragt, ist fünf Minuten ein Narr; wer nie fragt, bleibt es für immer.",
+  "ar": "من سأل فهو أحمق لخمس دقائق، ومن لم يسأل بقي أحمق إلى الأبد."
+ },
+ {
+  "en": "Knowledge is a treasure, but practice is the key to it.",
+  "de": "Wissen ist ein Schatz, doch Übung ist der Schlüssel dazu.",
+  "ar": "العلم كنز، والممارسة مفتاحه."
+ },
+ {
+  "en": "Fall seven times, stand up eight.",
+  "de": "Siebenmal hinfallen, achtmal aufstehen.",
+  "ar": "اسقط سبع مرات، وانهض ثماني."
+ },
+ {
+  "en": "The best time to plant a tree was twenty years ago. The second best time is now.",
+  "de": "Die beste Zeit, einen Baum zu pflanzen, war vor zwanzig Jahren. Die zweitbeste ist jetzt.",
+  "ar": "أفضل وقت لزراعة شجرة كان قبل عشرين عاماً، وثاني أفضل وقت هو الآن."
+ },
+ {
+  "en": "A kind word is charity.",
+  "de": "Ein freundliches Wort ist eine Wohltat.",
+  "ar": "الكلمة الطيبة صدقة."
+ },
+ {
+  "en": "Actions speak louder than words.",
+  "de": "Taten sprechen lauter als Worte.",
+  "ar": "الأفعال أبلغ من الأقوال."
+ },
+ {
+  "en": "In calm there is safety, in haste there is regret.",
+  "de": "In der Ruhe liegt Sicherheit, in der Eile die Reue.",
+  "ar": "في التأني السلامة وفي العجلة الندامة."
+ },
+ {
+  "en": "Every expert was once a beginner.",
+  "de": "Jeder Experte war einmal ein Anfänger.",
+  "ar": "كل خبير كان يوماً مبتدئاً."
+ },
+ {
+  "en": "Speech is silver, silence is golden.",
+  "de": "Reden ist Silber, Schweigen ist Gold.",
+  "ar": "إن كان الكلام من فضة فالسكوت من ذهب."
+ },
+ {
+  "en": "Better late than never.",
+  "de": "Besser spät als nie.",
+  "ar": "أن تصل متأخراً خير من ألا تصل أبداً."
+ },
+ {
+  "en": "A friend in need is a friend indeed.",
+  "de": "Freunde in der Not sind wahre Freunde.",
+  "ar": "الصديق وقت الضيق."
+ },
+ {
+  "en": "Where there is a will, there is a way.",
+  "de": "Wo ein Wille ist, ist auch ein Weg.",
+  "ar": "حيثما وُجدت الإرادة وُجد الطريق."
+ },
+ {
+  "en": "Whoever strives, finds.",
+  "de": "Wer sich müht, der findet.",
+  "ar": "من جدّ وجد."
+ },
+ {
+  "en": "Don't judge a book by its cover.",
+  "de": "Beurteile ein Buch nicht nach seinem Einband.",
+  "ar": "لا تحكم على الكتاب من غلافه."
+ },
+ {
+  "en": "The pen is mightier than the sword.",
+  "de": "Die Feder ist mächtiger als das Schwert.",
+  "ar": "القلم أقوى من السيف."
+ },
+ {
+  "en": "Time is like a sword: if you don't cut it, it cuts you.",
+  "de": "Die Zeit ist wie ein Schwert: Schneidest du sie nicht, schneidet sie dich.",
+  "ar": "الوقت كالسيف إن لم تقطعه قطعك."
+ },
+ {
+  "en": "Little by little, a little becomes a lot.",
+  "de": "Wenig um wenig wird viel.",
+  "ar": "القليل مع القليل كثير."
+ },
+ {
+  "en": "Rome wasn't built in a day.",
+  "de": "Rom wurde nicht an einem Tag erbaut.",
+  "ar": "روما لم تُبنَ في يوم واحد."
+ },
+ {
+  "en": "A smile costs nothing but gives much.",
+  "de": "Ein Lächeln kostet nichts und schenkt viel.",
+  "ar": "الابتسامة لا تكلّف شيئاً لكنها تعطي الكثير."
+ },
+ {
+  "en": "With hardship comes ease.",
+  "de": "Mit der Schwierigkeit kommt die Erleichterung.",
+  "ar": "إِنَّ مَعَ الْعُسْرِ يُسْرًا"
+ },
+ {
+  "en": "Mistakes are proof that you are trying.",
+  "de": "Fehler sind der Beweis, dass du es versuchst.",
+  "ar": "الأخطاء دليل على أنك تحاول."
+ },
+ {
+  "en": "Listen more than you speak.",
+  "de": "Höre mehr zu, als du sprichst.",
+  "ar": "استمع أكثر مما تتكلم."
+ },
+ {
+  "en": "Give a man a fish and you feed him for a day; teach him to fish and you feed him for a lifetime.",
+  "de": "Gib einem Menschen einen Fisch, und er isst einen Tag; lehre ihn fischen, und er isst ein Leben lang.",
+  "ar": "أعطِ إنساناً سمكة تُطعمه يوماً، وعلّمه الصيد تُطعمه العمر كله."
+ },
+ {
+  "en": "The darkest hour is just before the dawn.",
+  "de": "Die dunkelste Stunde ist die vor der Morgendämmerung.",
+  "ar": "أشدّ ساعات الليل ظلمة هي التي تسبق الفجر."
+ },
+ {
+  "en": "A tree is known by its fruit.",
+  "de": "An den Früchten erkennt man den Baum.",
+  "ar": "الشجرة تُعرف بثمارها."
+ },
+ {
+  "en": "Gratitude turns what we have into enough.",
+  "de": "Dankbarkeit macht aus dem, was wir haben, genug.",
+  "ar": "الامتنان يجعل ما نملكه كافياً."
+ },
+ {
+  "en": "Reading is to the mind what exercise is to the body.",
+  "de": "Lesen ist für den Geist, was Sport für den Körper ist.",
+  "ar": "القراءة للعقل كالرياضة للجسد."
+ },
+ {
+  "en": "Dream big, start small.",
+  "de": "Träume groß, fang klein an.",
+  "ar": "احلم كبيراً وابدأ صغيراً."
+ },
+ {
+  "en": "Generosity is giving without expecting anything in return.",
+  "de": "Großzügigkeit heißt, zu geben, ohne etwas zurückzuerwarten.",
+  "ar": "الكرم أن تعطي دون أن تنتظر المقابل."
+ },
+ {
+  "en": "One hand cannot clap.",
+  "de": "Eine Hand allein kann nicht klatschen.",
+  "ar": "يدٌ واحدة لا تصفّق."
+ },
+ {
+  "en": "Calm seas never made skilled sailors.",
+  "de": "Ruhige Meere machen keine erfahrenen Seeleute.",
+  "ar": "البحر الهادئ لا يصنع بحّاراً ماهراً."
+ },
+ {
+  "en": "Learn from yesterday, live for today, hope for tomorrow.",
+  "de": "Lerne aus dem Gestern, lebe im Heute, hoffe auf das Morgen.",
+  "ar": "تعلّم من الأمس، وعِش اليوم، وأمِل بالغد."
+ },
+ {
+  "en": "He who has health has hope, and he who has hope has everything.",
+  "de": "Wer Gesundheit hat, hat Hoffnung, und wer Hoffnung hat, hat alles.",
+  "ar": "من كانت له صحة فله أمل، ومن كان له أمل فله كل شيء."
+ },
+ {
+  "en": "Health is a crown on the heads of the healthy that only the sick can see.",
+  "de": "Gesundheit ist eine Krone auf dem Haupt der Gesunden, die nur die Kranken sehen.",
+  "ar": "الصحة تاج على رؤوس الأصحاء لا يراه إلا المرضى."
+ },
+ {
+  "en": "Every beginning is hard.",
+  "de": "Aller Anfang ist schwer.",
+  "ar": "كل بداية صعبة."
+ },
+ {
+  "en": "Do good and cast it into the sea.",
+  "de": "Tu Gutes und wirf es ins Meer.",
+  "ar": "افعل الخير وألقِه في البحر."
+ },
+ {
+  "en": "A good name is better than riches.",
+  "de": "Ein guter Name ist besser als Reichtum.",
+  "ar": "السمعة الطيبة خير من الثروة."
+ },
+ {
+  "en": "Learning in youth is like carving in stone.",
+  "de": "Lernen in der Jugend ist wie Meißeln in Stein.",
+  "ar": "العلم في الصغر كالنقش على الحجر."
+ }
+];
+
+  var LABEL = { de: 'Weisheit', en: 'Wisdom', ar: 'حكمة' };
+  var CLOSE = { de: 'Schließen', en: 'Close', ar: 'إغلاق' };
+
+  function getLang() {
+    var p = location.pathname.toLowerCase();
+    if (/\/en\.html$/.test(p)) return 'en';
+    if (/\/de\.html$/.test(p)) return 'de';
+    var l = null;
+    try { l = localStorage.getItem('lang'); } catch (e) {}
+    l = (l || document.documentElement.lang || 'de').toLowerCase().slice(0, 2);
+    return LABEL[l] ? l : 'de';
+  }
+
+  // pick a random saying, never the same one as last visit
+  function pick() {
+    var last = -1;
+    try { last = parseInt(localStorage.getItem('wisdomLast'), 10); } catch (e) {}
+    var i;
+    do { i = Math.floor(Math.random() * SAYINGS.length); } while (i === last && SAYINGS.length > 1);
+    try { localStorage.setItem('wisdomLast', String(i)); } catch (e) {}
+    return i;
+  }
+
+  function start() {
+    var idx = pick();
+
+    var st = document.createElement('style');
+    st.textContent =
+      '#wisdom-bar{position:fixed;left:0;right:0;bottom:0;z-index:99990;box-sizing:border-box;width:100%;' +
+      'padding:14px 56px 14px 20px;text-align:center;color:#fff;' +
+      'background:linear-gradient(90deg,#1f2a44,#3a2d5c,#1f2a44);box-shadow:0 -4px 20px rgba(0,0,0,.35);' +
+      'font-family:inherit;animation:wisdomIn .6s ease-out}' +
+      '#wisdom-bar .w-label{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-bottom:2px}' +
+      '#wisdom-bar .w-text{font-size:1.1rem;line-height:1.5;font-style:italic;max-width:1100px;margin:0 auto}' +
+      '#wisdom-bar button{position:absolute;top:50%;right:14px;transform:translateY(-50%);background:rgba(255,255,255,.15);' +
+      'border:0;color:#fff;width:32px;height:32px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}' +
+      '#wisdom-bar button:hover{background:rgba(255,255,255,.3)}' +
+      '#wisdom-bar[dir=rtl]{padding:14px 20px 14px 56px}#wisdom-bar[dir=rtl] button{right:auto;left:14px}' +
+      '@keyframes wisdomIn{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}' +
+      '@media (prefers-reduced-motion:reduce){#wisdom-bar{animation:none}}' +
+      '@media (max-width:576px){#wisdom-bar .w-text{font-size:.95rem}}';
+    document.head.appendChild(st);
+
+    var bar = document.createElement('div');
+    bar.id = 'wisdom-bar';
+    bar.setAttribute('role', 'note');
+    document.body.appendChild(bar);
+
+    var closed = false;
+    function space() { if (!closed) document.body.style.paddingBottom = bar.offsetHeight + 'px'; }
+
+    function render() {
+      var l = getLang();
+      bar.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
+      bar.innerHTML = '<div class="w-label"></div><div class="w-text"></div><button type="button">&times;</button>';
+      bar.querySelector('.w-label').textContent = '💡 ' + LABEL[l];
+      bar.querySelector('.w-text').textContent = '“' + SAYINGS[idx][l] + '”';
+      var x = bar.querySelector('button');
+      x.setAttribute('aria-label', CLOSE[l]);
+      x.onclick = function () {
+        closed = true; obs.disconnect(); window.removeEventListener('resize', space);
+        document.body.style.paddingBottom = ''; bar.remove();
+      };
+      space();
+    }
+    render();
+    // same saying, translated, when the visitor switches language
+    var obs = new MutationObserver(function () { if (!closed) render(); });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    window.addEventListener('resize', space);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();
+
+    </script>
 </body>
 
 </html>
