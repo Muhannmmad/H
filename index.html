@@ -167,7 +167,7 @@
 body.dark-mode .lang-floating-btn .xl-btn:not(.on) { color: #e8eaf0; }
 
 .xl-menu {
-  position: fixed; z-index: 100000; min-width: 210px; max-height: 70vh; overflow-y: auto; padding: 6px;
+  position: fixed; z-index: 100000; min-width: 210px; max-height: calc(100vh - 84px); overflow-y: auto; padding: 6px;
   border-radius: 16px; border: 1px solid var(--bs-primary, #0d6efd);
   background: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);
   box-shadow: 0 10px 28px rgba(0, 0, 0, .25);
@@ -185,6 +185,31 @@ body.dark-mode .lang-floating-btn .xl-btn:not(.on) { color: #e8eaf0; }
 .xl-item.sel .xl-abbr { opacity: .9; }
 .xl-item.sel .xl-flag { box-shadow: 0 0 0 1px rgba(255, 255, 255, .6); }
 body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgba(255, 255, 255, .2); }
+
+/* The pill shows only the ACTIVE language (+ globe); every language is chosen from the list. */
+.lang-floating-btn:hover .lang-side:not(.active) { display: none; }
+.lang-floating-btn .lang-side.active { cursor: pointer; }
+.xl-sep { height: 1px; margin: 5px 10px; background: currentColor; opacity: .15; }
+
+/* ONE look for every language: the original DE/EN/AR buttons are hidden and the active
+   language (any of the 15) is drawn in the same round-badge style. */
+.lang-floating-btn .lang-side { display: none !important; }
+.lang-floating-btn .xl-cur {
+  position: relative; flex: none; width: 70px; height: 40px; padding: 0; border: none;
+  background: transparent; cursor: pointer;
+}
+.lang-floating-btn .xl-cur[hidden] { display: none; }
+.lang-floating-btn .xl-cur::before {
+  content: ""; position: absolute; inset: 0; opacity: .95; pointer-events: none;
+  background: var(--xl-flag) center / cover no-repeat;
+}
+.lang-floating-btn .xl-cur::after {
+  content: ""; position: absolute; top: 50%; left: 50%; width: 34px; height: 34px; border-radius: 50%;
+  transform: translate(-50%, -50%); pointer-events: none;
+  background: linear-gradient(#ffffff, #e5e5e5);
+  box-shadow: 0 4px 8px rgba(0,0,0,.25), inset 0 2px 3px rgba(255,255,255,.6), inset 0 -2px 4px rgba(0,0,0,.20);
+}
+.lang-floating-btn .xl-cur:focus-visible { outline: 2px solid var(--bs-primary, #0d6efd); outline-offset: -3px; border-radius: 26px; }
 
     </style>
     <script>
@@ -209,9 +234,9 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   function del(k) { try { localStorage.removeItem(k); } catch (e) {} }
   function known(c) { for (var i = 0; i < LANGS.length; i++) if (LANGS[i].c === c) return true; return false; }
-  function nameOf(c) { for (var i = 0; i < LANGS.length; i++) if (LANGS[i].c === c) return LANGS[i].n; return c; }
+  function nameOf(c) { if (BASE_NAMES[c]) return BASE_NAMES[c]; for (var i = 0; i < LANGS.length; i++) if (LANGS[i].c === c) return LANGS[i].n; return c; }
   function norm(s) { return s.replace(/\s+/g, ' ').trim(); }
-  var FLAGS = {"fr": "<rect width=\"10\" height=\"20\" fill=\"#0055A4\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#fff\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#EF4135\"/>", "es": "<rect width=\"30\" height=\"20\" fill=\"#AA151B\"/><rect y=\"5\" width=\"30\" height=\"10\" fill=\"#F1BF00\"/>", "it": "<rect width=\"10\" height=\"20\" fill=\"#009246\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#fff\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#CE2B37\"/>", "pt": "<rect width=\"12\" height=\"20\" fill=\"#006600\"/><rect x=\"12\" width=\"18\" height=\"20\" fill=\"#FF0000\"/><circle cx=\"12\" cy=\"10\" r=\"3.8\" fill=\"#FFD100\" stroke=\"#fff\" stroke-width=\".7\"/>", "nl": "<rect width=\"30\" height=\"7\" fill=\"#AE1C28\"/><rect y=\"6.6\" width=\"30\" height=\"6.8\" fill=\"#fff\"/><rect y=\"13.3\" width=\"30\" height=\"6.7\" fill=\"#21468B\"/>", "pl": "<rect width=\"30\" height=\"10\" fill=\"#fff\"/><rect y=\"10\" width=\"30\" height=\"10\" fill=\"#DC143C\"/>", "sv": "<rect width=\"30\" height=\"20\" fill=\"#006AA7\"/><rect x=\"9\" width=\"4\" height=\"20\" fill=\"#FECC00\"/><rect y=\"8\" width=\"30\" height=\"4\" fill=\"#FECC00\"/>", "ro": "<rect width=\"10\" height=\"20\" fill=\"#002B7F\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#FCD116\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#CE1126\"/>", "el": "<rect y=\"0.00\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"2.22\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"4.44\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"6.67\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"8.89\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"11.11\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"13.33\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"15.56\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"17.78\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect width=\"11.12\" height=\"11.12\" fill=\"#0D5EAF\"/><rect x=\"4.45\" width=\"2.22\" height=\"11.12\" fill=\"#fff\"/><rect y=\"4.45\" width=\"11.12\" height=\"2.22\" fill=\"#fff\"/>", "uk": "<rect width=\"30\" height=\"10\" fill=\"#0057B7\"/><rect y=\"10\" width=\"30\" height=\"10\" fill=\"#FFD700\"/>", "ru": "<rect width=\"30\" height=\"7\" fill=\"#fff\"/><rect y=\"6.6\" width=\"30\" height=\"6.8\" fill=\"#0039A6\"/><rect y=\"13.3\" width=\"30\" height=\"6.7\" fill=\"#D52B1E\"/>", "tr": "<rect width=\"30\" height=\"20\" fill=\"#E30A17\"/><circle cx=\"11.2\" cy=\"10\" r=\"5.3\" fill=\"#fff\"/><circle cx=\"12.6\" cy=\"10\" r=\"4.2\" fill=\"#E30A17\"/><polygon points=\"14.70,10.00 16.63,9.29 16.70,7.24 17.97,8.86 19.95,8.30 18.80,10.00 19.95,11.70 17.97,11.14 16.70,12.76 16.63,10.71\" fill=\"#fff\"/>"};
+  var FLAGS = {"de": "<rect width=\"30\" height=\"7\" fill=\"#000\"/><rect y=\"6.6\" width=\"30\" height=\"6.8\" fill=\"#DD0000\"/><rect y=\"13.3\" width=\"30\" height=\"6.7\" fill=\"#FFCE00\"/>", "en": "<rect width=\"30\" height=\"20\" fill=\"#012169\"/><path d=\"M0 0L30 20M30 0L0 20\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M0 0L30 20M30 0L0 20\" stroke=\"#C8102E\" stroke-width=\"1.5\"/><path d=\"M15 0V20M0 10H30\" stroke=\"#fff\" stroke-width=\"6.6\"/><path d=\"M15 0V20M0 10H30\" stroke=\"#C8102E\" stroke-width=\"3.6\"/>", "ar": "<rect width=\"30\" height=\"7\" fill=\"#CE1126\"/><rect y=\"6.6\" width=\"30\" height=\"6.8\" fill=\"#fff\"/><rect y=\"13.3\" width=\"30\" height=\"6.7\" fill=\"#000\"/><circle cx=\"15\" cy=\"10\" r=\"2.1\" fill=\"#C09300\"/>", "fr": "<rect width=\"10\" height=\"20\" fill=\"#0055A4\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#fff\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#EF4135\"/>", "es": "<rect width=\"30\" height=\"20\" fill=\"#AA151B\"/><rect y=\"5\" width=\"30\" height=\"10\" fill=\"#F1BF00\"/>", "it": "<rect width=\"10\" height=\"20\" fill=\"#009246\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#fff\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#CE2B37\"/>", "pt": "<rect width=\"12\" height=\"20\" fill=\"#006600\"/><rect x=\"12\" width=\"18\" height=\"20\" fill=\"#FF0000\"/><circle cx=\"12\" cy=\"10\" r=\"3.8\" fill=\"#FFD100\" stroke=\"#fff\" stroke-width=\".7\"/>", "nl": "<rect width=\"30\" height=\"7\" fill=\"#AE1C28\"/><rect y=\"6.6\" width=\"30\" height=\"6.8\" fill=\"#fff\"/><rect y=\"13.3\" width=\"30\" height=\"6.7\" fill=\"#21468B\"/>", "pl": "<rect width=\"30\" height=\"10\" fill=\"#fff\"/><rect y=\"10\" width=\"30\" height=\"10\" fill=\"#DC143C\"/>", "sv": "<rect width=\"30\" height=\"20\" fill=\"#006AA7\"/><rect x=\"9\" width=\"4\" height=\"20\" fill=\"#FECC00\"/><rect y=\"8\" width=\"30\" height=\"4\" fill=\"#FECC00\"/>", "ro": "<rect width=\"10\" height=\"20\" fill=\"#002B7F\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#FCD116\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#CE1126\"/>", "el": "<rect y=\"0.00\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"2.22\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"4.44\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"6.67\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"8.89\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"11.11\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"13.33\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"15.56\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"17.78\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect width=\"11.12\" height=\"11.12\" fill=\"#0D5EAF\"/><rect x=\"4.45\" width=\"2.22\" height=\"11.12\" fill=\"#fff\"/><rect y=\"4.45\" width=\"11.12\" height=\"2.22\" fill=\"#fff\"/>", "uk": "<rect width=\"30\" height=\"10\" fill=\"#0057B7\"/><rect y=\"10\" width=\"30\" height=\"10\" fill=\"#FFD700\"/>", "ru": "<rect width=\"30\" height=\"7\" fill=\"#fff\"/><rect y=\"6.6\" width=\"30\" height=\"6.8\" fill=\"#0039A6\"/><rect y=\"13.3\" width=\"30\" height=\"6.7\" fill=\"#D52B1E\"/>", "tr": "<rect width=\"30\" height=\"20\" fill=\"#E30A17\"/><circle cx=\"11.2\" cy=\"10\" r=\"5.3\" fill=\"#fff\"/><circle cx=\"12.6\" cy=\"10\" r=\"4.2\" fill=\"#E30A17\"/><polygon points=\"14.70,10.00 16.63,9.29 16.70,7.24 17.97,8.86 19.95,8.30 18.80,10.00 19.95,11.70 17.97,11.14 16.70,12.76 16.63,10.71\" fill=\"#fff\"/>"};
   function flag(c) {
     return FLAGS[c] ? '<svg class="xl-flag" viewBox="0 0 30 20" aria-hidden="true" focusable="false">' + FLAGS[c] + '</svg>' : '';
   }
@@ -299,13 +324,38 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
   /* ---------- 3) Page state (html lang, pill highlighting, body class) ---------- */
   var ui = {};
 
-  function updateBtn() {
-    if (!ui.btn) return;
-    var on = !!current;
-    ui.btn.classList.toggle('on', on);
-    ui.fl.innerHTML = on ? flag(current) : '';
-    ui.code.textContent = on ? current.toUpperCase() : '';
-    ui.btn.title = on ? nameOf(current) : 'More languages';
+  function flagUrl(c) {
+    return 'url("data:image/svg+xml,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" preserveAspectRatio="xMidYMid slice">' + (FLAGS[c] || '') + '</svg>') + '")';
+  }
+  function updateBtn() {                       // the pill shows the active language, identical for all 15 languages
+    if (!ui.cur) return;
+    var code = current || activeBase();
+    if (!code) { ui.cur.hidden = true; return; }
+    ui.cur.hidden = false;
+    ui.cur.style.setProperty('--xl-flag', flagUrl(code));
+    ui.cur.title = nameOf(code);
+    ui.cur.setAttribute('aria-label', nameOf(code));
+  }
+  function refreshAll() { updateBtn(); refreshSel(); }
+
+  var BASE_NAMES = { de: 'Deutsch', en: 'English', ar: '\u0627\u0644\u0639\u0631\u0628\u064a\u0629' };
+  function activeBase() {
+    for (var i = 0; i < BASE.length; i++) {
+      var b = document.getElementById('lang-' + BASE[i]);
+      if (b && b.classList.contains('active')) return BASE[i];
+    }
+    return null;
+  }
+  function refreshSel() {                     // highlight the active language in the list (original or extra)
+    if (!ui.menu) return;
+    var cur = current || activeBase();
+    var items = ui.menu.querySelectorAll('[data-code]');
+    for (var i = 0; i < items.length; i++) {
+      var sel = items[i].getAttribute('data-code') === cur;
+      items[i].classList.toggle('sel', sel);
+      items[i].setAttribute('aria-selected', sel ? 'true' : 'false');
+    }
   }
 
   function syncPill() {
@@ -320,15 +370,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
       document.documentElement.setAttribute('lang', current);
       document.documentElement.setAttribute('dir', 'ltr');
     }
-    updateBtn();
-    if (ui.menu) {
-      var items = ui.menu.querySelectorAll('[data-code]');
-      for (var i = 0; i < items.length; i++) {
-        var sel = items[i].getAttribute('data-code') === current;
-        items[i].classList.toggle('sel', sel);
-        items[i].setAttribute('aria-selected', sel ? 'true' : 'false');
-      }
-    }
+    refreshAll();
   }
 
   function select(code) {
@@ -362,10 +404,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     document.documentElement.setAttribute('lang', baseCode);
     document.documentElement.setAttribute('dir', baseCode === 'ar' ? 'rtl' : 'ltr');
     updateBtn();
-    if (ui.menu) {
-      var items = ui.menu.querySelectorAll('[data-code]');
-      for (var i = 0; i < items.length; i++) { items[i].classList.remove('sel'); items[i].setAttribute('aria-selected', 'false'); }
-    }
+    setTimeout(refreshAll, 0);
   }
 
   /* ---------- 4) Switcher UI (added next to the original DE / EN / AR pill) ---------- */
@@ -384,7 +423,13 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
       '<svg class="xl-globe" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/>' +
       '<path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' +
-      '<span class="xl-fl"></span><span class="xl-code"></span>';
+      '';
+    var cur = document.createElement('button');
+    cur.type = 'button';
+    cur.className = 'xl-cur';
+    cur.setAttribute('aria-haspopup', 'listbox');
+    cur.hidden = true;
+    pill.appendChild(cur);
     pill.appendChild(btn);
 
     var menu = document.createElement('div');
@@ -392,33 +437,44 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     menu.setAttribute('role', 'listbox');
     menu.setAttribute('aria-label', 'Languages');
     menu.hidden = true;
-    LANGS.forEach(function (l) {
+    function mkItem(c, name, base) {
       var it = document.createElement('button');
       it.type = 'button';
       it.className = 'xl-item';
       it.setAttribute('role', 'option');
-      it.setAttribute('lang', l.c);
-      it.setAttribute('data-code', l.c);
-      it.innerHTML = '<span class="xl-fl">' + flag(l.c) + '</span><span class="xl-name"></span><span class="xl-abbr"></span>';
-      it.querySelector('.xl-name').textContent = l.n;
-      it.querySelector('.xl-abbr').textContent = l.c.toUpperCase();
-      it.addEventListener('click', function () { closeMenu(); select(l.c); });
+      it.setAttribute('lang', c);
+      it.setAttribute('data-code', c);
+      it.innerHTML = '<span class="xl-fl">' + flag(c) + '</span><span class="xl-name"></span><span class="xl-abbr"></span>';
+      it.querySelector('.xl-name').textContent = name;
+      it.querySelector('.xl-abbr').textContent = c.toUpperCase();
+      it.addEventListener('click', function () {
+        closeMenu();
+        if (base) { var ob = document.getElementById('lang-' + c); if (ob) ob.click(); }   // the original code does the switching
+        else select(c);
+      });
       menu.appendChild(it);
-    });
+    }
+    BASE.forEach(function (c) { mkItem(c, BASE_NAMES[c], true); });
+    var sep = document.createElement('div');
+    sep.className = 'xl-sep';
+    sep.setAttribute('role', 'separator');
+    menu.appendChild(sep);
+    LANGS.forEach(function (l) { mkItem(l.c, l.n, false); });
     document.body.appendChild(menu);
 
-    ui.btn = btn; ui.menu = menu; ui.code = btn.querySelector('.xl-code'); ui.fl = btn.querySelector('.xl-fl');
+    ui.btn = btn; ui.cur = cur; ui.menu = menu;
 
     function place() {
-      var r = btn.getBoundingClientRect();
+      var r = pill.getBoundingClientRect();
       menu.style.top = Math.round(r.bottom + 8) + 'px';
       menu.style.right = Math.max(8, Math.round(window.innerWidth - r.right)) + 'px';
     }
-    function openMenu() { place(); menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+    function openMenu() { refreshAll(); place(); menu.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
     function closeMenu() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
     ui.close = closeMenu;
 
     btn.addEventListener('click', function (e) { e.stopPropagation(); menu.hidden ? openMenu() : closeMenu(); });
+    cur.addEventListener('click', function (e) { e.stopPropagation(); menu.hidden ? openMenu() : closeMenu(); });
     document.addEventListener('click', function (e) { if (!menu.hidden && !menu.contains(e.target)) closeMenu(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { closeMenu(); btn.focus(); } });
     window.addEventListener('resize', function () { if (!menu.hidden) place(); });
@@ -426,8 +482,17 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     // Original buttons: leaving the extra language
     BASE.forEach(function (c) {
       var b = document.getElementById('lang-' + c);
-      if (b) b.addEventListener('click', function () { if (!internal) { closeMenu(); leaveExtra(c); } });
+      if (b) b.addEventListener('click', function () {
+        if (!internal) { closeMenu(); leaveExtra(c); }
+        setTimeout(refreshAll, 0);
+      });
     });
+
+    // Clicking the active language in the pill opens the same list
+    pill.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('.lang-side.active') : null;
+      if (a) { e.stopPropagation(); e.preventDefault(); menu.hidden ? openMenu() : closeMenu(); }
+    }, true);
   }
 
   /* ---------- 5) Boot ---------- */
@@ -443,6 +508,8 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
       });
     } else {
       syncPill();
+      setTimeout(refreshAll, 250);
+      setTimeout(refreshAll, 800);
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
