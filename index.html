@@ -129,62 +129,39 @@
     <style>
 /* Extra-language picker (sits inside the original DE / EN / AR pill). */
 .lang-floating-btn .xl-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  min-width: 46px;
-  height: 40px;
-  padding: 0 12px;
-  border: none;
-  background: transparent;
-  color: var(--bs-primary, #0d6efd);
-  font: inherit;
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background .2s ease, color .2s ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-width: 46px; height: 40px; padding: 0 12px; border: none; background: transparent;
+  color: var(--bs-primary, #0d6efd); font: inherit; font-weight: 700; font-size: 13px;
+  cursor: pointer; transition: background .2s ease, color .2s ease;
 }
 .lang-floating-btn .xl-btn:hover { background: rgba(127, 127, 127, .15); }
 .lang-floating-btn .xl-btn:focus-visible { outline: 2px solid var(--bs-primary, #0d6efd); outline-offset: -3px; border-radius: 26px; }
 .lang-floating-btn .xl-btn.on { background: var(--bs-primary, #0d6efd); color: #fff; }
-.lang-floating-btn .xl-btn .xl-code:empty { display: none; }
+.lang-floating-btn .xl-btn.on .xl-globe { display: none; }
+.lang-floating-btn .xl-btn .xl-fl:empty, .lang-floating-btn .xl-btn .xl-code:empty { display: none; }
+.xl-fl { display: inline-flex; align-items: center; line-height: 0; }
+.xl-flag { width: 24px; height: 16px; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0, 0, 0, .22); flex: none; }
+.lang-floating-btn .xl-btn .xl-flag { width: 22px; height: 15px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .55); }
 body.dark-mode .lang-floating-btn .xl-btn:not(.on) { color: #e8eaf0; }
 
 .xl-menu {
-  position: fixed;
-  z-index: 100000;
-  min-width: 190px;
-  max-height: 70vh;
-  overflow-y: auto;
-  padding: 6px;
-  border-radius: 16px;
-  border: 1px solid var(--bs-primary, #0d6efd);
-  background: var(--bs-body-bg, #fff);
-  color: var(--bs-body-color, #212529);
+  position: fixed; z-index: 100000; min-width: 210px; max-height: 70vh; overflow-y: auto; padding: 6px;
+  border-radius: 16px; border: 1px solid var(--bs-primary, #0d6efd);
+  background: var(--bs-body-bg, #fff); color: var(--bs-body-color, #212529);
   box-shadow: 0 10px 28px rgba(0, 0, 0, .25);
 }
 .xl-menu[hidden] { display: none; }
 .xl-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  width: 100%;
-  padding: 9px 12px;
-  border: none;
-  border-radius: 10px;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  font-size: 15px;
-  text-align: left;
-  cursor: pointer;
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 12px; border: none;
+  border-radius: 10px; background: transparent; color: inherit; font: inherit; font-size: 15px;
+  text-align: left; cursor: pointer;
 }
+.xl-item .xl-name { flex: 1; }
 .xl-item:hover, .xl-item:focus-visible { background: rgba(127, 127, 127, .16); outline: none; }
 .xl-item .xl-abbr { font-size: 12px; font-weight: 700; opacity: .55; }
 .xl-item.sel { background: var(--bs-primary, #0d6efd); color: #fff; }
-.xl-item.sel .xl-abbr { opacity: .85; }
+.xl-item.sel .xl-abbr { opacity: .9; }
+.xl-item.sel .xl-flag { box-shadow: 0 0 0 1px rgba(255, 255, 255, .6); }
 body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgba(255, 255, 255, .2); }
 
     </style>
@@ -212,6 +189,10 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
   function known(c) { for (var i = 0; i < LANGS.length; i++) if (LANGS[i].c === c) return true; return false; }
   function nameOf(c) { for (var i = 0; i < LANGS.length; i++) if (LANGS[i].c === c) return LANGS[i].n; return c; }
   function norm(s) { return s.replace(/\s+/g, ' ').trim(); }
+  var FLAGS = {"fr": "<rect width=\"10\" height=\"20\" fill=\"#0055A4\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#fff\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#EF4135\"/>", "es": "<rect width=\"30\" height=\"20\" fill=\"#AA151B\"/><rect y=\"5\" width=\"30\" height=\"10\" fill=\"#F1BF00\"/>", "it": "<rect width=\"10\" height=\"20\" fill=\"#009246\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#fff\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#CE2B37\"/>", "pt": "<rect width=\"12\" height=\"20\" fill=\"#006600\"/><rect x=\"12\" width=\"18\" height=\"20\" fill=\"#FF0000\"/><circle cx=\"12\" cy=\"10\" r=\"3.8\" fill=\"#FFD100\" stroke=\"#fff\" stroke-width=\".7\"/>", "nl": "<rect width=\"30\" height=\"7\" fill=\"#AE1C28\"/><rect y=\"6.6\" width=\"30\" height=\"6.8\" fill=\"#fff\"/><rect y=\"13.3\" width=\"30\" height=\"6.7\" fill=\"#21468B\"/>", "pl": "<rect width=\"30\" height=\"10\" fill=\"#fff\"/><rect y=\"10\" width=\"30\" height=\"10\" fill=\"#DC143C\"/>", "sv": "<rect width=\"30\" height=\"20\" fill=\"#006AA7\"/><rect x=\"9\" width=\"4\" height=\"20\" fill=\"#FECC00\"/><rect y=\"8\" width=\"30\" height=\"4\" fill=\"#FECC00\"/>", "ro": "<rect width=\"10\" height=\"20\" fill=\"#002B7F\"/><rect x=\"10\" width=\"10\" height=\"20\" fill=\"#FCD116\"/><rect x=\"20\" width=\"10\" height=\"20\" fill=\"#CE1126\"/>", "el": "<rect y=\"0.00\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"2.22\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"4.44\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"6.67\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"8.89\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"11.11\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"13.33\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect y=\"15.56\" width=\"30\" height=\"2.24\" fill=\"#fff\"/><rect y=\"17.78\" width=\"30\" height=\"2.24\" fill=\"#0D5EAF\"/><rect width=\"11.12\" height=\"11.12\" fill=\"#0D5EAF\"/><rect x=\"4.45\" width=\"2.22\" height=\"11.12\" fill=\"#fff\"/><rect y=\"4.45\" width=\"11.12\" height=\"2.22\" fill=\"#fff\"/>", "uk": "<rect width=\"30\" height=\"10\" fill=\"#0057B7\"/><rect y=\"10\" width=\"30\" height=\"10\" fill=\"#FFD700\"/>", "ru": "<rect width=\"30\" height=\"7\" fill=\"#fff\"/><rect y=\"6.6\" width=\"30\" height=\"6.8\" fill=\"#0039A6\"/><rect y=\"13.3\" width=\"30\" height=\"6.7\" fill=\"#D52B1E\"/>", "tr": "<rect width=\"30\" height=\"20\" fill=\"#E30A17\"/><circle cx=\"11.2\" cy=\"10\" r=\"5.3\" fill=\"#fff\"/><circle cx=\"12.6\" cy=\"10\" r=\"4.2\" fill=\"#E30A17\"/><polygon points=\"14.70,10.00 16.63,9.29 16.70,7.24 17.97,8.86 19.95,8.30 18.80,10.00 19.95,11.70 17.97,11.14 16.70,12.76 16.63,10.71\" fill=\"#fff\"/>"};
+  function flag(c) {
+    return FLAGS[c] ? '<svg class="xl-flag" viewBox="0 0 30 20" aria-hidden="true" focusable="false">' + FLAGS[c] + '</svg>' : '';
+  }
 
   /* ---------- 1) Decide the language BEFORE the original scripts run ---------- */
   var current = get(STORE);
@@ -227,7 +208,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     }
   }
   // The original code only knows de/en/ar. Give it "en" as the base for extra languages.
-  if (current) set('lang', 'en');
+  if (current) { set('lang', 'en'); set('wisdomLangManual', current); }   // wisdom bar follows the chosen language
 
   /* ---------- 2) Translation engine ---------- */
   var orig = new Map();       // text node -> original English text
@@ -296,6 +277,15 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
   /* ---------- 3) Page state (html lang, pill highlighting, body class) ---------- */
   var ui = {};
 
+  function updateBtn() {
+    if (!ui.btn) return;
+    var on = !!current;
+    ui.btn.classList.toggle('on', on);
+    ui.fl.innerHTML = on ? flag(current) : '';
+    ui.code.textContent = on ? current.toUpperCase() : '';
+    ui.btn.title = on ? nameOf(current) : 'More languages';
+  }
+
   function syncPill() {
     var on = !!current;
     document.body.classList.toggle('xl-active', on);
@@ -308,11 +298,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
       document.documentElement.setAttribute('lang', current);
       document.documentElement.setAttribute('dir', 'ltr');
     }
-    if (ui.btn) {
-      ui.btn.classList.toggle('on', on);
-      ui.code.textContent = on ? current.toUpperCase() : '';
-      ui.btn.title = on ? nameOf(current) : 'More languages';
-    }
+    updateBtn();
     if (ui.menu) {
       var items = ui.menu.querySelectorAll('[data-code]');
       for (var i = 0; i < items.length; i++) {
@@ -336,6 +322,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
       current = code;
       set(STORE, code);
       set('lang', 'en');
+      set('wisdomLangManual', code);       // so the wisdom saying switches language too
       restore();
       translate(code);
       syncPill();
@@ -352,7 +339,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     document.body.classList.remove('xl-active');
     document.documentElement.setAttribute('lang', baseCode);
     document.documentElement.setAttribute('dir', baseCode === 'ar' ? 'rtl' : 'ltr');
-    if (ui.btn) { ui.btn.classList.remove('on'); ui.code.textContent = ''; ui.btn.title = 'More languages'; }
+    updateBtn();
     if (ui.menu) {
       var items = ui.menu.querySelectorAll('[data-code]');
       for (var i = 0; i < items.length; i++) { items[i].classList.remove('sel'); items[i].setAttribute('aria-selected', 'false'); }
@@ -372,10 +359,10 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     btn.setAttribute('aria-label', 'More languages');
     btn.title = 'More languages';
     btn.innerHTML =
-      '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" ' +
+      '<svg class="xl-globe" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/>' +
       '<path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>' +
-      '<span class="xl-code"></span>';
+      '<span class="xl-fl"></span><span class="xl-code"></span>';
     pill.appendChild(btn);
 
     var menu = document.createElement('div');
@@ -390,15 +377,15 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
       it.setAttribute('role', 'option');
       it.setAttribute('lang', l.c);
       it.setAttribute('data-code', l.c);
-      it.innerHTML = '<span class="xl-name"></span><span class="xl-abbr"></span>';
-      it.firstChild.textContent = l.n;
-      it.lastChild.textContent = l.c.toUpperCase();
+      it.innerHTML = '<span class="xl-fl">' + flag(l.c) + '</span><span class="xl-name"></span><span class="xl-abbr"></span>';
+      it.querySelector('.xl-name').textContent = l.n;
+      it.querySelector('.xl-abbr').textContent = l.c.toUpperCase();
       it.addEventListener('click', function () { closeMenu(); select(l.c); });
       menu.appendChild(it);
     });
     document.body.appendChild(menu);
 
-    ui.btn = btn; ui.menu = menu; ui.code = btn.querySelector('.xl-code');
+    ui.btn = btn; ui.menu = menu; ui.code = btn.querySelector('.xl-code'); ui.fl = btn.querySelector('.xl-fl');
 
     function place() {
       var r = btn.getBoundingClientRect();
