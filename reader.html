@@ -237,18 +237,35 @@ body.dark .rd-page::after { color: #3b4252; }
   function setCookie(v) { try { document.cookie = CK + '=' + encodeURIComponent(v) + '; max-age=31536000; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : ''); } catch (e) {} }
   function getCookie() { try { var m = document.cookie.match(new RegExp('(?:^|; )' + CK + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : null; } catch (e) { return null; } }
   function parseSaved(s) { try { var o = JSON.parse(s); return (o && o.p && o.N) ? o : null; } catch (e) { return null; } }
-  function readSaved() {
-    var a = parseSaved(ls(KEY)), b = parseSaved(getCookie());
-    if (a && b) return (b.t > a.t) ? b : a;
-    return a || b;
+  /* third copy in IndexedDB (separate storage area, survives when localStorage is wiped) */
+  var idbSaved = null;
+  function idbOpen(cb) {
+    try {
+      var rq = indexedDB.open('reader-progress', 1);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore('p'); };
+      rq.onsuccess = function () { cb(rq.result); };
+      rq.onerror = function () { cb(null); };
+    } catch (e) { cb(null); }
   }
-  function clearSaved() { ls(KEY, null); try { document.cookie = CK + '=; max-age=0; path=/'; } catch (e) {} }
+  function idbPut(v) { idbOpen(function (db) { if (!db) return; try { db.transaction('p', 'readwrite').objectStore('p').put(v, slug); } catch (e) {} }); }
+  function idbDel() { idbOpen(function (db) { if (!db) return; try { db.transaction('p', 'readwrite').objectStore('p').delete(slug); } catch (e) {} }); }
+  idbOpen(function (db) {
+    if (!db) return;
+    try { var g = db.transaction('p').objectStore('p').get(slug); g.onsuccess = function () { idbSaved = parseSaved(g.result); }; } catch (e) {}
+  });
+  function readSaved() {
+    var best = null;
+    [parseSaved(ls(KEY)), parseSaved(getCookie()), idbSaved].forEach(function (x) { if (x && (!best || x.t > best.t)) best = x; });
+    return best;
+  }
+  function clearSaved() { idbSaved = null; idbDel(); ls(KEY, null); try { document.cookie = CK + '=; max-age=0; path=/'; } catch (e) {} }
   function save(force) {
     if (!saveEnabled || !N) return;
     var now = Date.now(); if (!force && now - lastSaveAt < 600) return; lastSaveAt = now;
     var v = JSON.stringify({ p: cur.p + 1, f: Math.round(cur.f * 1000) / 1000, N: N, pct: cur.pct, t: now });
-    ls(KEY, v); setCookie(v);
+    ls(KEY, v); setCookie(v); idbPut(v);
   }
+  setInterval(function () { save(false); }, 3000);   // safety net: also save every 3 s while reading
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}   // ask the browser not to evict the data
   try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
   var resumePending = false, savedProgress = null;
