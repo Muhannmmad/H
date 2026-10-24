@@ -234,13 +234,17 @@ body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgb
 /* whole book card downloads on click */
 .writings-section .book-card:not(.book-card-soon) { cursor: pointer; }
     
-/* My Writings: full images, "Read it free now" always visible, progress bar under it */
-.writings-section .book-promo { position: static !important; }
-.writings-section .book-promo-link { display: block !important; position: relative; overflow: visible !important; height: auto !important; aspect-ratio: auto !important; }
-.writings-section .book-promo-img { display: block !important; width: 100% !important; height: auto !important; max-height: none !important; object-fit: contain !important; border-radius: 12px; }
-.writings-section .book-promo-overlay { position: static !important; opacity: 1 !important; visibility: visible !important; transform: none !important; background: none !important; display: flex !important; justify-content: center; padding: 10px 0 0 !important; inset: auto !important; height: auto !important; }
+/* My Writings: first row = image fills the frame, text + progress over the image; second row = full image, text below */
+.writings-section .book-promo { position: relative; }
+.writings-section .book-promo-link { display: block !important; position: relative; overflow: hidden !important; height: auto !important; aspect-ratio: auto !important; border-radius: 14px; }
+.writings-section .book-promo-img { display: block !important; width: 100% !important; height: auto !important; max-height: none !important; object-fit: cover !important; }
+.writings-section .book-promo-overlay { position: absolute !important; left: 0 !important; right: 0 !important; bottom: 0 !important; top: auto !important; inset: auto 0 0 0 !important; height: auto !important; opacity: 1 !important; visibility: visible !important; transform: none !important; display: flex !important; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; padding: 46px 14px 14px !important; background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,0) 100%) !important; text-align: center; }
 .writings-section .book-promo-cta { opacity: 1 !important; visibility: visible !important; transform: none !important; display: inline-flex !important; align-items: center; }
-.writings-section .book-promo-progress { margin: 8px auto 0; max-width: 100%; }
+.writings-section .book-promo-cta, .writings-section .book-promo-cta span, .writings-section .book-promo-cta i { color: #fff !important; text-decoration: none; }
+.writings-section .book-promo-sub { color: #fff; font-weight: 700; font-size: .95rem; letter-spacing: .04em; text-transform: uppercase; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
+.writings-section .book-promo-progress.book-read-progress { height: auto; background: none; overflow: visible; border-radius: 0; width: 72%; margin: 2px auto 0; text-align: center; }
+.writings-section .bpp-label { display: block; color: #fff; font-size: .72rem; font-weight: 600; margin-bottom: 4px; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
+.writings-section .bpp-bar { position: relative; height: 16px; border-radius: 8px; background: rgba(255,255,255,.3); overflow: hidden; }
 .writings-section .book-cover-wrap { height: auto !important; aspect-ratio: auto !important; overflow: visible !important; }
 .writings-section .book-cover { display: block !important; width: 100% !important; height: auto !important; max-height: none !important; object-fit: contain !important; }
     </style>
@@ -1685,9 +1689,21 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                                         <span data-lang="en">Read it free now</span>
                                         <span data-lang="ar" dir="rtl" style="display:none;">اقرأها مجاناً الآن</span>
                                     </span>
+                                    <span class="book-promo-sub">
+                                        <span data-lang="de">Online lesen</span>
+                                        <span data-lang="en">Read online</span>
+                                        <span data-lang="ar" dir="rtl" style="display:none;">اقرأ أونلاين</span>
+                                    </span>
+                                    <div class="book-read-progress book-promo-progress" data-book="what-remains-of-me" hidden>
+                                        <span class="bpp-label">
+                                            <span data-lang="de">Dein Lesefortschritt</span>
+                                            <span data-lang="en">Your reading progress</span>
+                                            <span data-lang="ar" dir="rtl" style="display:none;">تقدّم قراءتك</span>
+                                        </span>
+                                        <div class="bpp-bar"><div class="book-read-fill"></div><span class="book-read-pct"></span></div>
+                                    </div>
                                 </span>
                             </a>
-                            <div class="book-read-progress book-promo-progress" data-book="what-remains-of-me" hidden><div class="book-read-fill"></div><span class="book-read-pct"></span></div>
                         </div>
                     </div>
 
@@ -1702,9 +1718,21 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                                         <span data-lang="en">Read it free now</span>
                                         <span data-lang="ar" dir="rtl" style="display:none;">اقرأها مجاناً الآن</span>
                                     </span>
+                                    <span class="book-promo-sub">
+                                        <span data-lang="de">Online lesen</span>
+                                        <span data-lang="en">Read online</span>
+                                        <span data-lang="ar" dir="rtl" style="display:none;">اقرأ أونلاين</span>
+                                    </span>
+                                    <div class="book-read-progress book-promo-progress" data-book="beyond-the-silence" hidden>
+                                        <span class="bpp-label">
+                                            <span data-lang="de">Dein Lesefortschritt</span>
+                                            <span data-lang="en">Your reading progress</span>
+                                            <span data-lang="ar" dir="rtl" style="display:none;">تقدّم قراءتك</span>
+                                        </span>
+                                        <div class="bpp-bar"><div class="book-read-fill"></div><span class="book-read-pct"></span></div>
+                                    </div>
                                 </span>
                             </a>
-                            <div class="book-read-progress book-promo-progress" data-book="beyond-the-silence" hidden><div class="book-read-fill"></div><span class="book-read-pct"></span></div>
                         </div>
                     </div>
 
@@ -1719,9 +1747,21 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                                         <span data-lang="en">Read it free now</span>
                                         <span data-lang="ar" dir="rtl" style="display:none;">اقرأها مجاناً الآن</span>
                                     </span>
+                                    <span class="book-promo-sub">
+                                        <span data-lang="de">Online lesen</span>
+                                        <span data-lang="en">Read online</span>
+                                        <span data-lang="ar" dir="rtl" style="display:none;">اقرأ أونلاين</span>
+                                    </span>
+                                    <div class="book-read-progress book-promo-progress" data-book="i-am-not-innocent" hidden>
+                                        <span class="bpp-label">
+                                            <span data-lang="de">Dein Lesefortschritt</span>
+                                            <span data-lang="en">Your reading progress</span>
+                                            <span data-lang="ar" dir="rtl" style="display:none;">تقدّم قراءتك</span>
+                                        </span>
+                                        <div class="bpp-bar"><div class="book-read-fill"></div><span class="book-read-pct"></span></div>
+                                    </div>
                                 </span>
                             </a>
-                            <div class="book-read-progress book-promo-progress" data-book="i-am-not-innocent" hidden><div class="book-read-fill"></div><span class="book-read-pct"></span></div>
                         </div>
                     </div>
                 </div>
@@ -1748,9 +1788,9 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                                 <div class="book-actions">
                                     <a href="files/books/what-remains-of-me.pdf" download class="btn btn-outline-primary btn-sm book-btn book-dl-btn">
                                     <i class="fas fa-download me-2"></i>
-                                    <span data-lang="de">PDF herunterladen</span>
-                                    <span data-lang="en">Download PDF</span>
-                                    <span data-lang="ar" dir="rtl" style="display:none;">تحميل PDF</span>
+                                    <span data-lang="de">Jetzt PDF herunterladen</span>
+                                    <span data-lang="en">Download PDF now</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">حمّل PDF الآن</span>
                                 </a>
                                 </div>
                             </div>
@@ -1777,9 +1817,9 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                                 <div class="book-actions">
                                     <a href="files/books/beyond-the-silence.pdf" download class="btn btn-outline-primary btn-sm book-btn book-dl-btn">
                                     <i class="fas fa-download me-2"></i>
-                                    <span data-lang="de">PDF herunterladen</span>
-                                    <span data-lang="en">Download PDF</span>
-                                    <span data-lang="ar" dir="rtl" style="display:none;">تحميل PDF</span>
+                                    <span data-lang="de">Jetzt PDF herunterladen</span>
+                                    <span data-lang="en">Download PDF now</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">حمّل PDF الآن</span>
                                 </a>
                                 </div>
                             </div>
@@ -1806,9 +1846,9 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                                 <div class="book-actions">
                                     <a href="files/books/i-am-not-innocent.pdf" download class="btn btn-outline-primary btn-sm book-btn book-dl-btn">
                                     <i class="fas fa-download me-2"></i>
-                                    <span data-lang="de">PDF herunterladen</span>
-                                    <span data-lang="en">Download PDF</span>
-                                    <span data-lang="ar" dir="rtl" style="display:none;">تحميل PDF</span>
+                                    <span data-lang="de">Jetzt PDF herunterladen</span>
+                                    <span data-lang="en">Download PDF now</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">حمّل PDF الآن</span>
                                 </a>
                                 </div>
                             </div>
