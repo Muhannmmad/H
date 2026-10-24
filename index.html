@@ -149,7 +149,7 @@
 
 /* flag of the active language */
 .lang-floating-btn .xl-cur {
-  position: relative; flex: none; width: 70px; height: 40px; padding: 0; border: none;
+  position: relative; flex: none; width: 58px; height: 40px; padding: 0; border: none;
   background: transparent; cursor: pointer;
 }
 .lang-floating-btn .xl-cur[hidden] { display: none; }
@@ -186,6 +186,11 @@ body.dark-mode .lang-floating-btn .xl-btn .xl-code,
 body.dark-mode .lang-floating-btn .xl-btn span.xl-code { color: #1b1f2a !important; }
 .lang-floating-btn .xl-btn .xl-globe,
 body.dark-mode .lang-floating-btn .xl-btn .xl-globe { color: var(--bs-primary, #0d6efd) !important; }
+
+/* navbar: leave room on the right for the floating language button, so it never covers a menu item */
+@media (min-width: 992px) {
+  .navbar.fixed-top { padding-right: 160px !important; }
+}
 
 /* language list */
 .xl-menu {
@@ -274,9 +279,25 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     return out;
   }
 
+  var activeMap = null;       // English -> translation of the language currently shown
   function restore() {
-    orig.forEach(function (v, n) { n.nodeValue = v; });
+    var done = new Set();
+    orig.forEach(function (v, n) { n.nodeValue = v; done.add(n); });
     orig.clear();
+    // safety net: if the page replaced a translated text node meanwhile (animations etc.), switch it back by its text
+    if (activeMap) {
+      var rev = {}, key;
+      for (key in activeMap) if (Object.prototype.hasOwnProperty.call(activeMap, key)) rev[norm(activeMap[key])] = key;
+      englishNodes().forEach(function (n) {
+        if (done.has(n)) return;                                                   // already restored above
+        if (Object.prototype.hasOwnProperty.call(activeMap, norm(n.nodeValue))) return;   // already English
+        var back = rev[norm(n.nodeValue)];
+        if (back !== undefined && back !== norm(n.nodeValue)) {
+          n.nodeValue = n.nodeValue.match(/^\s*/)[0] + back + n.nodeValue.match(/\s*$/)[0];
+        }
+      });
+      activeMap = null;
+    }
     origPh.forEach(function (v, el) { el.setAttribute('placeholder', v); });
     origPh.clear();
   }
@@ -284,6 +305,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
   function translate(code) {
     var arr = window.__xlData[code], map = {};
     for (var i = 0; i < KEYS.length; i++) if (arr[i]) map[KEYS[i]] = arr[i];
+    activeMap = map;
 
     englishNodes().forEach(function (n) {
       var src = orig.has(n) ? orig.get(n) : n.nodeValue;
@@ -377,8 +399,15 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
   }
 
   var internal = false;
-  function leaveExtra(baseCode) {              // user picked DE / EN / AR again
-    if (!current) return;
+  function goBase(c) {                         // user picked DE / EN / AR from the list
+    var ob = document.getElementById('lang-' + c);
+    internal = true;                           // the original code switches the blocks; we clean up ourselves below
+    try { if (ob) ob.click(); } finally { internal = false; }
+    set('wisdomLangManual', c);                // wisdom saying follows
+    leaveExtra(c, true);                       // always restore the English texts, language attribute and the pill
+  }
+  function leaveExtra(baseCode, force) {       // user picked DE / EN / AR again
+    if (!current && !force) return;
     current = null;
     del(STORE);
     restore();
@@ -430,8 +459,8 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
       it.querySelector('.xl-abbr').textContent = c.toUpperCase();
       it.addEventListener('click', function () {
         closeMenu();
-        if (base) { var ob = document.getElementById('lang-' + c); if (ob) ob.click(); }   // the original code does the switching
-        else select(c);
+        if (base) goBase(c);                                                              // DE / EN / AR
+        else select(c);                                                                   // extra language
       });
       menu.appendChild(it);
     }
@@ -554,9 +583,6 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                     <span data-lang="ar">أعمالي الأدبية</span>
                 </a>
             </div>
-            <a href="Innovation/" class="navbar-brand bg-secondary py-3 px-4 mx-3 d-none d-lg-block">
-                <h1 class="text-primary fw-bold m-0">Innovation</h1>
-            </a>
             <div class="navbar-nav me-auto py-0">
                 <a href="#skill" class="nav-item nav-link">
                     <span data-lang="de">Fähigkeiten</span>
