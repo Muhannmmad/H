@@ -4409,6 +4409,53 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+    <script>
+/* Floating mini calendar + digital clock next to the language switch */
+(function () {
+    var box = document.createElement('div');
+    box.id = 'float-dt'; box.setAttribute('aria-hidden', 'true');
+    box.innerHTML = '<span class="fdt-date"></span><span class="fdt-clock" dir="ltr"><span class="fdt-hm"></span><span class="fdt-sec"></span></span>';
+    var st = document.createElement('style');
+    st.textContent =
+      '#float-dt{position:fixed;z-index:99980;top:70px;right:12px;display:flex;flex-direction:column;align-items:center;gap:0;padding:0;background:none;border:0;box-shadow:none;font-family:"Avenir Next","Helvetica Neue","Segoe UI",system-ui,sans-serif;color:#1b1f2a;text-shadow:0 0 6px #fff,0 0 3px #fff,0 0 10px rgba(255,255,255,.9);pointer-events:none;transition:opacity .2s;line-height:1.1}' +
+      '#float-dt .fdt-date{font-size:.72rem;font-weight:700;color:#e0261b;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}' +
+      '#float-dt .fdt-clock{display:flex;color:#11a14f;align-items:baseline;gap:3px;font-variant-numeric:tabular-nums;white-space:nowrap}' +
+      '#float-dt .fdt-hm{font-size:1.35rem;font-weight:800;letter-spacing:.02em}' +
+      '#float-dt .fdt-colon{animation:fdtBlink 1s steps(1) infinite}' +
+      '#float-dt .fdt-sec{font-size:.75rem;font-weight:800;color:#11a14f}' +
+      '@keyframes fdtBlink{50%{opacity:.2}}' +
+      '@media (max-width:576px){#float-dt .fdt-hm{font-size:1.1rem}#float-dt .fdt-date{font-size:.62rem}}';
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+        var d = new Date(), l = (document.documentElement.getAttribute('lang') || 'en').slice(0, 2), t;
+        try { t = d.toLocaleDateString(l, { weekday: 'long', day: 'numeric', month: 'short' }); } catch (e) { t = d.toLocaleDateString('en', { weekday: 'long', day: 'numeric', month: 'short' }); }
+        box.querySelector('.fdt-date').textContent = t;
+        box.querySelector('.fdt-hm').innerHTML = pad(d.getHours()) + '<span class="fdt-colon">:</span>' + pad(d.getMinutes());
+        box.querySelector('.fdt-sec').textContent = pad(d.getSeconds());
+    }
+    function place() {
+        var sw = document.querySelector('.lang-floating-btn');
+        if (!sw) return;
+        var r = sw.getBoundingClientRect();
+        if (!r.width || !r.height) { box.style.opacity = '0'; return; }
+        box.style.opacity = '1';
+        var w = box.offsetWidth, h = box.offsetHeight, gap = 8, left, top;
+        if (r.left - w - gap >= 6) { left = r.left - w - gap; top = r.top + (r.height - h) / 2; }      // room on the left: sit next to it
+        else { left = Math.max(6, Math.min(r.right - w, window.innerWidth - w - 6)); top = r.bottom + gap; }   // otherwise right below it
+        box.style.left = left + 'px'; box.style.right = 'auto'; box.style.top = Math.max(6, top) + 'px';
+    }
+    function start() {
+        document.head.appendChild(st); document.body.appendChild(box);
+        tick(); place();
+        setInterval(function () { tick(); place(); }, 1000);
+        window.addEventListener('resize', place);
+        window.addEventListener('scroll', place, { passive: true });
+        new MutationObserver(tick).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+</script>
+
     <!-- Birthday celebration (only 18-20 October) -->
     <script>
 /*
@@ -4828,43 +4875,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var closed = false;
     function space() { if (!closed) document.body.style.paddingBottom = (bar.offsetHeight + 44) + 'px'; }
 
-    var PP_BADGE = '<span class="pp-badge"><svg class="pp-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/><path fill="#009cde" d="M20.215 6.376c-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471a3.35 3.35 0 0 0-.607-.541z"/></svg><span class="pp-word"><b>Pay</b><i>Pal</i></span></span>';
-    function wtick() {
-      var q = function (c) { return bar.querySelector(c); };
-      if (!q('.ww-day')) return;
-      var d = new Date(), l = getLang(), mo, wd, p = function (n) { return (n < 10 ? '0' : '') + n; };
-      try { mo = d.toLocaleDateString(l, { month: 'short' }); wd = d.toLocaleDateString(l, { weekday: 'long' }); }
-      catch (e) { mo = d.toLocaleDateString('en', { month: 'short' }); wd = d.toLocaleDateString('en', { weekday: 'long' }); }
-      q('.ww-mo').textContent = mo.replace('.', ''); q('.ww-day').textContent = d.getDate(); q('.ww-wd').textContent = wd;
-      q('.ww-hm').innerHTML = p(d.getHours()) + '<span class="ww-colon">:</span>' + p(d.getMinutes()); q('.ww-sec').textContent = p(d.getSeconds());
-    }
-    setInterval(function () { if (!closed) wtick(); }, 1000);
-
     function render() {
       var l = getLang();
       bar.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
       bar.setAttribute('lang', l);
       bar.innerHTML = '<div class="w-paper"></div><div class="w-fold"></div><span class="w-pin"></span>' +
-        '<div class="w-head" aria-hidden="true"><div class="ww-cal"><div class="ww-mo"></div><div class="ww-day"></div><div class="ww-wd"></div></div>' +
-        '<div class="w-label"></div>' +
-        '<div class="ww-clock" dir="ltr"><span class="ww-hm"></span><span class="ww-sec"></span></div></div>' +
-        '<div class="w-text"></div><div class="w-coffee-row"></div><button type="button">&times;</button>';
+        '<div class="w-label"></div><div class="w-text"></div><button type="button">&times;</button>';
       bar.querySelector('.w-label').textContent = '💡 ' + LABEL[l];
       bar.querySelector('.w-text').textContent = '“' + (SAYINGS[l][idx] || SAYINGS.en[idx]) + '”';
-      var OT = {de:'Anderer', en:'Other', ar:'مبلغ آخر', fr:'Autre montant', es:'Otra cantidad', it:'Altro importo'};
-      var OPTS = [['5 €', 'https://www.paypal.me/Muhannmmad/5EUR', '5 EUR'], ['10 €', 'https://www.paypal.me/Muhannmmad/10EUR', '10 EUR'], [OT[l] || OT.en, 'https://www.paypal.me/Muhannmmad', 'Other']];
-      var CT = {de:'Spendiere mir einen Kaffee', en:'Buy me a coffee', ar:'اشترِ لي قهوة', fr:'Offrez-moi un café', es:'Invítame a un café', it:'Offrimi un caffè'};
-      var cl = document.createElement('span'); cl.className = 'w-coffee-label'; cl.textContent = '☕ ' + (CT[l] || CT.en);
-      bar.querySelector('.w-coffee-row').appendChild(cl);
-      OPTS.forEach(function (o) {
-        var cb = document.createElement('a');
-        cb.className = 'w-coffee'; cb.href = o[1]; cb.target = '_blank'; cb.rel = 'noopener';
-        cb.innerHTML = '<span></span>' + PP_BADGE;
-        cb.querySelector('span').textContent = o[0];
-        cb.onclick = function () { try { trackEvent('Clicked Buy Me a Coffee Button (Wisdom Note) ' + o[2]); } catch (e) {} };
-        bar.querySelector('.w-coffee-row').appendChild(cb);
-      });
-      wtick();
       var x = bar.querySelector('button');
       x.setAttribute('aria-label', CLOSE[l]);
       x.onclick = function () {
