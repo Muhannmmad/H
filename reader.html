@@ -232,12 +232,26 @@ body.dark .rd-page::after { color: #3b4252; }
   var saveEnabled = false, userScrolled = false, fired = {}, finishedFired = false;
   var lastSaveAt = 0, ticking = false, cur = { p: 0, f: 0, pct: 0 };
 
-  function readSaved() { try { var s = JSON.parse(ls(KEY)); if (s && s.p && s.N) return s; } catch (e) {} return null; }
+  /* progress is stored twice (localStorage + a 1-year cookie) so it survives closing the browser / restarting the PC */
+  var CK = 'rdp_' + slug;
+  function setCookie(v) { try { document.cookie = CK + '=' + encodeURIComponent(v) + '; max-age=31536000; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : ''); } catch (e) {} }
+  function getCookie() { try { var m = document.cookie.match(new RegExp('(?:^|; )' + CK + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : null; } catch (e) { return null; } }
+  function parseSaved(s) { try { var o = JSON.parse(s); return (o && o.p && o.N) ? o : null; } catch (e) { return null; } }
+  function readSaved() {
+    var a = parseSaved(ls(KEY)), b = parseSaved(getCookie());
+    if (a && b) return (b.t > a.t) ? b : a;
+    return a || b;
+  }
+  function clearSaved() { ls(KEY, null); try { document.cookie = CK + '=; max-age=0; path=/'; } catch (e) {} }
   function save(force) {
     if (!saveEnabled || !N) return;
     var now = Date.now(); if (!force && now - lastSaveAt < 600) return; lastSaveAt = now;
-    ls(KEY, JSON.stringify({ p: cur.p + 1, f: Math.round(cur.f * 1000) / 1000, N: N, pct: cur.pct, t: now }));
+    var v = JSON.stringify({ p: cur.p + 1, f: Math.round(cur.f * 1000) / 1000, N: N, pct: cur.pct, t: now });
+    ls(KEY, v); setCookie(v);
   }
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}   // ask the browser not to evict the data
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+  var resumePending = false, savedProgress = null;
 
   /* ===================== rendering ===================== */
   function dpr() { return Math.min(window.devicePixelRatio || 1, 2); }
@@ -310,6 +324,9 @@ body.dark .rd-page::after { color: #3b4252; }
     $('rd-page-label').textContent = fmt(L.page, { n: cur.p + 1, t: N });
     $('rd-pct-label').textContent = fmt(L.read, { p: cur.pct });
     $('rd-top').style.display = window.scrollY > 900 ? 'inline-flex' : 'none';
+    if (resumePending && savedProgress && cur.pct > savedProgress.pct) {      // reader has gone past the old position on their own
+      resumePending = false; saveEnabled = true; $('rd-resume').style.display = 'none';
+    }
     trim(); save(false);
     if (userScrolled) {
       [25, 50, 75].forEach(function (m) {
@@ -323,11 +340,12 @@ body.dark .rd-page::after { color: #3b4252; }
   }
   var scrollTimer = null;
   window.addEventListener('scroll', function () {
-    if (Math.abs(window.scrollY - (window.__rdStartY || 0)) > 20) { userScrolled = true; saveEnabled = true; }
+    if (Math.abs(window.scrollY - (window.__rdStartY || 0)) > 20) { userScrolled = true; if (!resumePending) saveEnabled = true; }
     if (!ticking) { ticking = true; requestAnimationFrame(update); }
     clearTimeout(scrollTimer); scrollTimer = setTimeout(function () { save(true); }, 400);
   }, { passive: true });
   window.addEventListener('pagehide', function () { save(true); });
+  window.addEventListener('beforeunload', function () { save(true); });
   document.addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
 
   function scrollToPos(p, f, smooth) {
@@ -398,9 +416,10 @@ body.dark .rd-page::after { color: #3b4252; }
       track('Book Reader Open: ' + TITLE);
       if (hasProgress) {
         $('rd-resume-text').textContent = fmt(L.welcome, { n: s.p, p: s.pct });
+        savedProgress = s; resumePending = true;
         $('rd-resume').style.display = 'block';
         $('rd-continue').onclick = function () {
-          $('rd-resume').style.display = 'none';
+          $('rd-resume').style.display = 'none'; resumePending = false;
           [25, 50, 75].forEach(function (m) { if (s.pct >= m) fired[m] = true; });   // milestones already counted before
           saveEnabled = true;
           scrollToPos(s.p - 1, s.f, true);
@@ -408,11 +427,11 @@ body.dark .rd-page::after { color: #3b4252; }
         };
         $('rd-startover').onclick = function () {
           $('rd-resume').style.display = 'none';
-          ls(KEY, null); saveEnabled = true;
+          clearSaved(); resumePending = false; saveEnabled = true;
           track('Book Reader Start Over: ' + TITLE);
         };
       } else if (s && s.pct >= 99) {
-        ls(KEY, null);                                  // finished before: start fresh, nothing to resume
+        clearSaved();                                  // finished before: start fresh, nothing to resume
       }
     });
   }).catch(function () { showError(); });
