@@ -235,6 +235,7 @@ body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgb
 .writings-section .book-card:not(.book-card-soon) { cursor: pointer; }
     
 /* My Writings: first row = image fills the frame, text + progress over the image; second row = full image, text below */
+.writings-section { scroll-margin-top: 90px; }
 .writings-section .book-promo { position: relative; }
 .writings-section .book-promo-link { display: block !important; position: relative; overflow: hidden !important; height: auto !important; aspect-ratio: auto !important; border-radius: 14px; }
 .writings-section .book-promo-img { display: block !important; width: 100% !important; height: auto !important; max-height: none !important; object-fit: cover !important; }
@@ -1595,7 +1596,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
         <!-- CV Section End -->
 
         <!-- Writings Start -->
-        <section id="writings" class="container-xxl py-6 my-5 writings-section">
+        <section id="writings" class="container-xxl pt-0 pb-6 mt-0 mb-5 writings-section">
             <div class="container">
                 <div class="row g-5 mb-4 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="col-lg-8">
@@ -1609,33 +1610,6 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                             <span data-lang="en">My Writings</span>
                             <span data-lang="ar" dir="rtl" style="display:none;">أعمالي الأدبية</span>
                         </h1>
-                        <div class="mt-3">
-                            <div class="fw-bold mb-1">
-                                <span data-lang="de">Spendiere mir einen Kaffee</span>
-                                <span data-lang="en" style="display:none;">Buy me a coffee</span>
-                                <span data-lang="ar" dir="rtl" style="display:none;">اشترِ لي قهوة</span>
-                            </div>
-                            <a href="https://www.paypal.me/Muhannmmad/5EUR" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
-                                   style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
-                                   onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) 5 EUR')}catch(e){}">
-                                    ☕ <span data-lang="de">5 €</span><span data-lang="en" style="display:none;">€5</span><span data-lang="ar" dir="rtl" style="display:none;">5 €</span> <span class="pp-badge"><svg class="pp-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/><path fill="#009cde" d="M20.215 6.376c-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471a3.35 3.35 0 0 0-.607-.541z"/></svg><span class="pp-word"><b>Pay</b><i>Pal</i></span></span>
-                                </a>
-                            <a href="https://www.paypal.me/Muhannmmad/10EUR" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
-                                   style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
-                                   onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) 10 EUR')}catch(e){}">
-                                    ☕ <span data-lang="de">10 €</span><span data-lang="en" style="display:none;">€10</span><span data-lang="ar" dir="rtl" style="display:none;">10 €</span> <span class="pp-badge"><svg class="pp-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/><path fill="#009cde" d="M20.215 6.376c-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471a3.35 3.35 0 0 0-.607-.541z"/></svg><span class="pp-word"><b>Pay</b><i>Pal</i></span></span>
-                                </a>
-                            <a href="https://www.paypal.me/Muhannmmad" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
-                                   style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
-                                   onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) Other')}catch(e){}">
-                                    ☕ <span data-lang="de">Anderer Betrag</span><span data-lang="en" style="display:none;">Other amount</span><span data-lang="ar" dir="rtl" style="display:none;">مبلغ آخر</span> <span class="pp-badge"><svg class="pp-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/><path fill="#009cde" d="M20.215 6.376c-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471a3.35 3.35 0 0 0-.607-.541z"/></svg><span class="pp-word"><b>Pay</b><i>Pal</i></span></span>
-                                </a>
-                            <div class="small mt-1" style="opacity:.8;">
-                                🔒 <span data-lang="de">Sichere Zahlung über PayPal</span>
-                                <span data-lang="en" style="display:none;">Secure payment via PayPal</span>
-                                <span data-lang="ar" dir="rtl" style="display:none;">الدفع الآمن عبر PayPal</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="row g-5 mb-5 align-items-center wow fadeInUp" data-wow-delay="0.15s">
@@ -1763,6 +1737,39 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
                                 </span>
                             </a>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Buy me a coffee (between the two rows of books) -->
+                <div class="row mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="col-12 text-center">
+                    <div class="mt-3 text-center">
+                                <div class="fw-bold mb-1">
+                                    <span data-lang="de">Spendiere mir einen Kaffee</span>
+                                    <span data-lang="en" style="display:none;">Buy me a coffee</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">اشترِ لي قهوة</span>
+                                </div>
+                                <a href="https://www.paypal.me/Muhannmmad/5EUR" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
+                                       style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
+                                       onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) 5 EUR')}catch(e){}">
+                                        ☕ <span data-lang="de">5 €</span><span data-lang="en" style="display:none;">€5</span><span data-lang="ar" dir="rtl" style="display:none;">5 €</span> <span class="pp-badge"><svg class="pp-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/><path fill="#009cde" d="M20.215 6.376c-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471a3.35 3.35 0 0 0-.607-.541z"/></svg><span class="pp-word"><b>Pay</b><i>Pal</i></span></span>
+                                    </a>
+                                <a href="https://www.paypal.me/Muhannmmad/10EUR" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
+                                       style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
+                                       onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) 10 EUR')}catch(e){}">
+                                        ☕ <span data-lang="de">10 €</span><span data-lang="en" style="display:none;">€10</span><span data-lang="ar" dir="rtl" style="display:none;">10 €</span> <span class="pp-badge"><svg class="pp-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/><path fill="#009cde" d="M20.215 6.376c-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471a3.35 3.35 0 0 0-.607-.541z"/></svg><span class="pp-word"><b>Pay</b><i>Pal</i></span></span>
+                                    </a>
+                                <a href="https://www.paypal.me/Muhannmmad" target="_blank" rel="noopener" class="btn rounded-pill px-4 py-2 fw-bold m-1"
+                                       style="background:#ffdd00;color:#222;box-shadow:0 3px 10px rgba(0,0,0,.2);"
+                                       onclick="try{trackEvent('Clicked Buy Me a Coffee Button (Writings) Other')}catch(e){}">
+                                        ☕ <span data-lang="de">Anderer Betrag</span><span data-lang="en" style="display:none;">Other amount</span><span data-lang="ar" dir="rtl" style="display:none;">مبلغ آخر</span> <span class="pp-badge"><svg class="pp-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/><path fill="#009cde" d="M20.215 6.376c-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471a3.35 3.35 0 0 0-.607-.541z"/></svg><span class="pp-word"><b>Pay</b><i>Pal</i></span></span>
+                                    </a>
+                                <div class="small mt-1" style="opacity:.8;">
+                                    🔒 <span data-lang="de">Sichere Zahlung über PayPal</span>
+                                    <span data-lang="en" style="display:none;">Secure payment via PayPal</span>
+                                    <span data-lang="ar" dir="rtl" style="display:none;">الدفع الآمن عبر PayPal</span>
+                                </div>
+                            </div>
                     </div>
                 </div>
 
@@ -4418,13 +4425,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var st = document.createElement('style');
     st.textContent =
       '#float-dt{position:fixed;z-index:99980;top:70px;right:12px;display:flex;flex-direction:column;align-items:center;gap:0;padding:0;background:none;border:0;box-shadow:none;font-family:"Avenir Next","Helvetica Neue","Segoe UI",system-ui,sans-serif;color:#1b1f2a;text-shadow:0 0 6px #fff,0 0 3px #fff,0 0 10px rgba(255,255,255,.9);pointer-events:none;transition:opacity .2s;line-height:1.1}' +
-      '#float-dt .fdt-date{font-size:.72rem;font-weight:700;color:#e0261b;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}' +
+      '#float-dt .fdt-date{font-size:1.05rem;font-weight:700;color:#e0261b;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}' +
       '#float-dt .fdt-clock{display:flex;color:#11a14f;align-items:baseline;gap:3px;font-variant-numeric:tabular-nums;white-space:nowrap}' +
-      '#float-dt .fdt-hm{font-size:1.35rem;font-weight:800;letter-spacing:.02em}' +
+      '#float-dt .fdt-hm{font-size:2.1rem;font-weight:800;letter-spacing:.02em}' +
       '#float-dt .fdt-colon{animation:fdtBlink 1s steps(1) infinite}' +
-      '#float-dt .fdt-sec{font-size:.75rem;font-weight:800;color:#11a14f}' +
+      '#float-dt .fdt-sec{font-size:1.1rem;font-weight:800;color:#11a14f}' +
       '@keyframes fdtBlink{50%{opacity:.2}}' +
-      '@media (max-width:576px){#float-dt .fdt-hm{font-size:1.1rem}#float-dt .fdt-date{font-size:.62rem}}';
+      '@media (max-width:576px){#float-dt .fdt-hm{font-size:1.65rem}#float-dt .fdt-date{font-size:.82rem}#float-dt .fdt-sec{font-size:.9rem}}';
     function pad(n) { return (n < 10 ? '0' : '') + n; }
     function tick() {
         var d = new Date(), l = (document.documentElement.getAttribute('lang') || 'en').slice(0, 2), t;
