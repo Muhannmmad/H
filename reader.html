@@ -150,6 +150,7 @@ if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdn.
   };
   var slug = new URLSearchParams(location.search).get('book');
   var book = BOOKS[slug];
+  if (book) book.txt = book.file.replace(/\.pdf$/i, '.txt');
   if (!book) { location.replace('index.html#writings'); return; }
 
   /* ===================== texts (15 languages) ===================== */
@@ -408,6 +409,19 @@ if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdn.
   /* open the PDF: normal -> without range/stream requests -> whole file as bytes (works even if a network/proxy breaks partial downloads) */
   function loadPdf() {
     var tries = [
+      /* 0) text copy of the book (files/books/<book>.txt, base64): download managers such as IDM only grab real .pdf files, so this opens inside the page */
+      function () {
+        return fetch(book.txt, { cache: 'no-cache' }).then(function (res) {
+          if (!res.ok) throw new Error('no text copy: HTTP ' + res.status);
+          return res.text();
+        }).then(function (b64) {
+          b64 = b64.replace(/\s+/g, '');
+          if (b64.length < 100 || b64.slice(0, 4) !== 'JVBE') throw new Error('text copy is not a PDF');   // "JVBE" = "%PDF" in base64
+          var bin = atob(b64), bytes = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+          return pdfjsLib.getDocument({ data: bytes }).promise;
+        });
+      },
       function () { return pdfjsLib.getDocument({ url: book.file }).promise; },
       function () { return pdfjsLib.getDocument({ url: book.file, disableRange: true, disableStream: true }).promise; },
       function () {
