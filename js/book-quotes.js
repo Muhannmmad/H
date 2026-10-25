@@ -30,6 +30,11 @@
 
   function cleanQuote(t) { return (t || '').replace(/^[\s„“"«»”]+|[\s„“"«»”]+$/g, '').trim(); }
 
+  var TITLES = {
+    'what-remains-of-me': { fr: "Ce qu'il reste de moi", es: 'Lo que queda de mí', it: 'Ciò che resta di me', pt: 'O que resta de mim', nl: 'Wat er van mij overblijft', pl: 'Co ze mnie zostało', sv: 'Vad som finns kvar av mig', ro: 'Ce a rămas din mine', el: 'Ό,τι απέμεινε από μένα', uk: 'Що від мене залишилось', ru: 'Что от меня осталось', tr: 'Benden Geriye Kalan' },
+    'beyond-the-silence': { fr: 'Au-delà du silence', es: 'Más allá del silencio', it: 'Oltre il silenzio', pt: 'Para além do silêncio', nl: 'Voorbij de stilte', pl: 'Poza ciszą', sv: 'Bortom tystnaden', ro: 'Dincolo de tăcere', el: 'Πέρα από τη σιωπή', uk: 'За межами тиші', ru: 'За гранью тишины', tr: 'Sessizliğin Ötesinde' },
+    'i-am-not-innocent': { fr: 'Je ne suis pas innocent', es: 'No soy inocente', it: 'Non sono innocente', pt: 'Não sou inocente', nl: 'Ik ben niet onschuldig', pl: 'Nie jestem niewinny', sv: 'Jag är inte oskyldig', ro: 'Nu sunt nevinovat', el: 'Δεν είμαι αθώος', uk: 'Я не невинний', ru: 'Я не невиновен', tr: 'Masum Değilim' }
+  };
   /* one entry per quote: { slug, cover, id, title:{lang}, quote:{lang} } */
   function collect() {
     var books = {}, out = [];
@@ -154,7 +159,7 @@
 
     function render() {
       var l = getLang(), b = books[idx];
-      var q = b.quote[l] || b.quote.en || b.quote.de || b.quote.ar, title = b.title[l] || b.title.en || b.title.de;
+      var q = b.quote[l] || b.quote.en || b.quote.de || b.quote.ar, title = b.title[l] || (TITLES[b.slug] && TITLES[b.slug][l]) || b.title.en || b.title.de;
       bar.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr'); bar.setAttribute('lang', l);
       bar.innerHTML = '<div class="w-paper"></div><div class="w-fold"></div><span class="w-pin"></span>' +
         '<div class="w-label"></div><div class="w-text"></div>' +
