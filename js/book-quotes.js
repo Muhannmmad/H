@@ -1,6 +1,6 @@
 /*
- * Book-quote note: on every page load a sticky note appears at the bottom with a line from one of
- * your books, the book's name and a small cover. Clicking the cover/name scrolls to that book in
+ * Book-quote note: on every page load a sticky note appears at the bottom with a quote from one of
+ * your books (30 quotes, random order, no repeat until all have been shown), the book's name and a small cover. Clicking the cover/name scrolls to that book in
  * "My Writings" (second row). The quotes are taken from the book cards on the page (the italic
  * line under each title). To add MORE quotes, add entries to EXTRA_QUOTES below.
  *
@@ -8,6 +8,9 @@
  */
 (function () {
   'use strict';
+
+  // false = the note rotates through the 30 quotes of book-quotes-data.js only (not the short lines under the book titles)
+  var INCLUDE_CARD_TAGLINES = false;
 
   var LABEL = { de: 'Aus meinen Büchern', en: 'From my books', ar: 'من كتبي', fr: 'Dans mes livres', es: 'De mis libros', it: 'Dai miei libri', nl: 'Uit mijn boeken', pl: 'Z moich książek', pt: 'Dos meus livros', ro: 'Din cărțile mele', sv: 'Ur mina böcker', tr: 'Kitaplarımdan', el: 'Από τα βιβλία μου', ru: 'Из моих книг', uk: 'З моїх книг' };
   var CLOSE = { de: 'Schließen', en: 'Close', ar: 'إغلاق', fr: 'Fermer', es: 'Cerrar', it: 'Chiudi', nl: 'Sluiten', pl: 'Zamknij', pt: 'Fechar', ro: 'Închide', sv: 'Stäng', tr: 'Kapat', el: 'Κλείσιμο', ru: 'Закрыть', uk: 'Закрити' };
@@ -42,17 +45,14 @@
       });
       books[slug] = o;
     });
-    var seen = {};   // the card tagline + the matching BOOK_QUOTES entry is the same quote: merge, don't repeat
     (window.BOOK_QUOTES || []).forEach(function (x) {
-      var b = books[x.slug]; if (!b || !x.en) return;
-      var key = x.slug + '|' + x.en.toLowerCase().replace(/[^a-z]/g, '');
-      var bq = (b.quote.en || '').toLowerCase().replace(/[^a-z]/g, '');
-      var q = {}; Object.keys(x).forEach(function (k) { if (k !== 'slug') q[k] = x[k]; });
-      if (key === x.slug + '|' + bq) { Object.keys(q).forEach(function (k) { if (!b.quote[k]) b.quote[k] = q[k]; }); return; }
-      if (seen[key]) return; seen[key] = 1;
+      var b = books[x.slug]; if (!b || !(x.ar || x.en || x.de)) return;
+      var q = {}; Object.keys(x).forEach(function (k) { if (k !== 'slug' && typeof x[k] === 'string') q[k] = cleanQuote(x[k]); });
       out.push({ slug: b.slug, cover: b.cover, id: b.id, title: b.title, quote: q });
     });
-    Object.keys(books).forEach(function (s) { if (books[s].quote.en || books[s].quote.de) out.push(books[s]); });
+    if (INCLUDE_CARD_TAGLINES || !out.length) {   // taglines only when wanted - or as a fallback if the quotes file is missing
+      Object.keys(books).forEach(function (s) { if (books[s].quote.en || books[s].quote.de) out.push(books[s]); });
+    }
     return out;
   }
 
@@ -75,10 +75,38 @@
     return i;
   }
 
+  /* ---- random order WITHOUT repeats: a shuffled "bag" is kept in the visitor's browser.
+          Every visit takes the next quote out of the bag; when the bag is empty it is shuffled again. ---- */
+  function hash(str) { var h = 5381; for (var i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) | 0; return String(h); }
+  function shuffled(n) {
+    var a = [], i, j, t;
+    for (i = 0; i < n; i++) a.push(i);
+    for (i = n - 1; i > 0; i--) { j = Math.floor(Math.random() * (i + 1)); t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function nextIndex(books) {
+    var n = books.length;
+    if (n < 2) return 0;
+    var sig = n + ':' + hash(books.map(function (b) { return b.slug + '|' + (b.quote.ar || '') + (b.quote.en || ''); }).join('~'));
+    var bag = null, last = -1;
+    try {
+      var saved = JSON.parse(localStorage.getItem('bookQuoteBag'));
+      if (saved && saved.sig === sig && Array.isArray(saved.bag)) bag = saved.bag.filter(function (i) { return i >= 0 && i < n; });
+      last = parseInt(localStorage.getItem('bookQuoteLast'), 10);
+    } catch (e) {}
+    if (!bag || !bag.length) {                       // new round: every quote is in the bag again
+      bag = shuffled(n);
+      if (bag[0] === last) { var k = 1 + Math.floor(Math.random() * (n - 1)), t = bag[0]; bag[0] = bag[k]; bag[k] = t; }   // never the same quote twice in a row
+    }
+    var idx = bag.shift();
+    try { localStorage.setItem('bookQuoteBag', JSON.stringify({ sig: sig, bag: bag })); localStorage.setItem('bookQuoteLast', String(idx)); } catch (e) {}
+    return idx;
+  }
+
   function start() {
     var books = collect();
     if (!books.length) return;
-    var idx = pickIdx('bookQuoteLast', books.length);
+    var idx = nextIndex(books);
 
     var st = document.createElement('style');
     st.textContent =
@@ -126,14 +154,16 @@
 
     function render() {
       var l = getLang(), b = books[idx];
-      var q = b.quote[l] || b.quote.en || b.quote.de, title = b.title[l] || b.title.en || b.title.de;
+      var q = b.quote[l] || b.quote.en || b.quote.de || b.quote.ar, title = b.title[l] || b.title.en || b.title.de;
       bar.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr'); bar.setAttribute('lang', l);
       bar.innerHTML = '<div class="w-paper"></div><div class="w-fold"></div><span class="w-pin"></span>' +
         '<div class="w-label"></div><div class="w-text"></div>' +
         '<a class="w-book" href="#"><img alt=""><span><span class="wb-t"></span><span class="wb-s"></span></span></a>' +
         '<button type="button" class="w-x">&times;</button>';
       bar.querySelector('.w-label').textContent = '📖 ' + LABEL[l];
-      bar.querySelector('.w-text').textContent = '“' + q + '”';
+      var tx = bar.querySelector('.w-text');
+      tx.textContent = '“' + q + '”';
+      tx.setAttribute('dir', /[\u0600-\u06FF]/.test(q) ? 'rtl' : 'ltr');
       var a = bar.querySelector('.w-book'), im = a.querySelector('img');
       im.src = b.cover; im.alt = title;
       a.querySelector('.wb-t').textContent = title;
