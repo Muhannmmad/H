@@ -6,7 +6,7 @@
 (function () {
   'use strict';
   var BASE = 'https://muhammadhassan.eu/share/';
-  var LABEL = { de: 'Teilen', en: 'Share', ar: 'مشاركة' };
+  var LABEL = { de: 'Teilen', en: 'Share', ar: 'مشاركة', fr: 'Partager', es: 'Compartir', it: 'Condividi', nl: 'Delen', pl: 'Udostępnij', pt: 'Partilhar', ro: 'Distribuie', sv: 'Dela', tr: 'Paylaş', el: 'Κοινοποίηση', ru: 'Поделиться', uk: 'Поділитися' };
   var COPIED = { de: 'Link kopiert – jetzt einfügen', en: 'Link copied – now paste it', ar: 'تم نسخ الرابط – الصقه الآن' };
   var NETS = [
     { id: 'facebook',  icon: 'fab fa-facebook-f',        color: '#1877F2', name: 'Facebook' },

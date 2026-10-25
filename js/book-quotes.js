@@ -9,13 +9,9 @@
 (function () {
   'use strict';
 
-  var EXTRA_QUOTES = [
-    // { slug: 'what-remains-of-me', en: 'Your quote here.', de: 'Dein Zitat hier.', ar: 'اقتباسك هنا.' }
-  ];
-
-  var LABEL = { de: 'Aus meinen Büchern', en: 'From my books', ar: 'من كتبي' };
-  var CLOSE = { de: 'Schließen', en: 'Close', ar: 'إغلاق' };
-  var TAP   = { de: 'Zum Buch', en: 'Go to the book', ar: 'إلى الكتاب' };
+  var LABEL = { de: 'Aus meinen Büchern', en: 'From my books', ar: 'من كتبي', fr: 'Dans mes livres', es: 'De mis libros', it: 'Dai miei libri', nl: 'Uit mijn boeken', pl: 'Z moich książek', pt: 'Dos meus livros', ro: 'Din cărțile mele', sv: 'Ur mina böcker', tr: 'Kitaplarımdan', el: 'Από τα βιβλία μου', ru: 'Из моих книг', uk: 'З моїх книг' };
+  var CLOSE = { de: 'Schließen', en: 'Close', ar: 'إغلاق', fr: 'Fermer', es: 'Cerrar', it: 'Chiudi', nl: 'Sluiten', pl: 'Zamknij', pt: 'Fechar', ro: 'Închide', sv: 'Stäng', tr: 'Kapat', el: 'Κλείσιμο', ru: 'Закрыть', uk: 'Закрити' };
+  var TAP   = { de: 'Zum Buch', en: 'Go to the book', ar: 'إلى الكتاب', fr: 'Vers le livre', es: 'Ir al libro', it: 'Vai al libro', nl: 'Naar het boek', pl: 'Do książki', pt: 'Ir ao livro', ro: 'Spre carte', sv: 'Till boken', tr: 'Kitaba git', el: 'Στο βιβλίο', ru: 'К книге', uk: 'До книги' };
 
   function track(name) { try { if (typeof trackEvent === 'function') trackEvent(name); } catch (e) {} }
 
@@ -31,8 +27,9 @@
 
   function cleanQuote(t) { return (t || '').replace(/^[\s„“"«»”]+|[\s„“"«»”]+$/g, '').trim(); }
 
+  /* one entry per quote: { slug, cover, id, title:{lang}, quote:{lang} } */
   function collect() {
-    var out = [];
+    var books = {}, out = [];
     document.querySelectorAll('.writings-section .book-card:not(.book-card-soon)').forEach(function (card) {
       var dl = card.querySelector('a[download]'); if (!dl) return;
       var slug = (dl.getAttribute('href') || '').replace(/^.*\//, '').replace(/\.pdf$/i, '');
@@ -43,13 +40,19 @@
         if (t) o.title[l] = t.textContent.trim();
         if (q) o.quote[l] = cleanQuote(q.textContent);
       });
-      if (o.quote.en || o.quote.de) out.push(o);
+      books[slug] = o;
     });
-    var bySlug = {}; out.forEach(function (b) { bySlug[b.slug] = b; });
-    EXTRA_QUOTES.forEach(function (x) {
-      var b = bySlug[x.slug]; if (!b) return;
-      out.push({ slug: b.slug, cover: b.cover, title: b.title, id: b.id, quote: { de: x.de, en: x.en, ar: x.ar } });
+    var seen = {};   // the card tagline + the matching BOOK_QUOTES entry is the same quote: merge, don't repeat
+    (window.BOOK_QUOTES || []).forEach(function (x) {
+      var b = books[x.slug]; if (!b || !x.en) return;
+      var key = x.slug + '|' + x.en.toLowerCase().replace(/[^a-z]/g, '');
+      var bq = (b.quote.en || '').toLowerCase().replace(/[^a-z]/g, '');
+      var q = {}; Object.keys(x).forEach(function (k) { if (k !== 'slug') q[k] = x[k]; });
+      if (key === x.slug + '|' + bq) { Object.keys(q).forEach(function (k) { if (!b.quote[k]) b.quote[k] = q[k]; }); return; }
+      if (seen[key]) return; seen[key] = 1;
+      out.push({ slug: b.slug, cover: b.cover, id: b.id, title: b.title, quote: q });
     });
+    Object.keys(books).forEach(function (s) { if (books[s].quote.en || books[s].quote.de) out.push(books[s]); });
     return out;
   }
 
