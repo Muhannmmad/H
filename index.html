@@ -2513,18 +2513,33 @@ body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgb
         <script src="js/site.js"></script>
 
         <script>
-            // --- LANGUAGE SWITCH (DE / EN / AR) ---
-            document.getElementById("lang-de")?.addEventListener("click", () => {
-                trackEvent("Language Switch: DE");
-            });
+            // --- LANGUAGE SWITCH (any language: DE / EN / AR / TR / ...) ---
+            // Tracks "Language Switch: XX" whenever the visitor actively picks a language (language buttons or
+            // the language list), no matter which language. Automatic changes on page load are not counted.
+            (function () {
+                var lastClick = 0;
+                var lastLang = (document.documentElement.getAttribute("lang") || "").toLowerCase();
 
-            document.getElementById("lang-en")?.addEventListener("click", () => {
-                trackEvent("Language Switch: EN");
-            });
+                function mark(e) {
+                    if (e.target && e.target.closest && e.target.closest(".lang-floating-btn, .xl-menu, .xl-item, .lang-side")) {
+                        lastClick = Date.now();
+                    }
+                }
+                document.addEventListener("click", mark, true);
+                document.addEventListener("keydown", function (e) {
+                    if (e.key === "Enter" || e.key === " ") mark(e);
+                }, true);
 
-            document.getElementById("lang-ar")?.addEventListener("click", () => {
-                trackEvent("Language Switch: AR");
-            });
+                new MutationObserver(function () {
+                    var now = (document.documentElement.getAttribute("lang") || "").toLowerCase();
+                    if (!now || now === lastLang) return;
+                    lastLang = now;
+                    if (Date.now() - lastClick < 2000) {
+                        lastClick = 0;
+                        trackEvent("Language Switch: " + now.slice(0, 2).toUpperCase());
+                    }
+                }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+            })();
 
             // --- INNOVATION BUTTON ---
             document.querySelector('a[href="Innovation/"]')?.addEventListener("click", () => {
