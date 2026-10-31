@@ -153,20 +153,27 @@
     bar.id = 'wisdom-bar'; bar.setAttribute('role', 'note');
     document.body.appendChild(bar);
 
-    (function () {
-      var N = NOTES[pickIdx('wisdomColorLast', NOTES.length)], txt = N.t;
+    // every sheet (quote) has its own colour; the colours follow each other through the stack
+    var colorBase = pickIdx('wisdomColorLast', NOTES.length);
+    var rot = (0.6 + Math.random() * 1.1) * (Math.random() < 0.5 ? -1 : 1);
+    function noteFor(i) {
+      var N = NOTES[(colorBase + i) % NOTES.length], txt = N.t;
       if (contrast(txt, N.bg) < 4.5) txt = contrast('#FFFFFF', N.bg) > contrast('#111111', N.bg) ? '#FFFFFF' : '#111111';
-      var rot = (0.6 + Math.random() * 1.1) * (Math.random() < 0.5 ? -1 : 1), s2 = bar.style;
+      return { N: N, txt: txt };
+    }
+    function applyNote(i) {
+      var c = noteFor(i), N = c.N, s2 = bar.style;
       s2.setProperty('--n-bg', N.bg); s2.setProperty('--n-fold', N.fold); s2.setProperty('--n-strip', N.strip);
-      s2.setProperty('--n-text', txt); s2.setProperty('--n-pin', N.pin); s2.setProperty('--n-pind', N.pind);
+      s2.setProperty('--n-text', c.txt); s2.setProperty('--n-pin', N.pin); s2.setProperty('--n-pind', N.pind);
       s2.setProperty('--n-pint', N.pint); s2.setProperty('--n-rot', rot.toFixed(2) + 'deg');
-    })();
+    }
 
     var closed = false;
     function space() { if (!closed) document.body.style.paddingBottom = (bar.offsetHeight + 44) + 'px'; }
 
     function render() {
       var l = getLang(), b = books[idx];
+      applyNote(idx);
       var q = b.quote[l] || b.quote.en || b.quote.de || b.quote.ar, title = b.title[l] || (TITLES[b.slug] && TITLES[b.slug][l]) || b.title.en || b.title.de;
       bar.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr'); bar.setAttribute('lang', l);
       bar.innerHTML = '<div class="w-under w-u2"></div><div class="w-under w-u1"></div><div class="w-paper"></div><div class="w-fold"></div><span class="w-pin"></span>' +
@@ -193,6 +200,9 @@
       var x = bar.querySelector('.w-x');
       x.setAttribute('aria-label', CLOSE[l]);
       x.onclick = function () { closed = true; obs.disconnect(); window.removeEventListener('resize', space); document.body.style.paddingBottom = ''; bar.remove(); };
+      var u1 = bar.querySelector('.w-u1'), u2 = bar.querySelector('.w-u2');
+      if (u1) u1.style.background = noteFor(idx + 1).N.bg;
+      if (u2) u2.style.background = noteFor(idx + 2).N.bg;
       space();
     }
     // click on the note = turn the sheet like a tear-off calendar -> next quote (after the last one: the first again)
@@ -205,6 +215,7 @@
         sheet = document.createElement('div');
         sheet.className = 'w-flip'; sheet.setAttribute('aria-hidden', 'true');
         sheet.style.height = bar.offsetHeight + 'px';
+        ['--n-bg', '--n-fold', '--n-strip', '--n-text'].forEach(function (v) { sheet.style.setProperty(v, bar.style.getPropertyValue(v)); });
         Array.prototype.forEach.call(bar.children, function (c) {
           if (/(^|\s)(w-pin|w-x|w-under|w-flip)(\s|$)/.test(c.className)) return;
           var k = c.cloneNode(true); k.removeAttribute('id'); sheet.appendChild(k);
