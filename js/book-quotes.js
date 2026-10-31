@@ -2,7 +2,9 @@
  * Book-quote note: on every page load a sticky note appears at the bottom with a quote from one of
  * your books (30 quotes, random order, no repeat until all have been shown), the book's name and a small cover. Clicking the cover/name scrolls to that book in
  * "My Writings" (second row). The quotes are taken from the book cards on the page (the italic
- * line under each title). To add MORE quotes, add entries to EXTRA_QUOTES below.
+ * line under each title). The note looks like a stack of calendar sheets: clicking it flips the top sheet
+ * over (like a tear-off calendar) and shows the next quote; after the last quote it starts again with the first.
+ * Opening the page or changing the language works as before. To add MORE quotes, add entries to EXTRA_QUOTES below.
  *
  *   { slug: 'what-remains-of-me', de: '…', en: '…', ar: '…' }     (de / ar are optional, en is the fallback)
  */
@@ -117,6 +119,11 @@
     st.textContent =
       '#wisdom-bar{--S:40px;position:fixed;left:50%;bottom:19px;z-index:99990;box-sizing:border-box;width:min(93vw,610px);padding:34px 48px 29px 29px;text-align:center;color:var(--n-text);font-family:inherit;transform:translateX(-50%) rotate(var(--n-rot));transform-origin:50% 0;filter:drop-shadow(8px 8px 0 rgba(0,0,0,.06)) drop-shadow(0 12px 16px rgba(0,0,0,.28));animation:wisdomIn .7s cubic-bezier(.2,.9,.3,1.15)}' +
       '#wisdom-bar .w-paper{position:absolute;inset:0;z-index:0;background:var(--n-bg);clip-path:polygon(0 0,100% 0,100% calc(100% - var(--S)),calc(100% - var(--S)) 100%,0 100%)}' +
+      '#wisdom-bar{cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}' +
+      '#wisdom-bar .w-under{position:absolute;inset:0;z-index:-1;background:var(--n-bg);clip-path:polygon(0 0,100% 0,100% calc(100% - var(--S)),calc(100% - var(--S)) 100%,0 100%)}' +
+      '#wisdom-bar .w-u1{transform:translate(4px,6px) rotate(1.3deg);filter:brightness(.94)}' +
+      '#wisdom-bar .w-u2{transform:translate(-4px,12px) rotate(-1.5deg);filter:brightness(.87)}' +
+      '#wisdom-bar .w-flip{position:absolute;left:0;right:0;top:0;box-sizing:border-box;padding:inherit;text-align:center;z-index:1;pointer-events:none;transform-origin:50% 0;backface-visibility:hidden;animation:wisdomFlip .72s cubic-bezier(.55,.05,.75,.4) forwards}' +
       '#wisdom-bar .w-fold{position:absolute;right:0;bottom:0;width:var(--S);height:var(--S);z-index:0}' +
       '#wisdom-bar .w-fold:before,#wisdom-bar .w-fold:after{content:"";position:absolute;inset:0}' +
       '#wisdom-bar .w-fold:before{background:var(--n-strip);clip-path:polygon(0 5%,10% 5%,0 100%)}' +
@@ -135,9 +142,10 @@
       '#wisdom-bar .w-x:hover{background:rgba(0,0,0,.28)}' +
       '#wisdom-bar[dir=rtl]{padding:34px 29px 29px 48px}#wisdom-bar[dir=rtl] .w-x{right:auto;left:10px}#wisdom-bar[dir=rtl] .w-book{padding:4px 4px 4px 12px}' +
       '@keyframes wisdomIn{from{transform:translateX(-50%) translateY(130%) rotate(var(--n-rot));opacity:0}to{transform:translateX(-50%) rotate(var(--n-rot));opacity:1}}' +
+      '@keyframes wisdomFlip{0%{transform:perspective(1000px) rotateX(0);opacity:1}70%{opacity:1}100%{transform:perspective(1000px) rotateX(-115deg);opacity:0}}' +
       '@keyframes bookFlash{0%,100%{box-shadow:0 0 0 0 rgba(255,193,7,0)}30%{box-shadow:0 0 0 8px rgba(255,193,7,.75)}}' +
       '.book-card.book-flash{animation:bookFlash 1.8s ease 1;border-radius:12px}' +
-      '@media (prefers-reduced-motion:reduce){#wisdom-bar{animation:none}.book-card.book-flash{animation:none}}' +
+      '@media (prefers-reduced-motion:reduce){#wisdom-bar{animation:none}#wisdom-bar .w-flip{display:none}.book-card.book-flash{animation:none}}' +
       '@media (max-width:576px){#wisdom-bar{--S:32px;bottom:12px;padding:30px 39px 22px 19px}#wisdom-bar[dir=rtl]{padding:30px 19px 22px 39px}#wisdom-bar .w-text{font-size:.97rem}}';
     document.head.appendChild(st);
 
@@ -161,7 +169,7 @@
       var l = getLang(), b = books[idx];
       var q = b.quote[l] || b.quote.en || b.quote.de || b.quote.ar, title = b.title[l] || (TITLES[b.slug] && TITLES[b.slug][l]) || b.title.en || b.title.de;
       bar.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr'); bar.setAttribute('lang', l);
-      bar.innerHTML = '<div class="w-paper"></div><div class="w-fold"></div><span class="w-pin"></span>' +
+      bar.innerHTML = '<div class="w-under w-u2"></div><div class="w-under w-u1"></div><div class="w-paper"></div><div class="w-fold"></div><span class="w-pin"></span>' +
         '<div class="w-label"></div><div class="w-text"></div>' +
         '<a class="w-book" href="#"><img alt=""><span><span class="wb-t"></span><span class="wb-s"></span></span></a>' +
         '<button type="button" class="w-x">&times;</button>';
@@ -187,6 +195,39 @@
       x.onclick = function () { closed = true; obs.disconnect(); window.removeEventListener('resize', space); document.body.style.paddingBottom = ''; bar.remove(); };
       space();
     }
+    // click on the note = turn the sheet like a tear-off calendar -> next quote (after the last one: the first again)
+    var flipping = false;
+    function nextSheet() {
+      if (flipping || closed || books.length < 2) return;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var sheet = null;
+      if (!reduce) {
+        sheet = document.createElement('div');
+        sheet.className = 'w-flip'; sheet.setAttribute('aria-hidden', 'true');
+        sheet.style.height = bar.offsetHeight + 'px';
+        Array.prototype.forEach.call(bar.children, function (c) {
+          if (/(^|\s)(w-pin|w-x|w-under|w-flip)(\s|$)/.test(c.className)) return;
+          var k = c.cloneNode(true); k.removeAttribute('id'); sheet.appendChild(k);
+        });
+      }
+      idx = (idx + 1) % books.length;
+      track('Book Quote Note Next: ' + (books[idx].title.en || books[idx].slug));
+      render();                                   // the next quote is already underneath
+      if (!sheet) return;
+      flipping = true;
+      bar.appendChild(sheet);
+      var done = function () { flipping = false; if (sheet.parentNode) sheet.parentNode.removeChild(sheet); };
+      sheet.addEventListener('animationend', done);
+      setTimeout(done, 900);
+    }
+    bar.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('.w-book, .w-x')) return;   // cover/name and close button keep their own job
+      nextSheet();
+    });
+    bar.setAttribute('tabindex', '0');
+    bar.addEventListener('keydown', function (e) {
+      if (e.target === bar && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); nextSheet(); }
+    });
     render();
     var obs = new MutationObserver(function () { if (!closed) render(); });
     obs.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
