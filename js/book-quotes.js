@@ -115,30 +115,30 @@
 
     var st = document.createElement('style');
     st.textContent =
-      '#wisdom-bar{--S:46px;position:fixed;left:50%;bottom:22px;z-index:99990;box-sizing:border-box;width:min(94vw,720px);padding:40px 54px 34px 34px;text-align:center;color:var(--n-text);font-family:inherit;transform:translateX(-50%) rotate(var(--n-rot));transform-origin:50% 0;filter:drop-shadow(8px 8px 0 rgba(0,0,0,.06)) drop-shadow(0 12px 16px rgba(0,0,0,.28));animation:wisdomIn .7s cubic-bezier(.2,.9,.3,1.15)}' +
+      '#wisdom-bar{--S:34px;position:fixed;left:50%;bottom:16px;z-index:99990;box-sizing:border-box;width:min(92vw,500px);padding:28px 42px 24px 24px;text-align:center;color:var(--n-text);font-family:inherit;transform:translateX(-50%) rotate(var(--n-rot));transform-origin:50% 0;filter:drop-shadow(8px 8px 0 rgba(0,0,0,.06)) drop-shadow(0 12px 16px rgba(0,0,0,.28));animation:wisdomIn .7s cubic-bezier(.2,.9,.3,1.15)}' +
       '#wisdom-bar .w-paper{position:absolute;inset:0;z-index:0;background:var(--n-bg);clip-path:polygon(0 0,100% 0,100% calc(100% - var(--S)),calc(100% - var(--S)) 100%,0 100%)}' +
       '#wisdom-bar .w-fold{position:absolute;right:0;bottom:0;width:var(--S);height:var(--S);z-index:0}' +
       '#wisdom-bar .w-fold:before,#wisdom-bar .w-fold:after{content:"";position:absolute;inset:0}' +
       '#wisdom-bar .w-fold:before{background:var(--n-strip);clip-path:polygon(0 5%,10% 5%,0 100%)}' +
       '#wisdom-bar .w-fold:after{background:var(--n-fold);clip-path:polygon(0 100%,10% 0,100% 5%)}' +
-      '#wisdom-bar .w-pin{position:absolute;z-index:2;top:-12px;left:50%;width:34px;height:34px;margin-left:-17px;border-radius:50%;background:var(--n-pin);box-shadow:inset 0 -7px 0 var(--n-pind),0 6px 0 -1px var(--n-strip)}' +
-      '#wisdom-bar .w-pin:before{content:"";position:absolute;left:50%;top:-9px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--n-pint);box-shadow:inset 0 -5px 0 var(--n-pind)}' +
+      '#wisdom-bar .w-pin{position:absolute;z-index:2;top:-10px;left:50%;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:var(--n-pin);box-shadow:inset 0 -5px 0 var(--n-pind),0 5px 0 -1px var(--n-strip)}' +
+      '#wisdom-bar .w-pin:before{content:"";position:absolute;left:50%;top:-7px;width:15px;height:15px;margin-left:-7px;border-radius:50%;background:var(--n-pint);box-shadow:inset 0 -5px 0 var(--n-pind)}' +
       '#wisdom-bar .w-label,#wisdom-bar .w-text,#wisdom-bar .w-book{position:relative;z-index:1}' +
-      '#wisdom-bar .w-label{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}' +
-      '#wisdom-bar .w-text{font-family:"Segoe Print","Bradley Hand","Chalkboard SE","Comic Neue","Comic Sans MS",cursive,inherit;font-size:1.3rem;line-height:1.5;font-weight:600;margin:0 auto}' +
-      '#wisdom-bar .w-book{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:5px 14px 5px 5px;border-radius:12px;background:rgba(255,255,255,.35);color:var(--n-text);text-decoration:none;cursor:pointer;border:0;font:inherit;transition:background .15s,transform .15s}' +
+      '#wisdom-bar .w-label{font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}' +
+      '#wisdom-bar .w-text{font-family:"Segoe Print","Bradley Hand","Chalkboard SE","Comic Neue","Comic Sans MS",cursive,inherit;font-size:.98rem;line-height:1.45;font-weight:600;margin:0 auto}' +
+      '#wisdom-bar .w-book{display:inline-flex;align-items:center;gap:8px;margin-top:9px;padding:4px 11px 4px 4px;border-radius:10px;background:rgba(255,255,255,.35);color:var(--n-text);text-decoration:none;cursor:pointer;border:0;font:inherit;transition:background .15s,transform .15s}' +
       '#wisdom-bar .w-book:hover{background:rgba(255,255,255,.6);transform:translateY(-2px)}' +
-      '#wisdom-bar .w-book img{width:34px;height:48px;object-fit:cover;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.35);display:block}' +
-      '#wisdom-bar .w-book .wb-t{display:block;text-align:start;font-weight:800;font-size:.95rem;line-height:1.2}' +
-      '#wisdom-bar .w-book .wb-s{display:block;text-align:start;font-size:.7rem;opacity:.8;margin-top:2px}' +
-      '#wisdom-bar .w-x{position:absolute;z-index:3;top:12px;right:12px;background:rgba(0,0,0,.14);border:0;color:var(--n-text);width:30px;height:30px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}' +
+      '#wisdom-bar .w-book img{width:26px;height:37px;object-fit:cover;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.35);display:block}' +
+      '#wisdom-bar .w-book .wb-t{display:block;text-align:start;font-weight:800;font-size:.8rem;line-height:1.2}' +
+      '#wisdom-bar .w-book .wb-s{display:block;text-align:start;font-size:.62rem;opacity:.8;margin-top:1px}' +
+      '#wisdom-bar .w-x{position:absolute;z-index:3;top:9px;right:9px;background:rgba(0,0,0,.14);border:0;color:var(--n-text);width:24px;height:24px;border-radius:50%;font-size:16px;line-height:1;cursor:pointer}' +
       '#wisdom-bar .w-x:hover{background:rgba(0,0,0,.28)}' +
-      '#wisdom-bar[dir=rtl]{padding:40px 34px 34px 54px}#wisdom-bar[dir=rtl] .w-x{right:auto;left:12px}#wisdom-bar[dir=rtl] .w-book{padding:5px 5px 5px 14px}' +
+      '#wisdom-bar[dir=rtl]{padding:28px 24px 24px 42px}#wisdom-bar[dir=rtl] .w-x{right:auto;left:9px}#wisdom-bar[dir=rtl] .w-book{padding:4px 4px 4px 11px}' +
       '@keyframes wisdomIn{from{transform:translateX(-50%) translateY(130%) rotate(var(--n-rot));opacity:0}to{transform:translateX(-50%) rotate(var(--n-rot));opacity:1}}' +
       '@keyframes bookFlash{0%,100%{box-shadow:0 0 0 0 rgba(255,193,7,0)}30%{box-shadow:0 0 0 8px rgba(255,193,7,.75)}}' +
       '.book-card.book-flash{animation:bookFlash 1.8s ease 1;border-radius:12px}' +
       '@media (prefers-reduced-motion:reduce){#wisdom-bar{animation:none}.book-card.book-flash{animation:none}}' +
-      '@media (max-width:576px){#wisdom-bar{--S:36px;bottom:14px;padding:36px 44px 26px 22px}#wisdom-bar[dir=rtl]{padding:36px 22px 26px 44px}#wisdom-bar .w-text{font-size:1.08rem}}';
+      '@media (max-width:576px){#wisdom-bar{--S:28px;bottom:10px;padding:24px 34px 18px 16px}#wisdom-bar[dir=rtl]{padding:24px 16px 18px 34px}#wisdom-bar .w-text{font-size:.86rem}}';
     document.head.appendChild(st);
 
     var bar = document.createElement('div');

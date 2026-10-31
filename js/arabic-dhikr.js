@@ -67,16 +67,16 @@
     s.id = 'dhikr-css';
     s.textContent =
       '#dhikr-pop{position:fixed;inset:0;z-index:100003;display:flex;align-items:center;justify-content:center;pointer-events:none;padding:16px}' +
-      '#dhikr-pop .dk-card{max-width:min(92vw,820px);padding:26px 46px 24px;border-radius:28px;text-align:center;color:#f7e3a1;' +
+      '#dhikr-pop .dk-card{max-width:min(88vw,560px);padding:16px 28px 15px;border-radius:20px;text-align:center;color:#f7e3a1;' +
         'background:radial-gradient(120% 140% at 50% 0%,rgba(20,128,104,.97),rgba(6,56,48,.98));' +
         'border:1px solid rgba(247,227,161,.5);' +
-        'box-shadow:0 18px 60px rgba(0,0,0,.45),inset 0 0 0 5px rgba(6,56,48,.65),inset 0 0 0 6px rgba(247,227,161,.28);' +
+        'box-shadow:0 12px 40px rgba(0,0,0,.4),inset 0 0 0 4px rgba(6,56,48,.65),inset 0 0 0 5px rgba(247,227,161,.28);' +
         'opacity:0;transform:scale(.92) translateY(10px);transition:opacity ' + FADE + 'ms ease,transform ' + FADE + 'ms ease}' +
       '#dhikr-pop.on .dk-card{opacity:1;transform:none}' +
       '#dhikr-pop .dk-text{font-family:var(--dk-font);' +
-        'font-weight:700;line-height:1.75;font-size:clamp(2rem,6.4vw,3.4rem);text-shadow:0 2px 10px rgba(0,0,0,.4)}' +
-      '#dhikr-pop.verse .dk-text{font-size:clamp(1.6rem,4.8vw,2.6rem)}' +
-      '#dhikr-pop .dk-ref{margin-top:4px;font-family:var(--dk-font);font-size:1.05rem;opacity:.8}' +
+        'font-weight:700;line-height:1.75;font-size:clamp(1.3rem,4.2vw,2.1rem);text-shadow:0 2px 10px rgba(0,0,0,.4)}' +
+      '#dhikr-pop.verse .dk-text{font-size:clamp(1.05rem,3.3vw,1.6rem)}' +
+      '#dhikr-pop .dk-ref{margin-top:2px;font-family:var(--dk-font);font-size:.85rem;opacity:.8}' +
       '#dhikr-pop .dk-ref:empty{display:none}' +
       '@media (prefers-reduced-motion:reduce){#dhikr-pop .dk-card{transition:none;transform:none}}' +
       '@media print{#dhikr-pop{display:none!important}}';
