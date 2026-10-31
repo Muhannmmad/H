@@ -18,6 +18,8 @@
   var CLOSE = { de: 'Schließen', en: 'Close', ar: 'إغلاق', fr: 'Fermer', es: 'Cerrar', it: 'Chiudi', nl: 'Sluiten', pl: 'Zamknij', pt: 'Fechar', ro: 'Închide', sv: 'Stäng', tr: 'Kapat', el: 'Κλείσιμο', ru: 'Закрыть', uk: 'Закрити' };
   var TAP   = { de: 'Zum Buch', en: 'Go to the book', ar: 'إلى الكتاب', fr: 'Vers le livre', es: 'Ir al libro', it: 'Vai al libro', nl: 'Naar het boek', pl: 'Do książki', pt: 'Ir ao livro', ro: 'Spre carte', sv: 'Till boken', tr: 'Kitaba git', el: 'Στο βιβλίο', ru: 'К книге', uk: 'До книги' };
 
+  var NEXT  = { de: 'Klicken für das nächste Zitat', en: 'Click to change the quote', ar: 'اضغط لتغيير الاقتباس', fr: 'Cliquez pour changer de citation', es: 'Haz clic para cambiar la cita', it: 'Clicca per cambiare citazione', nl: 'Klik voor een ander citaat', pl: 'Kliknij, aby zmienić cytat', pt: 'Clique para mudar a citação', ro: 'Click pentru alt citat', sv: 'Klicka för nästa citat', tr: 'Alıntıyı değiştirmek için tıkla', el: 'Κάντε κλικ για άλλο απόσπασμα', ru: 'Нажмите, чтобы сменить цитату', uk: 'Натисніть, щоб змінити цитату' };
+
   function track(name) { try { if (typeof trackEvent === 'function') trackEvent(name); } catch (e) {} }
 
   function getLang() {
@@ -138,7 +140,8 @@
       '#wisdom-bar .w-book img{width:30px;height:42px;object-fit:cover;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.35);display:block}' +
       '#wisdom-bar .w-book .wb-t{display:block;text-align:start;font-weight:800;font-size:.88rem;line-height:1.2}' +
       '#wisdom-bar .w-book .wb-s{display:block;text-align:start;font-size:.66rem;opacity:.8;margin-top:2px}' +
-      '#wisdom-bar .w-x{position:absolute;z-index:3;top:10px;right:10px;background:rgba(0,0,0,.14);border:0;color:var(--n-text);width:27px;height:27px;border-radius:50%;font-size:18px;line-height:1;cursor:pointer}' +
+      '#wisdom-bar .w-x{position:absolute;z-index:3;top:10px;right:10px;background:rgba(0,0,0,.14);border:0;color:var(--n-text);padding:3px 10px;border-radius:14px;font-size:.72rem;font-weight:700;line-height:1.3;cursor:pointer;white-space:nowrap}' +
+      '#wisdom-bar .w-hint{position:relative;z-index:1;margin-top:8px;font-size:.68rem;font-weight:600;opacity:.75;letter-spacing:.02em}' +
       '#wisdom-bar .w-x:hover{background:rgba(0,0,0,.28)}' +
       '#wisdom-bar[dir=rtl]{padding:34px 29px 29px 48px}#wisdom-bar[dir=rtl] .w-x{right:auto;left:10px}#wisdom-bar[dir=rtl] .w-book{padding:4px 4px 4px 12px}' +
       '@keyframes wisdomIn{from{transform:translateX(-50%) translateY(130%) rotate(var(--n-rot));opacity:0}to{transform:translateX(-50%) rotate(var(--n-rot));opacity:1}}' +
@@ -179,7 +182,8 @@
       bar.innerHTML = '<div class="w-under w-u2"></div><div class="w-under w-u1"></div><div class="w-paper"></div><div class="w-fold"></div><span class="w-pin"></span>' +
         '<div class="w-label"></div><div class="w-text"></div>' +
         '<a class="w-book" href="#"><img alt=""><span><span class="wb-t"></span><span class="wb-s"></span></span></a>' +
-        '<button type="button" class="w-x">&times;</button>';
+        '<div class="w-hint"></div>' +
+        '<button type="button" class="w-x"><span class="w-xt"></span> &times;</button>';
       bar.querySelector('.w-label').textContent = '📖 ' + LABEL[l];
       var tx = bar.querySelector('.w-text');
       tx.textContent = '“' + q + '”';
@@ -198,6 +202,8 @@
         setTimeout(function () { card.classList.remove('book-flash'); }, 2000);
       };
       var x = bar.querySelector('.w-x');
+      bar.querySelector('.w-hint').textContent = '\u21BB ' + (NEXT[l] || NEXT.en);
+      bar.querySelector('.w-xt').textContent = CLOSE[l];
       x.setAttribute('aria-label', CLOSE[l]);
       x.onclick = function () { closed = true; obs.disconnect(); window.removeEventListener('resize', space); document.body.style.paddingBottom = ''; bar.remove(); };
       var u1 = bar.querySelector('.w-u1'), u2 = bar.querySelector('.w-u2');
