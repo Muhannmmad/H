@@ -47,7 +47,10 @@
     '#game-only .go-main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px}' +
     '#game-only .go-main > *{flex:none}' +
     '#game-only .go-main p.text-muted{display:none}' +
-    '#game-only:not(.go-mobile) .fullscreen-bar{display:none}' +
+    '#game-only .fullscreen-bar{display:none}' +
+    'body.fs-lock #game-only .go-main > *{transform:none!important}' +
+    '#game-only .go-fs{border:0;background:#ffe27a;color:#222;font-weight:800;border-radius:18px;padding:6px 14px;font-size:.9rem;white-space:nowrap;cursor:pointer}' +
+    '#game-only .go-fs:hover{background:#fff}' +
     '#game-only.go-mobile{overflow:auto;-webkit-overflow-scrolling:touch}' +
     '#game-only.go-mobile .go-main{display:block;flex:none;min-height:0;overflow:visible;padding:10px 8px 28px}' +
     '#game-only.go-mobile .go-main > *{width:100%!important;transform:none!important}' +
@@ -174,6 +177,7 @@
       '<div class="go-bar">' +
         '<div class="go-title">Muhammad Hassan</div>' +
         '<div class="go-lang"><button type="button" data-l="de">DE</button><button type="button" data-l="en">EN</button><button type="button" data-l="ar">AR</button></div>' +
+        '<button type="button" class="go-fs"><span data-lang="de">⛶ Vollbild</span><span data-lang="en">⛶ Fullscreen</span><span data-lang="ar" dir="rtl">⛶ ملء الشاشة</span></button>' +
         '<a class="go-visit" href="' + PLAIN_URL + '"><span data-lang="de">🌐 Meine Website besuchen</span><span data-lang="en">🌐 Visit my website</span><span data-lang="ar" dir="rtl">🌐 زيارة موقعي</span></a>' +
       '</div>' +
       '<div class="go-main"></div>';
@@ -200,6 +204,7 @@
     window.addEventListener('resize', applyMode);
     applyMode(); setTimeout(applyMode, 150); setTimeout(applyMode, 500); setTimeout(applyMode, 1200);
 
+    ov.querySelector('.go-fs').addEventListener('click', function () { track('Game Link: Fullscreen Button Click'); toggle(); });
     var visit = ov.querySelector('.go-visit');
     visit.addEventListener('click', function () { track('Game Link: Visit Website Click'); });
 
@@ -207,7 +212,7 @@
       var l = (document.documentElement.getAttribute('lang') || 'de').slice(0, 2).toLowerCase();
       ov.querySelectorAll('.go-lang button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-l') === l); });
       ov.dir = (l === 'ar') ? 'rtl' : 'ltr';
-      ov.querySelectorAll('.go-visit [data-lang]').forEach(function (x) { x.style.display = (x.getAttribute('data-lang') === l || (l !== 'de' && l !== 'ar' && x.getAttribute('data-lang') === 'en')) ? '' : 'none'; });
+      ov.querySelectorAll('.go-visit [data-lang], .go-fs [data-lang]').forEach(function (x) { x.style.display = (x.getAttribute('data-lang') === l || (l !== 'de' && l !== 'ar' && x.getAttribute('data-lang') === 'en')) ? '' : 'none'; });
     }
     ov.querySelectorAll('.go-lang button').forEach(function (b) {
       b.addEventListener('click', function () {
