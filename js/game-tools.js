@@ -5,9 +5,10 @@
  *    browser does not allow that (for example iPhone Safari), a full-window view instead. Leave it with the ✕ button,
  *    the ⛶ button or the Escape key.
  *
- * 2) GAME LINK: https://muhammadhassan.eu/?game=1  opens ONLY the game (same game, same languages, nothing else of
- *    the website), with a "Visit my website" button on top. The small 🔗 button next to ⛶ copies this link.
- *    Also accepted: ?play=1 and #game
+ * 2) GAME LINK: https://muhammadhassan.eu/game.html  opens ONLY the game (same game, same languages, nothing else of
+ *    the website), with a "Visit my website" button on top, and has its own link preview (img/og-game.jpg).
+ *    game.html is a copy of index.html made by make_game_page.py (it sets window.__GAME_ONLY = true).
+ *    The small 🔗 button next to ⛶ copies this link.
  */
 (function () {
   'use strict';
@@ -18,9 +19,10 @@
   var fsBtn = document.getElementById('fullscreenBtn');
   if (!wrap || !fsBtn) return;
 
-  var GAME_PARAM = /[?&](game|play)(=|&|$)/i.test(location.search) || /^#(game|play)$/i.test(location.hash);
-  var PLAIN_URL = location.origin + location.pathname;
-  var GAME_URL  = PLAIN_URL + '?game=1';
+  var GAME_PARAM = window.__GAME_ONLY === true;
+  var BASE_URL  = location.origin + location.pathname.replace(/[^\/]*$/, '');     // folder of this page, ends with /
+  var PLAIN_URL = BASE_URL;                                                       // the normal website
+  var GAME_URL  = BASE_URL + 'game.html';
 
   /* ---------------- styles ---------------- */
   var css =
