@@ -48,6 +48,7 @@
     '#game-only .go-main > *{flex:none}' +
     '#game-only .go-main p.text-muted{display:none}' +
     '#game-only .fullscreen-bar{display:none}' +
+    '#game-only #flagGameCardWrapper,#game-only #flagGameCard{width:100%!important;max-width:none!important}' +
     '#game-only .go-main h3{display:none}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -64,10 +65,22 @@
       var ah = c.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
       if (aw <= 0 || ah <= 0) return;
       t.style.transform = 'none';
-      t.style.width = Math.min(natW, aw) + 'px';
-      var w = t.offsetWidth, h = t.offsetHeight;
-      if (!w || !h) return;
-      var k = Math.min(aw / w, ah / h, maxScale);
+      // try several layout widths (narrow ... wide) and keep the one that fills the screen best -> the game looks wide, not tall and thin
+      var best = 0, bestArea = 0, bw = 0, bh = 0, k, i, cand, w, h;
+      var list = [360, 440, 520, 620, 740, 860, 980, 1100, 1240];
+      for (i = 0; i < list.length; i++) {
+        cand = Math.min(list[i], aw);
+        t.style.width = cand + 'px';
+        w = t.offsetWidth; h = t.offsetHeight;
+        if (!w || !h) continue;
+        k = Math.min(aw / w, ah / h, maxScale);
+        var area = k * k * w * h;                                    // biggest filled screen area wins
+        if (area > bestArea * 1.001) { bestArea = area; best = k; bw = cand; bh = h; }
+        if (cand >= aw) break;
+      }
+      if (!best) return;
+      t.style.width = bw + 'px';
+      k = best;
       t.style.transformOrigin = 'center center';
       t.style.transform = 'scale(' + k.toFixed(4) + ')';
     }
