@@ -47,8 +47,11 @@
     '#game-only .go-main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px}' +
     '#game-only .go-main > *{flex:none}' +
     '#game-only .go-main p.text-muted{display:none}' +
-    '#game-only .fullscreen-bar{display:none}' +
-    '#game-only #flagGameCardWrapper,#game-only #flagGameCard{width:100%!important;max-width:none!important}' +
+    '#game-only:not(.go-mobile) .fullscreen-bar{display:none}' +
+    '#game-only.go-mobile{overflow:auto;-webkit-overflow-scrolling:touch}' +
+    '#game-only.go-mobile .go-main{display:block;flex:none;min-height:0;overflow:visible;padding:10px 8px 28px}' +
+    '#game-only.go-mobile .go-main > *{width:100%!important;transform:none!important}' +
+    '#game-only #flagGameCardWrapper:not(.fs-on),#game-only #flagGameCardWrapper:not(.fs-on) #flagGameCard{width:100%!important;max-width:none!important;box-sizing:border-box!important}' +
     '#game-only .go-main h3{display:none}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -184,7 +187,18 @@
     track('Game Link Opened');
     var pageFit = makeFitter(function () { return ov.querySelector('.go-main'); }, function () { return col; }, 520, 3);
     watchFit(pageFit, ov.querySelector('.go-main'), col);
-    pageFit(); setTimeout(pageFit, 150); setTimeout(pageFit, 500); setTimeout(pageFit, 1200);
+    // computer / wide screen: the game fills the window.  Phone / portrait: normal full-width game, scrollable,
+    // and the ⛶ button makes the game itself full screen.
+    var mq = window.matchMedia ? window.matchMedia('(max-width: 768px), (orientation: portrait)') : null;
+    function applyMode() {
+      var mobile = !!(mq && mq.matches);
+      ov.classList.toggle('go-mobile', mobile);
+      if (mobile) { if (wrap.classList.contains('fs-on')) fsFit(); pageFit.reset(); col.style.width = ''; }
+      else pageFit();
+    }
+    if (mq) { if (mq.addEventListener) mq.addEventListener('change', applyMode); else if (mq.addListener) mq.addListener(applyMode); }
+    window.addEventListener('resize', applyMode);
+    applyMode(); setTimeout(applyMode, 150); setTimeout(applyMode, 500); setTimeout(applyMode, 1200);
 
     var visit = ov.querySelector('.go-visit');
     visit.addEventListener('click', function () { track('Game Link: Visit Website Click'); });
