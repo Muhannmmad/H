@@ -38,25 +38,30 @@
     'body.game-only > *:not(#game-only):not(script):not(style):not(link){display:none!important}' +
     '#game-only{position:fixed;inset:0;z-index:99995;overflow:hidden;display:flex;flex-direction:column;background:#f4f6fb}' +
     'body.dark-mode #game-only{background:#12151c;color:#e8eaf0}' +
-    '#game-only .go-bar{flex:none;position:relative;z-index:5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 14px;background:linear-gradient(90deg,#0d6efd,#0a4fb8);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}' +
-    '#game-only .go-title{font-weight:800;font-size:1.05rem;margin-inline-end:auto}' +
+    '#game-only .go-bar{flex:none;position:relative;z-index:5;display:flex;align-items:center;gap:8px;flex-wrap:nowrap;padding:6px 12px;background:linear-gradient(90deg,#0d6efd,#0a4fb8);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}' +
+    '#game-only .go-title{font-weight:800;font-size:1.05rem;margin-inline-end:auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}' +
+    '#game-only .go-lang{flex:none;white-space:nowrap}' +
+    '@media (max-width:480px){#game-only .go-title{display:none}#game-only .go-bar{justify-content:space-between;padding:6px 8px}#game-only .go-visit{font-size:.8rem;padding:6px 10px}#game-only .go-lang button{padding:3px 8px}}' +
     '#game-only .go-lang button{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;padding:3px 10px;font-weight:700;font-size:.8rem;cursor:pointer;margin-inline-start:4px}' +
     '#game-only .go-lang button.on{background:#fff;color:#0a4fb8}' +
-    '#game-only .go-visit{background:#fff;color:#0a4fb8;text-decoration:none;font-weight:800;border-radius:18px;padding:6px 14px;font-size:.9rem;white-space:nowrap}' +
+    '#game-only .go-visit{flex:none;background:#fff;color:#0a4fb8;text-decoration:none;font-weight:800;border-radius:18px;padding:6px 14px;font-size:.9rem;white-space:nowrap}' +
     '#game-only .go-visit:hover{background:#ffe27a;color:#222}' +
     '#game-only .go-main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px}' +
     '#game-only .go-main > *{flex:none}' +
     '#game-only .go-main p.text-muted{display:none}' +
     '#game-only .fullscreen-bar{display:none}' +
     'body.fs-lock #game-only .go-main > *{transform:none!important}' +
-    '#game-only .go-fs{border:0;background:#ffe27a;color:#222;font-weight:800;border-radius:18px;padding:6px 14px;font-size:.9rem;white-space:nowrap;cursor:pointer}' +
-    '#game-only .go-fs:hover{background:#fff}' +
+    '#game-only .go-fsrow{display:flex;justify-content:flex-end;margin-bottom:6px}' +
+    '#game-only .go-fs{border:0;background:#0d6efd;color:#fff;font-weight:800;border-radius:18px;padding:5px 14px;font-size:.85rem;white-space:nowrap;cursor:pointer}' +
+    '#game-only .go-fs:hover{background:#0a4fb8}' +
     '#game-only.go-mobile{overflow:auto;-webkit-overflow-scrolling:touch}' +
     '#game-only.go-mobile .go-main{display:block;flex:none;min-height:0;overflow:visible;padding:10px 8px 28px}' +
     '#game-only.go-mobile .go-main > *{width:100%!important;transform:none!important}' +
     '#game-only #flagGameCardWrapper:not(.fs-on),#game-only #flagGameCardWrapper:not(.fs-on) #flagGameCard{width:100%!important;max-width:none!important;box-sizing:border-box!important}' +
     '#game-only .go-main h3{display:none}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+
+  var onLeave = function () {};      // set in game-only mode: re-fits the page after fullscreen
 
   /* ---------------- fit the game to the screen (no scrolling) ---------------- */
   // Scales `target()` so that it fills `container()` exactly (both width and height), never needing a scrollbar.
@@ -66,6 +71,7 @@
       raf = 0;
       var c = container(), t = target();
       if (!c || !t) return;
+      if (t.id !== 'flagGameCard' && document.body.classList.contains('fs-lock')) return;   // page layout waits while the game is fullscreen
       var cs = getComputedStyle(c);
       var aw = c.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       var ah = c.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
@@ -124,7 +130,7 @@
     if (rq) { try { var p = rq.call(wrap); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
   }
   function leave() {
-    wrap.classList.remove('fs-on'); document.body.classList.remove('fs-lock'); fsFit.reset();
+    wrap.classList.remove('fs-on'); document.body.classList.remove('fs-lock'); fsFit.reset(); setTimeout(onLeave, 0); setTimeout(onLeave, 250);
     var ex = document.exitFullscreen || document.webkitExitFullscreen;
     if (nativeEl() && ex) { try { var p = ex.call(document); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
   }
@@ -142,7 +148,7 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && wrap.classList.contains('fs-on')) leave(); });
   ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (ev) {
     document.addEventListener(ev, function () {
-      if (!nativeEl() && wrap.classList.contains('fs-on')) { wrap.classList.remove('fs-on'); document.body.classList.remove('fs-lock'); fsFit.reset(); }   // left with Esc
+      if (!nativeEl() && wrap.classList.contains('fs-on')) { wrap.classList.remove('fs-on'); document.body.classList.remove('fs-lock'); fsFit.reset(); setTimeout(onLeave, 0); setTimeout(onLeave, 250); }   // left with Esc
     });
   });
 
@@ -177,7 +183,6 @@
       '<div class="go-bar">' +
         '<div class="go-title">Muhammad Hassan</div>' +
         '<div class="go-lang"><button type="button" data-l="de">DE</button><button type="button" data-l="en">EN</button><button type="button" data-l="ar">AR</button></div>' +
-        '<button type="button" class="go-fs"><span data-lang="de">⛶ Vollbild</span><span data-lang="en">⛶ Fullscreen</span><span data-lang="ar" dir="rtl">⛶ ملء الشاشة</span></button>' +
         '<a class="go-visit" href="' + PLAIN_URL + '"><span data-lang="de">🌐 Meine Website besuchen</span><span data-lang="en">🌐 Visit my website</span><span data-lang="ar" dir="rtl">🌐 زيارة موقعي</span></a>' +
       '</div>' +
       '<div class="go-main"></div>';
@@ -185,12 +190,17 @@
 
     col.className = '';                                  // no Bootstrap column: the game is sized to the screen below
     col.style.visibility = 'visible'; col.style.animationName = 'none'; col.style.opacity = '1';
-    ov.querySelector('.go-main').appendChild(col);          // the real game (with all its scripts) moves here
+    ov.querySelector('.go-main').appendChild(col);
+    var fsRow = document.createElement('div');          // fullscreen button: directly above the game
+    fsRow.className = 'go-fsrow';
+    fsRow.innerHTML = '<button type="button" class="go-fs"><span data-lang="de">⛶ Vollbild</span><span data-lang="en">⛶ Fullscreen</span><span data-lang="ar" dir="rtl">⛶ ملء الشاشة</span></button>';
+    col.insertBefore(fsRow, col.firstChild);          // the real game (with all its scripts) moves here
     document.body.classList.add('game-only');
     try { document.title = 'Flags & Capitals Quiz – Muhammad Hassan'; } catch (e) {}
     track('Game Link Opened');
     var pageFit = makeFitter(function () { return ov.querySelector('.go-main'); }, function () { return col; }, 520, 3);
     watchFit(pageFit, ov.querySelector('.go-main'), col);
+    onLeave = function () { if (!ov.classList.contains('go-mobile')) pageFit(); };
     // computer / wide screen: the game fills the window.  Phone / portrait: normal full-width game, scrollable,
     // and the ⛶ button makes the game itself full screen.
     var mq = window.matchMedia ? window.matchMedia('(max-width: 768px), (orientation: portrait)') : null;
