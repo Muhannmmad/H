@@ -26,7 +26,7 @@
 
   /* ---------------- styles ---------------- */
   var css =
-    '#flagGameCardWrapper.fs-on{position:fixed!important;inset:0;z-index:100010;overflow:hidden;box-sizing:border-box;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:52px 12px 12px;display:flex;align-items:center;justify-content:center;background:#fff}' +
+    '#flagGameCardWrapper.fs-on{position:fixed!important;inset:0;z-index:100010;overflow:hidden;box-sizing:border-box;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:44px 8px 8px;display:flex;align-items:center;justify-content:center;background:#fff}' +
     'body.dark-mode #flagGameCardWrapper.fs-on{background:#12151c}' +
     '#flagGameCardWrapper.fs-on #flagGameCard{margin:0!important;flex:none;max-width:none!important}' +
     '#flagGameCardWrapper .fs-close{display:none;position:fixed;top:10px;right:12px;z-index:100011;border:0;border-radius:20px;padding:6px 14px;font:700 14px/1.2 system-ui,sans-serif;background:#0d6efd;color:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}' +
@@ -38,17 +38,17 @@
     'body.game-only > *:not(#game-only):not(script):not(style):not(link){display:none!important}' +
     '#game-only{position:fixed;inset:0;z-index:99995;overflow:hidden;display:flex;flex-direction:column;background:#f4f6fb}' +
     'body.dark-mode #game-only{background:#12151c;color:#e8eaf0}' +
-    '#game-only .go-bar{flex:none;position:relative;z-index:5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;background:linear-gradient(90deg,#0d6efd,#0a4fb8);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}' +
+    '#game-only .go-bar{flex:none;position:relative;z-index:5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 14px;background:linear-gradient(90deg,#0d6efd,#0a4fb8);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}' +
     '#game-only .go-title{font-weight:800;font-size:1.05rem;margin-inline-end:auto}' +
     '#game-only .go-lang button{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;padding:3px 10px;font-weight:700;font-size:.8rem;cursor:pointer;margin-inline-start:4px}' +
     '#game-only .go-lang button.on{background:#fff;color:#0a4fb8}' +
     '#game-only .go-visit{background:#fff;color:#0a4fb8;text-decoration:none;font-weight:800;border-radius:18px;padding:6px 14px;font-size:.9rem;white-space:nowrap}' +
     '#game-only .go-visit:hover{background:#ffe27a;color:#222}' +
-    '#game-only .go-main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px}' +
+    '#game-only .go-main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px}' +
     '#game-only .go-main > *{flex:none}' +
     '#game-only .go-main p.text-muted{display:none}' +
     '#game-only .fullscreen-bar{display:none}' +
-    '#game-only .go-main h3{font-size:1.15rem;margin-bottom:.4rem!important}';
+    '#game-only .go-main h3{display:none}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   /* ---------------- fit the game to the screen (no scrolling) ---------------- */
@@ -86,7 +86,7 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   }
 
-  var fsFit = makeFitter(function () { return wrap; }, function () { return document.getElementById('flagGameCard'); }, 640, 1.6);
+  var fsFit = makeFitter(function () { return wrap; }, function () { return document.getElementById('flagGameCard'); }, 560, 3);
   var fsCard = document.getElementById('flagGameCard');
   if (fsCard) watchFit(function () { if (wrap.classList.contains('fs-on')) fsFit(); }, wrap, fsCard);
 
@@ -169,7 +169,7 @@
     document.body.classList.add('game-only');
     try { document.title = 'Flags & Capitals Quiz – Muhammad Hassan'; } catch (e) {}
     track('Game Link Opened');
-    var pageFit = makeFitter(function () { return ov.querySelector('.go-main'); }, function () { return col; }, 560, 1.5);
+    var pageFit = makeFitter(function () { return ov.querySelector('.go-main'); }, function () { return col; }, 520, 3);
     watchFit(pageFit, ov.querySelector('.go-main'), col);
     pageFit(); setTimeout(pageFit, 150); setTimeout(pageFit, 500); setTimeout(pageFit, 1200);
 
