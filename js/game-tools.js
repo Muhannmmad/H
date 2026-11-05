@@ -26,9 +26,9 @@
 
   /* ---------------- styles ---------------- */
   var css =
-    '#flagGameCardWrapper.fs-on{position:fixed!important;inset:0;z-index:100010;overflow:auto;box-sizing:border-box;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:56px 14px 24px;display:flex;align-items:flex-start;justify-content:center;background:#fff}' +
+    '#flagGameCardWrapper.fs-on{position:fixed!important;inset:0;z-index:100010;overflow:hidden;box-sizing:border-box;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:52px 12px 12px;display:flex;align-items:center;justify-content:center;background:#fff}' +
     'body.dark-mode #flagGameCardWrapper.fs-on{background:#12151c}' +
-    '#flagGameCardWrapper.fs-on #flagGameCard{margin:auto!important;width:min(100%,760px)}' +
+    '#flagGameCardWrapper.fs-on #flagGameCard{margin:0!important;flex:none;max-width:none!important}' +
     '#flagGameCardWrapper .fs-close{display:none;position:fixed;top:10px;right:12px;z-index:100011;border:0;border-radius:20px;padding:6px 14px;font:700 14px/1.2 system-ui,sans-serif;background:#0d6efd;color:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}' +
     '#flagGameCardWrapper.fs-on .fs-close{display:block}' +
     'body.fs-lock{overflow:hidden}' +
@@ -36,16 +36,59 @@
     /* game-only page */
     'body.game-only{overflow:hidden}' +
     'body.game-only > *:not(#game-only):not(script):not(style):not(link){display:none!important}' +
-    '#game-only{position:fixed;inset:0;z-index:99995;overflow:auto;background:#f4f6fb}' +
+    '#game-only{position:fixed;inset:0;z-index:99995;overflow:hidden;display:flex;flex-direction:column;background:#f4f6fb}' +
     'body.dark-mode #game-only{background:#12151c;color:#e8eaf0}' +
-    '#game-only .go-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;background:linear-gradient(90deg,#0d6efd,#0a4fb8);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}' +
+    '#game-only .go-bar{flex:none;position:relative;z-index:5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;background:linear-gradient(90deg,#0d6efd,#0a4fb8);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}' +
     '#game-only .go-title{font-weight:800;font-size:1.05rem;margin-inline-end:auto}' +
     '#game-only .go-lang button{border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:14px;padding:3px 10px;font-weight:700;font-size:.8rem;cursor:pointer;margin-inline-start:4px}' +
     '#game-only .go-lang button.on{background:#fff;color:#0a4fb8}' +
     '#game-only .go-visit{background:#fff;color:#0a4fb8;text-decoration:none;font-weight:800;border-radius:18px;padding:6px 14px;font-size:.9rem;white-space:nowrap}' +
     '#game-only .go-visit:hover{background:#ffe27a;color:#222}' +
-    '#game-only .go-main{padding:22px 0 40px}';
+    '#game-only .go-main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:8px}' +
+    '#game-only .go-main > *{flex:none}' +
+    '#game-only .go-main p.text-muted{display:none}' +
+    '#game-only .fullscreen-bar{display:none}' +
+    '#game-only .go-main h3{font-size:1.15rem;margin-bottom:.4rem!important}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+
+  /* ---------------- fit the game to the screen (no scrolling) ---------------- */
+  // Scales `target()` so that it fills `container()` exactly (both width and height), never needing a scrollbar.
+  function makeFitter(container, target, natW, maxScale) {
+    var raf = 0;
+    function run() {
+      raf = 0;
+      var c = container(), t = target();
+      if (!c || !t) return;
+      var cs = getComputedStyle(c);
+      var aw = c.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      var ah = c.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      if (aw <= 0 || ah <= 0) return;
+      t.style.transform = 'none';
+      t.style.width = Math.min(natW, aw) + 'px';
+      var w = t.offsetWidth, h = t.offsetHeight;
+      if (!w || !h) return;
+      var k = Math.min(aw / w, ah / h, maxScale);
+      t.style.transformOrigin = 'center center';
+      t.style.transform = 'scale(' + k.toFixed(4) + ')';
+    }
+    function fit() { if (!raf) raf = requestAnimationFrame(run); }
+    fit.reset = function () { var t = target(); if (t) { t.style.transform = ''; t.style.transformOrigin = ''; t.style.width = ''; } };
+    return fit;
+  }
+  function watchFit(fit, container, target) {
+    window.addEventListener('resize', fit);
+    window.addEventListener('orientationchange', function () { setTimeout(fit, 200); });
+    if (window.ResizeObserver) { try { new ResizeObserver(fit).observe(container); } catch (e) {} }
+    try {
+      new MutationObserver(fit).observe(target, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['class', 'src'] });
+    } catch (e) {}
+    target.addEventListener('load', fit, true);        // flag images
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  }
+
+  var fsFit = makeFitter(function () { return wrap; }, function () { return document.getElementById('flagGameCard'); }, 640, 1.6);
+  var fsCard = document.getElementById('flagGameCard');
+  if (fsCard) watchFit(function () { if (wrap.classList.contains('fs-on')) fsFit(); }, wrap, fsCard);
 
   /* ---------------- fullscreen ---------------- */
   var closeBtn = document.createElement('button');
@@ -57,11 +100,12 @@
 
   function enter() {
     wrap.classList.add('fs-on'); document.body.classList.add('fs-lock');
+    fsFit(); setTimeout(fsFit, 120); setTimeout(fsFit, 400);
     var rq = wrap.requestFullscreen || wrap.webkitRequestFullscreen;
     if (rq) { try { var p = rq.call(wrap); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
   }
   function leave() {
-    wrap.classList.remove('fs-on'); document.body.classList.remove('fs-lock');
+    wrap.classList.remove('fs-on'); document.body.classList.remove('fs-lock'); fsFit.reset();
     var ex = document.exitFullscreen || document.webkitExitFullscreen;
     if (nativeEl() && ex) { try { var p = ex.call(document); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
   }
@@ -79,7 +123,7 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && wrap.classList.contains('fs-on')) leave(); });
   ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (ev) {
     document.addEventListener(ev, function () {
-      if (!nativeEl() && wrap.classList.contains('fs-on')) { wrap.classList.remove('fs-on'); document.body.classList.remove('fs-lock'); }   // left with Esc
+      if (!nativeEl() && wrap.classList.contains('fs-on')) { wrap.classList.remove('fs-on'); document.body.classList.remove('fs-lock'); fsFit.reset(); }   // left with Esc
     });
   });
 
@@ -116,16 +160,18 @@
         '<div class="go-lang"><button type="button" data-l="de">DE</button><button type="button" data-l="en">EN</button><button type="button" data-l="ar">AR</button></div>' +
         '<a class="go-visit" href="' + PLAIN_URL + '"><span data-lang="de">🌐 Meine Website besuchen</span><span data-lang="en">🌐 Visit my website</span><span data-lang="ar" dir="rtl">🌐 زيارة موقعي</span></a>' +
       '</div>' +
-      '<div class="go-main container"><div class="row justify-content-center"></div></div>';
+      '<div class="go-main"></div>';
     document.body.appendChild(ov);
 
-    col.classList.remove('wow', 'fadeInUp', 'col-lg-6');
-    col.classList.add('col-12', 'col-md-10', 'col-lg-8', 'col-xl-6');
+    col.className = '';                                  // no Bootstrap column: the game is sized to the screen below
     col.style.visibility = 'visible'; col.style.animationName = 'none'; col.style.opacity = '1';
-    ov.querySelector('.row').appendChild(col);          // the real game (with all its scripts) moves here
+    ov.querySelector('.go-main').appendChild(col);          // the real game (with all its scripts) moves here
     document.body.classList.add('game-only');
     try { document.title = 'Flags & Capitals Quiz – Muhammad Hassan'; } catch (e) {}
     track('Game Link Opened');
+    var pageFit = makeFitter(function () { return ov.querySelector('.go-main'); }, function () { return col; }, 560, 1.5);
+    watchFit(pageFit, ov.querySelector('.go-main'), col);
+    pageFit(); setTimeout(pageFit, 150); setTimeout(pageFit, 500); setTimeout(pageFit, 1200);
 
     var visit = ov.querySelector('.go-visit');
     visit.addEventListener('click', function () { track('Game Link: Visit Website Click'); });
