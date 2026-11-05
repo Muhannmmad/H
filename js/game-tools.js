@@ -51,7 +51,7 @@
     '#game-only .go-main p.text-muted{display:none}' +
     '#game-only .fullscreen-bar{display:none}' +
     'body.fs-lock #game-only .go-main > *{transform:none!important}' +
-    '#game-only .go-fsrow{display:flex;justify-content:flex-end;margin-bottom:6px}' +
+    '#game-only .go-fsrow{display:flex;justify-content:center;margin-bottom:6px}' +
     '#game-only .go-fs{border:0;background:#0d6efd;color:#fff;font-weight:800;border-radius:18px;padding:5px 14px;font-size:.85rem;white-space:nowrap;cursor:pointer}' +
     '#game-only .go-fs:hover{background:#0a4fb8}' +
     '#game-only.go-mobile{overflow:auto;-webkit-overflow-scrolling:touch}' +
@@ -65,7 +65,8 @@
 
   /* ---------------- fit the game to the screen (no scrolling) ---------------- */
   // Scales `target()` so that it fills `container()` exactly (both width and height), never needing a scrollbar.
-  function makeFitter(container, target, natW, maxScale) {
+  function makeFitter(container, target, natW, maxScale, factor) {
+    factor = factor || 1;
     var raf = 0;
     function run() {
       raf = 0;
@@ -92,7 +93,7 @@
       }
       if (!best) return;
       t.style.width = bw + 'px';
-      k = best;
+      k = best * factor;
       t.style.transformOrigin = 'center center';
       t.style.transform = 'scale(' + k.toFixed(4) + ')';
     }
@@ -198,7 +199,7 @@
     document.body.classList.add('game-only');
     try { document.title = 'Flags & Capitals Quiz – Muhammad Hassan'; } catch (e) {}
     track('Game Link Opened');
-    var pageFit = makeFitter(function () { return ov.querySelector('.go-main'); }, function () { return col; }, 520, 3);
+    var pageFit = makeFitter(function () { return ov.querySelector('.go-main'); }, function () { return col; }, 520, 3, 0.93);          // 0.93 = the game on the link page is a little smaller than the full window
     watchFit(pageFit, ov.querySelector('.go-main'), col);
     onLeave = function () { if (!ov.classList.contains('go-mobile')) pageFit(); };
     // computer / wide screen: the game fills the window.  Phone / portrait: normal full-width game, scrollable,
