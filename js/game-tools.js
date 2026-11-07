@@ -29,7 +29,10 @@
     '#flagGameCardWrapper.fs-on{position:fixed!important;inset:0;z-index:100010;overflow:hidden;box-sizing:border-box;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0;display:flex;align-items:center;justify-content:center;background:#fff}' +
     'body.dark-mode #flagGameCardWrapper.fs-on{background:#12151c}' +
     '#flagGameCardWrapper.fs-on #flagGameCard{margin:0!important;flex:none;max-width:none!important;padding-top:46px!important}' +
-    '#flagGameCardWrapper .fs-close{display:none;position:fixed;top:8px;right:8px;z-index:100011;width:28px;height:28px;padding:0;border:0;border-radius:50%;font:700 15px/28px system-ui,sans-serif;text-align:center;background:rgba(0,0,0,.45);color:#fff;cursor:pointer;opacity:.85}' +
+    '#flagGameCardWrapper .fs-close{display:none;position:fixed;top:8px;right:8px;z-index:100011;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;cursor:pointer;opacity:.85}' +
+    '#flagGameCardWrapper .fs-close:before,#flagGameCardWrapper .fs-close:after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;background:#fff;border-radius:1px}' +
+    '#flagGameCardWrapper .fs-close:before{transform:rotate(45deg)}#flagGameCardWrapper .fs-close:after{transform:rotate(-45deg)}' +
+    '@media (max-width:768px),(orientation:portrait){#flagGameCardWrapper.fs-on #flagGameCard{padding-top:62px!important}}' +
     '#flagGameCardWrapper .fs-close:hover{opacity:1;background:rgba(0,0,0,.7)}' +
     '#flagGameCardWrapper.fs-on .fs-close{display:block}' +
     'body.fs-lock{overflow:hidden}' +
@@ -166,8 +169,7 @@
 
   /* ---------------- fullscreen ---------------- */
   var closeBtn = document.createElement('button');
-  closeBtn.type = 'button'; closeBtn.className = 'fs-close';   closeBtn.textContent = '✕';
-  closeBtn.setAttribute('aria-label', 'Close fullscreen');
+  closeBtn.type = 'button'; closeBtn.className = 'fs-close';     closeBtn.setAttribute('aria-label', 'Close fullscreen');
   wrap.appendChild(closeBtn);
 
   function nativeEl() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
