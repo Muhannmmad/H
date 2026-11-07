@@ -112,7 +112,48 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   }
 
-  var fsFit = makeFitter(function () { return wrap; }, function () { return document.getElementById('flagGameCard'); }, 560, 3);
+  /* Fullscreen: ONE fixed size for the whole game session.  The layout width and the card height are decided once
+     (when fullscreen opens / the screen size changes) and then kept, so the game does NOT change size from question to
+     question (long country names, tall flags ...).  The card keeps a fixed height; only if a question is clearly
+     taller than anything before, the reference grows a little (rare). */
+  var fsState = { W: 0, H: 0, aw: 0, ah: 0 };
+  function fsFit() {
+    var c = wrap, t = document.getElementById('flagGameCard');
+    if (!c || !t) return;
+    var cs = getComputedStyle(c);
+    var aw = c.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    var ah = c.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    if (aw <= 0 || ah <= 0) return;
+    if (Math.abs(aw - fsState.aw) > 2 || Math.abs(ah - fsState.ah) > 2) fsState = { W: 0, H: 0, aw: aw, ah: ah };   // new screen size -> decide again
+    t.style.transform = 'none'; t.style.minHeight = '0'; t.style.boxSizing = 'border-box';
+    var h, w;
+    if (!fsState.W) {                                    // first time: choose the layout width that fills the screen best
+      var list = [360, 440, 520, 620, 740, 860, 980, 1100, 1240], best = 0, bw = 0, bh = 0, i, cand, k, area;
+      for (i = 0; i < list.length; i++) {
+        cand = Math.min(list[i], aw); t.style.width = cand + 'px';
+        w = t.offsetWidth; h = t.offsetHeight; if (!w || !h) continue;
+        k = Math.min(aw / w, ah / h, 3); area = k * k * w * h;
+        if (area > best * 1.001) { best = area; bw = cand; bh = h; }
+        if (cand >= aw) break;
+      }
+      if (!bw) return;
+      fsState.W = bw; fsState.H = Math.ceil(bh * 1.2);    // 20 % headroom for taller questions
+    } else {
+      t.style.width = fsState.W + 'px';
+      h = t.offsetHeight;
+      if (h > fsState.H) fsState.H = Math.ceil(h * 1.05);  // clearly taller than ever before: grow the reference once
+    }
+    t.style.width = fsState.W + 'px';
+    t.style.minHeight = fsState.H + 'px';
+    var sc = Math.min(aw / fsState.W, ah / fsState.H, 3);
+    t.style.transformOrigin = 'center center';
+    t.style.transform = 'scale(' + sc.toFixed(4) + ')';
+  }
+  fsFit.reset = function () {
+    fsState = { W: 0, H: 0, aw: 0, ah: 0 };
+    var t = document.getElementById('flagGameCard');
+    if (t) { t.style.transform = ''; t.style.transformOrigin = ''; t.style.width = ''; t.style.minHeight = ''; t.style.boxSizing = ''; }
+  };
   var fsCard = document.getElementById('flagGameCard');
   if (fsCard) watchFit(function () { if (wrap.classList.contains('fs-on')) fsFit(); }, wrap, fsCard);
 
@@ -126,6 +167,7 @@
 
   function enter() {
     wrap.classList.add('fs-on'); document.body.classList.add('fs-lock');
+    fsState = { W: 0, H: 0, aw: 0, ah: 0 };
     fsFit(); setTimeout(fsFit, 120); setTimeout(fsFit, 400);
     var rq = wrap.requestFullscreen || wrap.webkitRequestFullscreen;
     if (rq) { try { var p = rq.call(wrap); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
