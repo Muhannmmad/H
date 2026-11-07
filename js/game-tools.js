@@ -26,10 +26,11 @@
 
   /* ---------------- styles ---------------- */
   var css =
-    '#flagGameCardWrapper.fs-on{position:fixed!important;inset:0;z-index:100010;overflow:hidden;box-sizing:border-box;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:44px 8px 8px;display:flex;align-items:center;justify-content:center;background:#fff}' +
+    '#flagGameCardWrapper.fs-on{position:fixed!important;inset:0;z-index:100010;overflow:hidden;box-sizing:border-box;width:100%!important;max-width:none!important;height:100%!important;margin:0!important;padding:0;display:flex;align-items:center;justify-content:center;background:#fff}' +
     'body.dark-mode #flagGameCardWrapper.fs-on{background:#12151c}' +
     '#flagGameCardWrapper.fs-on #flagGameCard{margin:0!important;flex:none;max-width:none!important}' +
-    '#flagGameCardWrapper .fs-close{display:none;position:fixed;top:10px;right:12px;z-index:100011;border:0;border-radius:20px;padding:6px 14px;font:700 14px/1.2 system-ui,sans-serif;background:#0d6efd;color:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}' +
+    '#flagGameCardWrapper .fs-close{display:none;position:fixed;top:8px;right:8px;z-index:100011;width:28px;height:28px;padding:0;border:0;border-radius:50%;font:700 15px/28px system-ui,sans-serif;text-align:center;background:rgba(0,0,0,.45);color:#fff;cursor:pointer;opacity:.85}' +
+    '#flagGameCardWrapper .fs-close:hover{opacity:1;background:rgba(0,0,0,.7)}' +
     '#flagGameCardWrapper.fs-on .fs-close{display:block}' +
     'body.fs-lock{overflow:hidden}' +
     '.game-link-ok{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:100020;background:#198754;color:#fff;padding:8px 16px;border-radius:20px;font:600 14px system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.3)}' +
@@ -143,9 +144,15 @@
       h = t.offsetHeight;
       if (h > fsState.H) fsState.H = Math.ceil(h * 1.05);  // clearly taller than ever before: grow the reference once
     }
-    t.style.width = fsState.W + 'px';
-    t.style.minHeight = fsState.H + 'px';
-    var sc = Math.min(aw / fsState.W, ah / fsState.H, 3);
+    // fill the screen completely: keep the zoom from the height, make the layout as wide as needed so the game is wide
+    var sc, tries = 0;
+    do {
+      sc = Math.min(aw / fsState.W, ah / fsState.H, 3);
+      t.style.width = Math.max(fsState.W, aw / sc) + 'px';
+      t.style.minHeight = fsState.H + 'px';
+      h = t.offsetHeight;
+      if (h > fsState.H) fsState.H = Math.ceil(h * 1.05); else break;
+    } while (++tries < 3);
     t.style.transformOrigin = 'center center';
     t.style.transform = 'scale(' + sc.toFixed(4) + ')';
   }
