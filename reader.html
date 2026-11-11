@@ -85,6 +85,8 @@ body.dark .rd-page::after { color: #3b4252; }
 [dir="rtl"] #rd-top { right: auto; left: 16px; }
 [dir="rtl"] .rd-arrow { display: inline-block; transform: scaleX(-1); }
 
+@supports not (aspect-ratio: 1 / 1) { .rd-page::before { content: ""; display: block; padding-top: var(--ar, 141.4%); } }
+
 @media (max-width: 640px) {
   .rd-row { padding: 6px 8px; gap: 6px; }
   .rd-title small { display: none; }
@@ -135,8 +137,14 @@ body.dark .rd-page::after { color: #3b4252; }
 
 <script src="js/pdfjs/pdf.min.js"></script>
 <script>
-/* pdf.js is hosted on this site (js/pdfjs/). If that file is ever missing, fall back to a public CDN. */
+/* pdf.js is hosted on this site (js/pdfjs/). If that file is missing or blocked, try three public CDNs one after the other. */
 if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"><\/script>'); }
+</script>
+<script>
+if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"><\/script>'); }
+</script>
+<script>
+if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"><\/script>'); }
 </script>
 <script>
 (function () {
@@ -286,7 +294,7 @@ if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdn.
       if (entry.dead) return;
       var vp1 = page.getViewport({ scale: 1 });
       var r = vp1.height / vp1.width;
-      if (Math.abs(r - ratio) > 0.01) { el.style.aspectRatio = vp1.width + ' / ' + vp1.height; measure(); }   // page with another size
+      if (Math.abs(r - ratio) > 0.01) { el.style.aspectRatio = vp1.width + ' / ' + vp1.height; el.style.setProperty('--ar', (r * 100) + '%'); measure(); }   // page with another size
       var vp = page.getViewport({ scale: (el.clientWidth / vp1.width) * dpr() });
       var canvas = document.createElement('canvas');
       canvas.width = Math.floor(vp.width); canvas.height = Math.floor(vp.height);
@@ -426,9 +434,33 @@ if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdn.
   }
 
   if (typeof pdfjsLib === 'undefined') { showError('pdf.js missing'); return; }
-  pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('js/pdfjs/pdf.worker.min.js', location.href).href;
 
-  loadPdf().then(function (pdf) {
+  /* The pdf.js "worker" is read as text (from js/pdfjs/ on this site, otherwise from a public CDN with the SAME version as
+     the library) and started from a blob. This works in every browser, even if the host serves .js files with a wrong type
+     or the worker file was not uploaded. */
+  var WORKER_LOCAL = new URL('js/pdfjs/pdf.worker.min.js', location.href).href;
+  var VER = pdfjsLib.version || '3.11.174';
+  var WORKER_LIST = [
+    WORKER_LOCAL,
+    'https://cdn.jsdelivr.net/npm/pdfjs-dist@' + VER + '/build/pdf.worker.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/' + VER + '/pdf.worker.min.js',
+    'https://unpkg.com/pdfjs-dist@' + VER + '/build/pdf.worker.min.js'
+  ];
+  function workerFrom(i) {
+    if (i >= WORKER_LIST.length) return Promise.reject(new Error('pdf.js worker not found'));
+    return fetch(WORKER_LIST[i], { cache: 'force-cache' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    }).then(function (t) {
+      if (t.length < 5000 || t.charAt(0) === '<') throw new Error('not a script');      // e.g. a 404 page
+      return URL.createObjectURL(new Blob([t], { type: 'text/javascript' }));
+    }).catch(function () { return workerFrom(i + 1); });
+  }
+
+  workerFrom(0).catch(function () { return WORKER_LOCAL; }).then(function (src) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = src;
+    return loadPdf();
+  }).then(function (pdf) {
     doc = pdf; N = pdf.numPages;
     return pdf.getPage(1);
   }).then(function (p1) {
@@ -438,7 +470,7 @@ if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdn.
     var frag = document.createDocumentFragment();
     for (var i = 1; i <= N; i++) {
       var d = document.createElement('div');
-      d.className = 'rd-page'; d.dataset.n = i; d.style.aspectRatio = vp.width + ' / ' + vp.height;
+      d.className = 'rd-page'; d.dataset.n = i; d.style.aspectRatio = vp.width + ' / ' + vp.height; d.style.setProperty('--ar', (vp.height / vp.width * 100) + '%');
       frag.appendChild(d); els.push(d);
     }
     pagesEl.appendChild(frag);
