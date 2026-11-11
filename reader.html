@@ -135,17 +135,7 @@ body.dark .rd-page::after { color: #3b4252; }
 
 <button class="rd-btn primary" id="rd-top" type="button" data-t="top"></button>
 
-<script src="js/pdfjs/pdf.min.js"></script>
-<script>
-/* pdf.js is hosted on this site (js/pdfjs/). If that file is missing or blocked, try three public CDNs one after the other. */
-if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"><\/script>'); }
-</script>
-<script>
-if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"><\/script>'); }
-</script>
-<script>
-if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"><\/script>'); }
-</script>
+<!-- pdf.js is loaded by the script below (from js/pdfjs/ on this site, otherwise from a public CDN) -->
 <script>
 (function () {
   'use strict';
@@ -433,32 +423,44 @@ if (typeof pdfjsLib === 'undefined') { document.write('<script src="https://unpk
     return go(0);
   }
 
-  if (typeof pdfjsLib === 'undefined') { showError('pdf.js missing'); return; }
-
-  /* The pdf.js "worker" is read as text (from js/pdfjs/ on this site, otherwise from a public CDN with the SAME version as
-     the library) and started from a blob. This works in every browser, even if the host serves .js files with a wrong type
-     or the worker file was not uploaded. */
-  var WORKER_LOCAL = new URL('js/pdfjs/pdf.worker.min.js', location.href).href;
-  var VER = pdfjsLib.version || '3.11.174';
-  var WORKER_LIST = [
-    WORKER_LOCAL,
-    'https://cdn.jsdelivr.net/npm/pdfjs-dist@' + VER + '/build/pdf.worker.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/' + VER + '/pdf.worker.min.js',
-    'https://unpkg.com/pdfjs-dist@' + VER + '/build/pdf.worker.min.js'
+  /* ---- pdf.js engine (version 6, "legacy" build = works in old and new browsers) ----
+     The engine and its worker are read as TEXT (from js/pdfjs/ on this site, otherwise from a public CDN) and started from
+     blob: addresses. So it works in every browser - Chrome, Edge, Firefox, Safari - even if the host sends .mjs/.js files with
+     a wrong type, or a CDN is blocked (then the next one is tried). */
+  var pdfjsLib = null;
+  var PV = '6.2.108';
+  var SOURCES = [
+    { lib: 'js/pdfjs/pdf.min.mjs', worker: 'js/pdfjs/pdf.worker.min.mjs' },
+    { lib: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@' + PV + '/legacy/build/pdf.min.mjs', worker: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@' + PV + '/legacy/build/pdf.worker.min.mjs' },
+    { lib: 'https://unpkg.com/pdfjs-dist@' + PV + '/legacy/build/pdf.min.mjs', worker: 'https://unpkg.com/pdfjs-dist@' + PV + '/legacy/build/pdf.worker.min.mjs' }
   ];
-  function workerFrom(i) {
-    if (i >= WORKER_LIST.length) return Promise.reject(new Error('pdf.js worker not found'));
-    return fetch(WORKER_LIST[i], { cache: 'force-cache' }).then(function (r) {
+  var dynImport = null;
+  try { dynImport = new Function('u', 'return import(u)'); } catch (e) {}
+  function fetchJs(url) {
+    return fetch(url, { cache: 'force-cache' }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.text();
     }).then(function (t) {
-      if (t.length < 5000 || t.charAt(0) === '<') throw new Error('not a script');      // e.g. a 404 page
-      return URL.createObjectURL(new Blob([t], { type: 'text/javascript' }));
-    }).catch(function () { return workerFrom(i + 1); });
+      if (t.length < 5000 || t.charAt(0) === '<') throw new Error('not a script: ' + url);      // e.g. a 404 page
+      return t;
+    });
+  }
+  function blobUrl(t) { return URL.createObjectURL(new Blob([t], { type: 'text/javascript' })); }
+  var engineErr = null;
+  function loadEngine(i) {
+    if (!dynImport) return Promise.reject(new Error('browser too old (no dynamic import)'));
+    if (i >= SOURCES.length) return Promise.reject(engineErr || new Error('pdf.js not found'));
+    var src = SOURCES[i];
+    return Promise.all([fetchJs(src.lib), fetchJs(src.worker)]).then(function (r) {
+      return dynImport(blobUrl(r[0])).then(function (ns) {
+        ns.GlobalWorkerOptions.workerSrc = blobUrl(r[1]);
+        return ns;
+      });
+    }).catch(function (e) { engineErr = e; return loadEngine(i + 1); });
   }
 
-  workerFrom(0).catch(function () { return WORKER_LOCAL; }).then(function (src) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = src;
+  loadEngine(0).then(function (ns) {
+    pdfjsLib = ns;
     return loadPdf();
   }).then(function (pdf) {
     doc = pdf; N = pdf.numPages;
