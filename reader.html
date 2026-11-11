@@ -393,14 +393,22 @@ body.dark .rd-page::after { color: #3b4252; }
   $('rd-end-back').addEventListener('click', function () { track('Book Reader Back To Site: ' + TITLE); });
 
   /* ===================== load the book ===================== */
+  var RV = 'reader-v4', DBG = [];
+  function dbg(m) { try { DBG.push(String(m && m.message || m)); } catch (e) {} }
   function showError(why) {
-    try { track('Book Reader Error: ' + TITLE + ' - ' + String(why && why.message || why || 'unknown').slice(0, 80)); } catch (e) {}
-    try { console.error('Reader error:', why); } catch (e) {}
+    dbg(why);
+    try { track('Book Reader Error: ' + TITLE + ' - ' + DBG.join(' | ').slice(0, 120)); } catch (e) {}
+    try { console.error('Reader error:', why, DBG); } catch (e) {}
     var st = $('rd-status');
-    st.innerHTML = '<div style="font-size:2rem">📖</div><p></p><p><a href="" class="rd-retry" style="margin-right:14px">⟳ ' + ({de:'Erneut versuchen',ar:'إعادة المحاولة'}[lang] || 'Try again') + '</a><a class="rd-dlfallback"></a></p>';
+    st.style.width = 'min(1100px, 96vw)'; st.style.margin = '14px auto';
+    st.innerHTML = '<p></p><p><a href="" class="rd-retry" style="margin-right:14px">⟳ ' + ({de:'Erneut versuchen',ar:'إعادة المحاولة'}[lang] || 'Try again') + '</a><a class="rd-dlfallback"></a></p>' +
+      '<iframe class="rd-native" title="PDF" style="width:100%;height:calc(100vh - var(--bar-h,100px) - 120px);min-height:420px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>' +
+      '<details style="margin-top:10px;font-size:.75rem;text-align:left"><summary>Technical details</summary><pre class="rd-dbg" style="white-space:pre-wrap;word-break:break-word"></pre></details>';
     st.querySelector('p').textContent = L.error;
     st.querySelector('.rd-retry').onclick = function (e) { e.preventDefault(); location.reload(); };
     var a = st.querySelector('.rd-dlfallback'); a.href = book.file; a.setAttribute('download', slug + '.pdf'); a.textContent = L.download;
+    st.querySelector('.rd-native').src = book.file + '#view=FitH';           // the browser's own PDF viewer: reading online without pdf.js
+    st.querySelector('.rd-dbg').textContent = RV + '\n' + navigator.userAgent + '\n' + DBG.join('\n');
   }
 
   /* open the PDF: normal -> without range/stream requests -> whole file as bytes (works even if a network/proxy breaks partial downloads) */
@@ -418,7 +426,7 @@ body.dark .rd-page::after { color: #3b4252; }
     var lastErr;
     function go(i) {
       if (i >= tries.length) return Promise.reject(lastErr);
-      return tries[i]().catch(function (e) { lastErr = e; return go(i + 1); });
+      return tries[i]().catch(function (e) { lastErr = e; dbg('pdf try ' + (i + 1) + ': ' + (e && (e.name + ' ' + e.message) || e)); return go(i + 1); });
     }
     return go(0);
   }
@@ -456,7 +464,7 @@ body.dark .rd-page::after { color: #3b4252; }
         ns.GlobalWorkerOptions.workerSrc = blobUrl(r[1]);
         return ns;
       });
-    }).catch(function (e) { engineErr = e; return loadEngine(i + 1); });
+    }).catch(function (e) { engineErr = e; dbg('engine ' + (i + 1) + ' (' + src.lib.slice(0, 40) + '): ' + (e && (e.name + ' ' + e.message) || e)); return loadEngine(i + 1); });
   }
 
   loadEngine(0).then(function (ns) {
