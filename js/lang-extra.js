@@ -39,7 +39,7 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     }
   }
   // The original code only knows de/en/ar. Give it "en" as the base for extra languages.
-  if (current) { set('lang', 'en'); set('wisdomLangManual', current); }   // wisdom bar follows the chosen language
+  if (current) { set('lang', 'en'); }
 
   /* ---------- 2) Translation engine ---------- */
   var orig = new Map();       // text node -> original English text
@@ -172,7 +172,6 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     current = code;
     set(STORE, code);
     set('lang', 'en');
-    set('wisdomLangManual', code);         // so the wisdom saying switches language too
     restore();
     translate(code);
     syncPill();
@@ -184,7 +183,6 @@ window.__xlData={"fr": ["Merci beaucoup !", "Accueil", "À propos", "Mon CV", "M
     var ob = document.getElementById('lang-' + c);
     internal = true;                           // the original code switches the blocks; we clean up ourselves below
     try { if (ob) ob.click(); } finally { internal = false; }
-    set('wisdomLangManual', c);                // wisdom saying follows
     leaveExtra(c, true);                       // always restore the English texts, language attribute and the pill
   }
   function leaveExtra(baseCode, force) {       // user picked DE / EN / AR again
