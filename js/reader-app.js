@@ -438,12 +438,50 @@
   }
 
   /* ===================== 3. the PDF file ===================== */
-  var pdfBytes = null;
   function setLoadingText(p) { $('rd-status-text').textContent = (p > 0 && p < 100) ? fmt(L.loadingPct, { p: p }) : L.loading; }
-  function getBytes(fresh) {
-    if (pdfBytes && !fresh) return Promise.resolve(pdfBytes);
-    return xhr(book.file + (fresh ? (book.file.indexOf('?') < 0 ? '?' : '&') + 'r=' + Date.now() : ''), 'arraybuffer', function (a, b) { setLoadingText(Math.round(100 * a / b)); })
-      .then(function (buf) { pdfBytes = buf; return buf; });
+  function progress(a, b) { if (b) setLoadingText(Math.round(100 * a / b)); }
+
+  /* Same book, but under a neutral address (no ".pdf"). Download managers (IDM ...), some antivirus web shields and
+     some browser add-ons grab or block every ".pdf" address, which makes reading inside the page impossible.
+     If the file exists on the server (optional, see files/books/data/), it is tried first. */
+  var ALT = book.file.replace(/^files\/books\//, 'files/books/data/').replace(/\.pdf$/i, '.txt');
+  function headOk(url) {
+    return new Promise(function (resolve) {
+      try {
+        var x = new XMLHttpRequest(); x.open('HEAD', url, true);
+        x.onload = function () { resolve(x.status === 200); };
+        x.onerror = function () { resolve(false); };
+        x.send();
+      } catch (e) { resolve(false); }
+    });
+  }
+  /* download in small pieces (Range requests): works where one long download gets cut off or blocked */
+  function getChunked(url) {
+    var CH = 1048576;
+    function piece(from, to) {
+      return new Promise(function (resolve, reject) {
+        var x = new XMLHttpRequest(); x.open('GET', url, true); x.responseType = 'arraybuffer';
+        x.setRequestHeader('Range', 'bytes=' + from + '-' + to);
+        x.onload = function () {
+          if (!x.response || (x.status !== 206 && x.status !== 200)) { reject(new Error('HTTP ' + x.status + ' ' + url.split('/').pop())); return; }
+          var cr = /\/(\d+)\s*$/.exec(x.getResponseHeader('Content-Range') || '');
+          resolve({ buf: x.response, total: cr ? +cr[1] : 0, whole: x.status === 200 });
+        };
+        x.onerror = function () { reject(new Error('network error ' + url.split('/').pop())); };
+        x.timeout = 60000; x.ontimeout = function () { reject(new Error('timeout ' + url.split('/').pop())); };
+        x.send();
+      });
+    }
+    return piece(0, CH - 1).then(function (first) {
+      if (first.whole || !first.total) return first.buf;           // server ignored the range: this already is the whole file
+      var out = new Uint8Array(first.total); out.set(new Uint8Array(first.buf), 0);
+      function next(pos) {
+        if (pos >= first.total) return Promise.resolve(out.buffer);
+        progress(pos, first.total);
+        return piece(pos, Math.min(pos + CH, first.total) - 1).then(function (r) { out.set(new Uint8Array(r.buf), pos); return next(pos + CH); });
+      }
+      return next(CH);
+    });
   }
   function openDoc(lib, pw, extra) {
     var params = { isEvalSupported: false, verbosity: 0 };
@@ -459,19 +497,27 @@
                         function (e) { clearInterval(watch); if (!dead) { dead = true; try { task.destroy(); } catch (e2) {} reject(e); } });
     });
   }
+  function isFetchError(e) {                         // the file could not be fetched (as opposed to: the PDF is damaged / the engine cannot read it)
+    return /network|fetch|HTTP|timeout|Unexpected server response|ResponseException|MissingPDF|no data|UnknownError/i.test(String(e && (e.name + ' ' + e.message)));
+  }
   function loadPdf(lib, pw) {
-    var attempts = [
-      function () { return openDoc(lib, pw, { url: book.file }); },
-      function () { return openDoc(lib, pw, { url: book.file, disableRange: true, disableStream: true }); },
-      function () { return getBytes(false).then(function (b) { return openDoc(lib, pw, { data: new Uint8Array(b.slice(0)) }); }); },
-      function () { return getBytes(true).then(function (b) { return openDoc(lib, pw, { data: new Uint8Array(b.slice(0)) }); }); }
-    ];
-    var lastErr;
-    function go(i) {
-      if (i >= attempts.length) return Promise.reject(lastErr);
-      return attempts[i]()['catch'](function (e) { lastErr = e; dbg('pdf attempt ' + (i + 1) + ': ' + (e && (e.name + ' ' + e.message) || e)); return go(i + 1); });
-    }
-    return go(0);
+    return headOk(ALT).then(function (hasAlt) {
+      var urls = hasAlt ? [ALT, book.file] : [book.file], steps = [];
+      each(urls, function (u) {                       // per address: normal streaming -> small pieces -> one big download
+        steps.push(['stream ' + u, function () { return openDoc(lib, pw, { url: u }); }]);
+        steps.push(['chunks ' + u, function () { return getChunked(u).then(function (b) { return openDoc(lib, pw, { data: new Uint8Array(b) }); }); }]);
+      });
+      var lastErr, allFetch = true;
+      function go(i) {
+        if (i >= steps.length) { try { lastErr.rdFetch = allFetch; } catch (e) {} return Promise.reject(lastErr); }
+        return steps[i][1]()['catch'](function (e) {
+          lastErr = e; if (!isFetchError(e)) allFetch = false;
+          dbg('pdf ' + steps[i][0].split('/').slice(-2).join('/') + ': ' + (e && (e.name + ' ' + e.message) || e));
+          return go(i + 1);
+        });
+      }
+      return go(0);
+    });
   }
 
   function startEngine(i) {
@@ -483,6 +529,7 @@
       });
     })['catch'](function (e) {
       dbg('engine ' + eng.name + ' failed: ' + (e && (e.name + ' ' + e.message) || e));
+      if (e && e.rdFetch) throw e;                    // the engine works but the book file cannot be fetched: another engine would not help, stop here
       if (i + 1 < ENGINES.length) return startEngine(i + 1);
       throw e;
     });
@@ -513,6 +560,7 @@
       (canEmbedPdf() ? '<iframe class="rd-native" title="PDF"></iframe>' : '') +
       '<details class="rd-tech"><summary></summary><pre class="rd-dbg"></pre></details>';
     st.querySelector('.rd-fb-msg').textContent = L.error;
+    if (why && why.rdFetch) { var h = document.createElement('p'); h.className = 'rd-fb-hint'; h.textContent = L.blocked || T.en.blocked; st.insertBefore(h, st.querySelector('.rd-fb-actions')); }
     var o = st.querySelector('.rd-fb-open'); o.href = book.file; o.textContent = L.open;
     var d = st.querySelector('.rd-fb-dl'); d.href = book.file; d.setAttribute('download', slug + '.pdf'); d.textContent = '\u2B07 ' + L.download;
     var r = st.querySelector('.rd-fb-retry'); r.textContent = '\u27F3 ' + L.retry; r.onclick = function (e) { e.preventDefault(); location.reload(); };
