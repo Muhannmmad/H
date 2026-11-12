@@ -222,7 +222,7 @@ body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgb
 .writings-section .book-actions .book-btn { margin-top: 0; }
 .book-read-progress { position: relative; height: 16px; border-radius: 8px; background: rgba(127,127,127,.28); overflow: hidden; }
 .book-read-progress[hidden] { display: none; }
-.book-read-fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, #198754, var(--bs-primary, #0d6efd)); }
+.book-read-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: linear-gradient(90deg, #198754, var(--bs-primary, #0d6efd)); }
 .book-read-pct { position: relative; display: block; text-align: center; font-size: 11px; line-height: 16px; font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
     
 /* PayPal badge (coffee buttons) */
@@ -1337,7 +1337,7 @@ body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgb
 
                     <div class="col-md-6 col-lg-4">
                         <div class="book-promo">
-                            <a href="reader.html?book=what-remains-of-me&v=5" class="book-promo-link" data-book-title="What Remains of Me">
+                            <a href="reader.html?book=what-remains-of-me&v=8" class="book-promo-link" data-book-title="What Remains of Me">
                                 <img loading="lazy" decoding="async" src="img/promo/promo-what-remains-of-me.jpg" alt="ما تبقى مني / What Remains of Me" class="book-promo-img">
                                 <span class="book-promo-overlay">
                                     <span class="book-promo-cta">
@@ -1366,7 +1366,7 @@ body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgb
 
                     <div class="col-md-6 col-lg-4">
                         <div class="book-promo">
-                            <a href="reader.html?book=beyond-the-silence&v=5" class="book-promo-link" data-book-title="Beyond the Silence">
+                            <a href="reader.html?book=beyond-the-silence&v=8" class="book-promo-link" data-book-title="Beyond the Silence">
                                 <img loading="lazy" decoding="async" src="img/promo/promo-beyond-the-silence.jpg" alt="ما وراء الصمت / Beyond the Silence" class="book-promo-img">
                                 <span class="book-promo-overlay">
                                     <span class="book-promo-cta">
@@ -1395,7 +1395,7 @@ body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgb
 
                     <div class="col-md-6 col-lg-4">
                         <div class="book-promo">
-                            <a href="reader.html?book=i-am-not-innocent&v=5" class="book-promo-link" data-book-title="I Am Not Innocent">
+                            <a href="reader.html?book=i-am-not-innocent&v=8" class="book-promo-link" data-book-title="I Am Not Innocent">
                                 <img loading="lazy" decoding="async" src="img/promo/promo-i-am-not-innocent.jpg" alt="لست بريئاً / I Am Not Innocent" class="book-promo-img">
                                 <span class="book-promo-overlay">
                                     <span class="book-promo-cta">
@@ -2585,18 +2585,8 @@ body.dark-mode .xl-menu { background: #151821; color: #e8eaf0; border-color: rgb
             });
 
 
-            // --- BOOK READER: reading progress on the cards + tracking of "Read online" clicks ---
+            // --- BOOK READER: tracking of "Read online" clicks (reading progress on the cards: js/reader-cards.js) ---
             document.addEventListener("DOMContentLoaded", () => {
-                document.querySelectorAll(".writings-section .book-read-progress[data-book]").forEach(box => {
-                    try {
-                        const saved = JSON.parse(localStorage.getItem("reader:v1:" + box.dataset.book));
-                        if (saved && saved.pct > 0 && saved.pct < 100) {
-                            box.querySelector(".book-read-fill").style.width = saved.pct + "%";
-                            box.querySelector(".book-read-pct").textContent = saved.pct + "%";
-                            box.hidden = false;
-                        }
-                    } catch (e) {}
-                });
                 document.querySelectorAll(".writings-section .book-read-btn").forEach(link => {
                     link.addEventListener("click", () => {
                         trackEvent(`Book Read Online Click: ${link.dataset.bookTitle || "Unknown"}`);
@@ -3420,35 +3410,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-    var boxes = document.querySelectorAll(".writings-section .book-read-progress[data-book]");
-    if (!boxes.length || !window.indexedDB) return;
-    try {
-        var rq = indexedDB.open("reader-progress", 1);
-        rq.onupgradeneeded = function () { rq.result.createObjectStore("p"); };
-        rq.onsuccess = function () {
-            var db = rq.result;
-            boxes.forEach(function (box) {
-                if (!box.hidden) return;
-                try {
-                    var g = db.transaction("p").objectStore("p").get(box.dataset.book);
-                    g.onsuccess = function () {
-                        try {
-                            var o = JSON.parse(g.result);
-                            if (o && o.pct > 0 && o.pct < 100) {
-                                box.querySelector(".book-read-fill").style.width = o.pct + "%";
-                                box.querySelector(".book-read-pct").textContent = o.pct + "%";
-                                box.hidden = false;
-                            }
-                        } catch (e) {}
-                    };
-                } catch (e) {}
-            });
-        };
-    } catch (e) {}
-});
-</script>
+    <!-- reading progress on the book cards (localStorage + cookie + IndexedDB), plain ES5 -->
+    <script src="js/reader-cards.js?v=8" defer></script>
 
     
 
