@@ -393,8 +393,31 @@ body.dark .rd-page::after { color: #3b4252; }
   $('rd-end-back').addEventListener('click', function () { track('Book Reader Back To Site: ' + TITLE); });
 
   /* ===================== load the book ===================== */
-  var RV = 'reader-v5', DBG = [];
+  var RV = 'reader-v7', DBG = [];
   function dbg(m) { try { DBG.push(String(m && m.message || m)); } catch (e) {} }
+  /* when loading fails: ask the server a few simple questions and write the answers into the technical details */
+  function probe() {
+    var out = [], file = book.file, abs = new URL(file, location.href).href;
+    out.push('page: ' + location.href);
+    out.push('book file: ' + abs + (new URL(abs).origin !== location.origin ? '   <-- DIFFERENT ORIGIN' : ''));
+    out.push('online: ' + navigator.onLine);
+    function show(label, p) {
+      return p.then(function (r) {
+        var h = function (k) { try { return r.headers.get(k); } catch (e) { return null; } };
+        out.push(label + ': type=' + r.type + ' status=' + r.status + (r.redirected ? ' REDIRECTED to ' + r.url : '') + ' ct=' + h('content-type') + ' len=' + h('content-length') + ' enc=' + h('content-encoding') + ' disp=' + h('content-disposition') + ' acao=' + h('access-control-allow-origin'));
+      }, function (e) { out.push(label + ': FAILED ' + e.name + ' ' + e.message); });
+    }
+    return Promise.all([
+      show('PDF  GET cors     ', fetch(file, { cache: 'no-store', headers: { Range: 'bytes=0-99' } })),
+      show('PDF  GET plain    ', fetch(file, { cache: 'no-store' })),
+      show('PDF  GET no-cors  ', fetch(file, { cache: 'no-store', mode: 'no-cors' })),
+      show('PDF  GET manual   ', fetch(file, { cache: 'no-store', redirect: 'manual' })),
+      show('PDF  HEAD         ', fetch(file, { cache: 'no-store', method: 'HEAD' })),
+      show('image GET (same site)', fetch('img/books/' + slug + '.jpg', { cache: 'no-store' })),
+      show('js file GET (same site)', fetch('js/pdfjs/pdf.worker.min.mjs', { cache: 'no-store', headers: { Range: 'bytes=0-99' } }))
+    ]).then(function () { return out; });
+  }
+
   function showError(why) {
     dbg(why);
     try { track('Book Reader Error: ' + TITLE + ' - ' + DBG.join(' | ').slice(0, 120)); } catch (e) {}
@@ -408,7 +431,13 @@ body.dark .rd-page::after { color: #3b4252; }
     st.querySelector('.rd-retry').onclick = function (e) { e.preventDefault(); location.reload(); };
     var a = st.querySelector('.rd-dlfallback'); a.href = book.file; a.setAttribute('download', slug + '.pdf'); a.textContent = L.download;
     st.querySelector('.rd-native').src = book.file + '#view=FitH';           // the browser's own PDF viewer: reading online without pdf.js
-    st.querySelector('.rd-dbg').textContent = RV + '\n' + navigator.userAgent + '\n' + DBG.join('\n');
+    var dbgEl = st.querySelector('.rd-dbg');
+    dbgEl.textContent = RV + '\n' + navigator.userAgent + '\n' + DBG.join('\n') + '\n\n(checking the server …)';
+    st.querySelector('details').open = true;
+    probe().then(function (o) {
+      dbgEl.textContent = RV + '\n' + navigator.userAgent + '\n' + DBG.join('\n') + '\n\n' + o.join('\n');
+      try { track('Book Reader Probe: ' + TITLE + ' - ' + o.join(' ; ').slice(0, 150)); } catch (e) {}
+    });
   }
 
   /* open the PDF: normal -> without range/stream requests -> whole file as bytes (works even if a network/proxy breaks partial downloads) */
